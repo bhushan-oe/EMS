@@ -109,7 +109,7 @@ const ProjectListing = props => {
     })
   }
 
-  //To do update all user to project..naming convention
+  // To do update all user to project..naming convention
   const updateProject = val => {
     setUpdateAction('update')
     const project = getprojectToUpdate(filteredProject, val[0])
@@ -151,39 +151,39 @@ const ProjectListing = props => {
           setPageView={setPageView}
         />
       ) : (
-            <>
-              <GridItem xs={12} sm={12} md={12}>
-                <Card plain>
-                  <CardHeader plain color="primary">
-                    <h4 className={classes.cardTitleWhite}>Project List</h4>
-                  </CardHeader>
-                  <CardBody>
-                    <Table
-                      tableHeaderColor="gray"
-                      tableHead={
-                        projectData && projectDetails.length > 0
-                          ? projectListingHeader
-                          : null
-                      }
-                      tableData={projectDetails || null}
-                      addLinks={links}
-                      updateUser={updateProject}
-                      deleteUser={deleteProject}
-                      allocateProject={allocateProject}
-                      showLink={false}
-                    />
-                  </CardBody>
-                </Card>
-              </GridItem>
-              <AlertModal
-                title="Delete Project"
-                showDelDialog={showDelDialog}
-                handleYesDelete={handleYesDelete}
-                handleNoDelete={handleNoDelete}
-                userInfo="Are you sure you want to delete this project ?"
-              />
-            </>
-          )}
+        <>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>Project List</h4>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="gray"
+                  tableHead={
+                    projectData && projectDetails.length > 0
+                      ? projectListingHeader
+                      : null
+                  }
+                  tableData={projectDetails || null}
+                  addLinks={links}
+                  updateUser={updateProject}
+                  deleteUser={deleteProject}
+                  allocateProject={allocateProject}
+                  showLink={false}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+          <AlertModal
+            title="Delete Project"
+            showDelDialog={showDelDialog}
+            handleYesDelete={handleYesDelete}
+            handleNoDelete={handleNoDelete}
+            userInfo="Are you sure you want to delete this project ?"
+          />
+        </>
+      )}
     </>
   )
 }

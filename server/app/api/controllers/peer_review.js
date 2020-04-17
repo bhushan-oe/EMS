@@ -65,7 +65,8 @@ module.exports = {
     );
   },
   getAll: function (req, res, next) {
-    Peer_Review_Model.find()
+    const { status } = req.query
+    Peer_Review_Model.find(status ? { status: status } : {})
       .populate('employee_under_review', 'firstname lastname')
       .populate('employee_reviewing', 'firstname lastname')
       .populate('project', 'title')
@@ -83,8 +84,57 @@ module.exports = {
       });
   },
   getForUser: function (req, res, next) {
+    const { status } = req.query
     Peer_Review_Model
-      .find({ employee_reviewing: req.params.employee_id })
+      .find(status ? { employee_reviewing: req.params.employee_id, status: status } : { employee_reviewing: req.params.employee_id })
+      .populate('employee_under_review', 'firstname lastname')
+      .populate('employee_reviewing', 'firstname lastname')
+      .populate('project', 'title')
+      .populate('functional_manager', 'firstname lastname')
+      .exec(function (err, reviews) {
+        if (err) {
+          next(err);
+        } else {
+          res.json({
+            status: "success",
+            message: "Peer Review list found!!!",
+            data: reviews
+          });
+        }
+      });
+  },
+  getForManager: function (req, res, next) {
+    const { functional_manager, selectedYear, value } = req.query
+    let startDate, endDate
+    switch (value) {
+      case 'Quarter 1':
+        startDate = new Date(`${selectedYear}-01-01T23:59`);
+        endDate = new Date(`${selectedYear}-03-31T23:59`)
+        break;
+      case 'Quarter 2':
+        startDate = new Date(`${selectedYear}-04-01T23:59`);
+        endDate = new Date(`${selectedYear}-06-30T23:59`)
+        break;
+      case 'Quarter 3':
+        startDate = new Date(`${selectedYear}-07-01T23:59`);
+        endDate = new Date(`${selectedYear}-09-30T23:59`)
+        break;
+      case 'Quarter 4':
+        startDate = new Date(`${selectedYear}-10-01T23:59`);
+        endDate = new Date(`${selectedYear}-12-31T23:59`)
+        break;
+      default:
+        startDate = '';
+        endDate = ''
+        break;
+    }
+    Peer_Review_Model
+      .find({
+        functional_manager: functional_manager,
+        from_date: { $gte: startDate },
+        to_date: { $lte: endDate },
+        status: "Done"
+      })
       .populate('employee_under_review', 'firstname lastname')
       .populate('employee_reviewing', 'firstname lastname')
       .populate('project', 'title')

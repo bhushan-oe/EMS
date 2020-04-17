@@ -74,7 +74,7 @@ const PeerReview = props => {
   const peerReviewDeleteError = useSelector(peerReviewDeleteErrorSelector)
   useEffect(() => {
     dispatch(loadAllEmployeeData())
-    dispatch(loadAllPeerReviews())
+    dispatch(loadAllPeerReviews({ status: ["Active", "Done"] }))
   }, [dispatch])
   useEffect(() => {
     if (peerReviewDeleteSuccessMessage) {
@@ -114,8 +114,7 @@ const PeerReview = props => {
       review =>
         `${review.employee_under_review.firstname} ${review.employee_under_review.lastname}`
           .toLowerCase()
-          .includes(selectedEmployee.toLowerCase().trim()) &&
-        review.status !== 'Inactive'
+          .includes(selectedEmployee.toLowerCase().trim())
     )
     filteredEmployee.map((review, key) => {
       employeeReviewArr.push([

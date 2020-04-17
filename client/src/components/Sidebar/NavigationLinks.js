@@ -12,7 +12,7 @@ const useStyles = makeStyles(styles)
 
 export const NavigationLinks = props => {
   const classes = useStyles()
-  let { links, color, activeRoute, rtlActive } = props
+  const { links, color, activeRoute, rtlActive } = props
   return (
     <List className={classes.list}>
       {links &&

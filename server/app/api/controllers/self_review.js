@@ -86,7 +86,8 @@ module.exports = {
   },
 
   getAll: function (req, res, next) {
-    Self_Review_Model.find()
+    const { status } = req.query
+    Self_Review_Model.find(status ? { status: status } : {})
       .populate('projects', 'title')
       .populate('employee', 'firstname lastname')
       .populate('functional_manager', 'firstname lastname')
@@ -103,7 +104,8 @@ module.exports = {
       });
   },
   getForUser: function (req, res, next) {
-    Self_Review_Model.find({ employee: req.params.employee_id }).populate('projects', 'title')
+    const { status } = req.query
+    Self_Review_Model.find(status ? { employee: req.params.employee_id, status: status } : { employee: req.params.employee_id }).populate('projects', 'title')
       .populate('employee', 'firstname lastname')
       .populate('functional_manager', 'firstname lastname')
       .exec(function (err, reviews) {

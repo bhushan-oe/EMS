@@ -12,7 +12,8 @@ import {
   watchCreatePeerReviewSaga,
   watchLoadUserPeerReviewSaga,
   watchUpdatePeerReviewSaga,
-  watchDeletePeerReviewSaga
+  watchDeletePeerReviewSaga,
+  watchPeerReviewForManagerSaga
 } from './watchers/peerReview'
 import {
   watchLoadAllProjects,
@@ -62,6 +63,7 @@ export default function* root() {
     fork(watchAllocateProjectSaga),
     fork(watchProjectAllocationDataSaga),
     fork(watchDeallocateProjectSaga),
-    fork(watchDeleteProjectAllocationSaga)
+    fork(watchDeleteProjectAllocationSaga),
+    fork(watchPeerReviewForManagerSaga)
   ])
 }

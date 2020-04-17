@@ -28,9 +28,9 @@ import {
 import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 function* workerLoadAllUserSelfReviewSaga({ payload }) {
-  const { id } = payload
+  const { id, status } = payload
   try {
-    const selfReviews = yield call(loadAllUserSelfReviews, id)
+    const selfReviews = yield call(loadAllUserSelfReviews, id, status)
     yield put(setAllSelfReviewsForUser(selfReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -47,9 +47,10 @@ export function* watchUserSelfReviewSaga() {
   yield takeLatest(LOAD_ALL_USER_SELF_REVIEWS, workerLoadAllUserSelfReviewSaga)
 }
 // Load all self reviews
-function* workerLoadAllSelfReviewSaga() {
+function* workerLoadAllSelfReviewSaga({ payload }) {
+  const { status } = payload
   try {
-    const selfReviews = yield call(loadAllSelfReviews)
+    const selfReviews = yield call(loadAllSelfReviews, status)
     yield put(setAllSelfReviews(selfReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -74,7 +75,7 @@ function* workerUpdateUserSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(setUpdateReviewStatus(selfReviews.data.message))
     }
-    const reviews = yield call(loadAllSelfReviews)
+    const reviews = yield call(loadAllSelfReviews, { status: ["Active", "Done"] })
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -103,7 +104,7 @@ function* workerCreateSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(setSelfReviewSuccess(selfReviews.data.message))
     }
-    const reviews = yield call(loadAllSelfReviews)
+    const reviews = yield call(loadAllSelfReviews, { status: ["Active", "Done"] })
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -128,7 +129,7 @@ function* workerDeleteSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(selfReviewDeleteSuccess(selfReviews.data.message))
     }
-    const reviews = yield call(loadAllSelfReviews)
+    const reviews = yield call(loadAllSelfReviews, { status: ["Active", "Done"] })
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {

@@ -4,14 +4,16 @@ import {
   CREATE_PEER_SAGA,
   LOAD_ALL_USER_PEER_SAGA,
   UPDATE_PEER_REVIEW,
-  DELETE_PEER_REVIEW
+  DELETE_PEER_REVIEW,
+  LOAD_PEER_REVIEWS_FOR_MANAGER
 } from '../../actions/actionTypes'
 import {
   loadAllPeerReviews,
   createPeerReview,
   loadAllUserPeerReviews,
   updatePeerReview,
-  deletePeerReview
+  deletePeerReview,
+  loadAllPeerReviewsForManager
 } from '../../api/peerReviewApi'
 import {
   setAllPeerReviews,
@@ -22,14 +24,17 @@ import {
   setUpdateReviewStatus,
   setUpdateReviewError,
   peerReviewDeleteSuccess,
-  peerReviewDeleteFailue
+  peerReviewDeleteFailue,
+  setPeerReviewsForManager,
+  setPeerReviewsForManagerError
 } from '../../actions/peerReviewAction'
 import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 // Load All Peer Reviews
-function* workerLoadAllPeerReviewSaga() {
+function* workerLoadAllPeerReviewSaga(data) {
+  const { status } = data.payload
   try {
-    const peerReviews = yield call(loadAllPeerReviews)
+    const peerReviews = yield call(loadAllPeerReviews, status)
     yield put(setAllPeerReviews(peerReviews))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -57,7 +62,7 @@ function* workerCreatePeerReviewSaga({ payload }) {
       } else yield put(setPeerReviewSuccess(e.response.data.message))
     } else yield put(setPeerReviewSuccess(e))
   }
-  const reviews = yield call(loadAllPeerReviews)
+  const reviews = yield call(loadAllPeerReviews, { status: ["Active", "Done"] })
   yield put(setAllPeerReviews(reviews))
 }
 
@@ -68,9 +73,9 @@ export function* watchCreatePeerReviewSaga() {
 // Load Peer Reviews for User
 
 function* workerLoadUserPeerReviewSaga({ payload }) {
-  const id = payload.data
+  const { data, status } = payload
   try {
-    const peerReviews = yield call(loadAllUserPeerReviews, id)
+    const peerReviews = yield call(loadAllUserPeerReviews, data, status)
     yield put(setAllPeerForUser(peerReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -103,7 +108,7 @@ function* workerUpdatePeerReviewSaga(data) {
     } else yield put(setUpdateReviewError(e))
   }
 
-  const reviews = yield call(loadAllPeerReviews)
+  const reviews = yield call(loadAllPeerReviews, { status: ["Active", "Done"] })
   yield put(setAllPeerReviews(reviews))
 }
 
@@ -123,10 +128,32 @@ function* workerDaletePeerReviewSaga(data) {
       } else yield put(peerReviewDeleteFailue(e.response.data.message))
     } else yield put(peerReviewDeleteFailue(e))
   }
-  const reviews = yield call(loadAllPeerReviews)
+  const reviews = yield call(loadAllPeerReviews, { status: ["Active", "Done"] })
   yield put(setAllPeerReviews(reviews))
 }
 
 export function* watchDeletePeerReviewSaga() {
   yield takeLatest(DELETE_PEER_REVIEW, workerDaletePeerReviewSaga)
+}
+// Load Peer Review for Manager
+
+function* workerPeerReviewForManagerSaga(data) {
+  const { body } = data.payload
+  try {
+    const peerReviews = yield call(loadAllPeerReviewsForManager, body)
+    yield put(setPeerReviewsForManager(peerReviews.data.data))
+  } catch (e) {
+    if (e.response.data && e.response.data.message) {
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setPeerReviewsForManagerError(e.response.data.message))
+    } else yield put(setPeerReviewsForManagerError(e))
+  }
+}
+
+export function* watchPeerReviewForManagerSaga() {
+  yield takeLatest(
+    LOAD_PEER_REVIEWS_FOR_MANAGER,
+    workerPeerReviewForManagerSaga
+  )
 }

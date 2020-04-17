@@ -310,11 +310,15 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
                     UPDATE SELF REVIEW
                   </Button>
                 ) : (
-                    <Button type="submit" color="primary" disabled={isSubmitting}>
-                      CREATE SELF REVIEW
-                    </Button>
-                  )}
-                <Button type="submit" color="white" onClick={detailsSwitchHandler}>
+                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                    CREATE SELF REVIEW
+                  </Button>
+                )}
+                <Button
+                  type="submit"
+                  color="white"
+                  onClick={detailsSwitchHandler}
+                >
                   Close
                 </Button>
               </CardFooter>

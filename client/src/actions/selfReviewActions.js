@@ -17,10 +17,10 @@ import {
   CLEAR_REVIEW_STATUS
 } from './actionTypes'
 
-export function loadAllSelfReviews() {
+export function loadAllSelfReviews(status) {
   return {
     type: LOAD_ALL_SELF_REVIEWS,
-    payload: {}
+    payload: { status }
   }
 }
 export function setAllSelfReviews(data) {
@@ -57,10 +57,10 @@ export function setSelfReviewError(data) {
   }
 }
 
-export function loadAllSelfReviewsForUser(id) {
+export function loadAllSelfReviewsForUser(id, status) {
   return {
     type: LOAD_ALL_USER_SELF_REVIEWS,
-    payload: { id }
+    payload: { id, status }
   }
 }
 export function setAllSelfReviewsForUser(data) {

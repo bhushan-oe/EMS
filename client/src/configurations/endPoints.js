@@ -16,3 +16,4 @@ export const SELF_REVIEWS_URL = `${HOST}/review/`
 export const CREATE_SELF_REVIEW = `${HOST}/add`
 export const ALLOCATE_NEW_PROJECT_URL = `${HOST}/allocateProject/add`
 export const ALLOCATE_PROJECT_URL = `${HOST}/allocateProject/`
+export const FETCH_PEER_REVIEW_FOR_MANAGER = `${HOST}/peersReview/manager/employeePeer`

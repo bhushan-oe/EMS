@@ -139,3 +139,30 @@ export const countryData = [
     ]
   }
 ]
+export const quarterInfo = [
+  {
+    value: 'Quarter 1',
+    name: 'Quarter 1 (January to March)'
+  },
+  {
+    value: 'Quarter 2',
+    name: 'Quarter 2 (April to June)'
+  },
+  {
+    value: 'Quarter 3',
+    name: 'Quarter 3 (July to September)'
+  },
+  {
+    value: 'Quarter 4',
+    name: 'Quarter 4 (October to December)'
+  }
+]
+
+export const years = () => {
+  const yearsArray = []
+  const currentYear = new Date().getFullYear()
+  for (let i = 0; i < 10; i++) {
+    yearsArray.push(`${currentYear - i}`)
+  }
+  return yearsArray
+}

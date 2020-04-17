@@ -76,7 +76,7 @@ const SelfReview = props => {
   const selfReviewDeleteError = useSelector(deleteSelfReviewErrorSelector)
   useEffect(() => {
     dispatch(loadAllEmployeeData())
-    dispatch(loadAllSelfReviews())
+    dispatch(loadAllSelfReviews({ status: ["Active", "Done"] }))
   }, [dispatch])
 
   useEffect(() => {
@@ -111,8 +111,7 @@ const SelfReview = props => {
       cls =>
         `${cls.employee.firstname} ${cls.employee.lastname}`
           .toLowerCase()
-          .includes(selectedEmployee.toLowerCase().trim()) &&
-        cls.status !== 'Inactive'
+          .includes(selectedEmployee.toLowerCase().trim())
     )
     filteredEmployee.map((review, key) => {
       const projectsArr = review.projects.map(item => item.title)

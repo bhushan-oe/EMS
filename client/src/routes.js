@@ -80,7 +80,7 @@ export const dashboardRoutes = [
     showLink: true
   },
   {
-    path: '/peerReviewDetails',
+    path: '/reviewPeerHistory',
     name: 'Peer Review History',
     rtlName: 'ملف تعريفي للمستخدم',
     icon: GroupIcon,
@@ -89,7 +89,7 @@ export const dashboardRoutes = [
     showLink: true
   },
   {
-    path: '/selfReviewDetails',
+    path: '/reviewSelfHistory',
     name: 'Self Review History',
     rtlName: 'ملف تعريفي للمستخدم',
     icon: Person,

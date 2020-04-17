@@ -4,11 +4,11 @@ import {
   CREATE_SELF_REVIEW
 } from '../configurations/endPoints'
 
-export function loadAllSelfReviews() {
-  return axios.get(SELF_REVIEWS_URL)
+export function loadAllSelfReviews(status) {
+  return axios.get(SELF_REVIEWS_URL, { params: status })
 }
-export function loadAllUserSelfReviews(id) {
-  return axios.get(`${SELF_REVIEWS_URL}${id}`)
+export function loadAllUserSelfReviews(id, status) {
+  return axios.get(`${SELF_REVIEWS_URL}${id}`, { params: status })
 }
 export function createSelfReview(body) {
   return axios.post(CREATE_SELF_REVIEW, body)

@@ -335,11 +335,15 @@ const PeerReviewForm = ({ peerReviewInfo, detailsSwitchHandler }) => {
                     UPDATE PEER REVIEW
                   </Button>
                 ) : (
-                    <Button type="submit" color="primary" disabled={isSubmitting}>
-                      CREATE PEER REVIEW
-                    </Button>
-                  )}
-                <Button type="submit" color="white" onClick={detailsSwitchHandler}>
+                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                    CREATE PEER REVIEW
+                  </Button>
+                )}
+                <Button
+                  type="submit"
+                  color="white"
+                  onClick={detailsSwitchHandler}
+                >
                   Close
                 </Button>
               </CardFooter>
