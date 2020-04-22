@@ -47,17 +47,3 @@ export const projectAllocationInitialValues = {
   status: 'Active',
   functional_manager: undefined
 }
-
-export const projectInputList = [
-  { md: 6, name: 'title', labelText: 'Project Title *' },
-  { md: 6, name: 'description', labelText: 'Description *' },
-  { md: 6, name: 'client', labelText: 'Client *' },
-  { md: 6, name: 'client_location', labelText: 'Client Location *' },
-  { md: 6, name: 'technology', labelText: 'Technology *' },
-  { md: 6, name: 'type', labelText: 'Project Type *' }
-]
-
-export const projectDatePickerList = [
-  { md: 6, name: 'startdate', label: 'Start Date *' },
-  { md: 6, name: 'enddate', label: 'End Date *' }
-]

@@ -168,16 +168,16 @@ const PeerReviewForm = ({ peerReviewInfo, detailsSwitchHandler }) => {
                     >
                       {employeeData
                         ? employeeData.map((prop, key) => {
-                            return prop.status !== 'Inactive' ? (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.firstname} {prop.lastname}
-                              </MenuItem>
-                            ) : null
-                          })
+                          return prop.status !== 'Inactive' ? (
+                            <MenuItem
+                              className={classes.hoverEffect}
+                              value={prop._id}
+                              key={key}
+                            >
+                              {prop.firstname} {prop.lastname}
+                            </MenuItem>
+                          ) : null
+                        })
                         : null}
                     </SelectMenu>
                   </Grid>
@@ -194,16 +194,16 @@ const PeerReviewForm = ({ peerReviewInfo, detailsSwitchHandler }) => {
                     >
                       {employeeData
                         ? employeeData.map((prop, key) => {
-                            return prop.status !== 'Inactive' ? (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.firstname} {prop.lastname}
-                              </MenuItem>
-                            ) : null
-                          })
+                          return prop.status !== 'Inactive' ? (
+                            <MenuItem
+                              className={classes.hoverEffect}
+                              value={prop._id}
+                              key={key}
+                            >
+                              {prop.firstname} {prop.lastname}
+                            </MenuItem>
+                          ) : null
+                        })
                         : null}
                     </SelectMenu>
                   </Grid>
@@ -221,16 +221,16 @@ const PeerReviewForm = ({ peerReviewInfo, detailsSwitchHandler }) => {
                     >
                       {projects
                         ? projects.map((prop, key) => {
-                            return (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.title}
-                              </MenuItem>
-                            )
-                          })
+                          return (
+                            <MenuItem
+                              className={classes.hoverEffect}
+                              value={prop._id}
+                              key={key}
+                            >
+                              {prop.title}
+                            </MenuItem>
+                          )
+                        })
                         : null}
                     </SelectMenu>
                   </Grid>
@@ -246,15 +246,15 @@ const PeerReviewForm = ({ peerReviewInfo, detailsSwitchHandler }) => {
                     >
                       {managers
                         ? managers.map(item => {
-                            return (
-                              <MenuItem
-                                value={item._id}
-                                className={classes.hoverEffect}
-                              >
-                                {item.firstname} {item.lastname}
-                              </MenuItem>
-                            )
-                          })
+                          return (
+                            <MenuItem
+                              value={item._id}
+                              className={classes.hoverEffect}
+                            >
+                              {item.firstname} {item.lastname}
+                            </MenuItem>
+                          )
+                        })
                         : null}
                     </SelectMenu>
                   </Grid>
@@ -335,15 +335,11 @@ const PeerReviewForm = ({ peerReviewInfo, detailsSwitchHandler }) => {
                     UPDATE PEER REVIEW
                   </Button>
                 ) : (
-                  <Button type="submit" color="primary" disabled={isSubmitting}>
-                    CREATE PEER REVIEW
-                  </Button>
-                )}
-                <Button
-                  type="submit"
-                  color="white"
-                  onClick={detailsSwitchHandler}
-                >
+                    <Button type="submit" color="primary" disabled={isSubmitting}>
+                      CREATE PEER REVIEW
+                    </Button>
+                  )}
+                <Button type="submit" color="white" onClick={detailsSwitchHandler}>
                   Close
                 </Button>
               </CardFooter>

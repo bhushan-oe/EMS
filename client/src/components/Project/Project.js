@@ -7,14 +7,10 @@ import CardHeader from '../Card/CardHeader'
 import CardBody from '../Card/CardBody'
 import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
+import Input from '../FromComponents/Input'
 import 'date-fns'
-import {
-  creatNewProjectValidations,
-  projectInputList,
-  projectDatePickerList
-} from './projectFormData'
-import DatePickerFields from '../FromComponents/DatePickerField'
-import InputFields from '../FromComponents/InputFields'
+import { creatNewProjectValidations } from './projectFormData'
+import DatePicker from '../../components/FromComponents/DatePicker'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
 import { projectStyles } from './styles'
@@ -145,16 +141,76 @@ const Project = props => {
 
                 <CardBody>
                   <GridContainer>
-                    <InputFields
-                      inputList={projectInputList}
-                      values={values}
-                      handleChange={handleChange}
-                    />
-                    <DatePickerFields
-                      inputList={projectDatePickerList}
-                      values={values}
-                      handleChange={setFieldValue}
-                    />
+                    <GridItem xs={12} sm={12} md={6}>
+                      <Input
+                        name="title"
+                        value={values.title}
+                        onChange={handleChange}
+                        labelText="Project Title * "
+                      />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={6}>
+                      <Input
+                        name="description"
+                        value={values.description}
+                        onChange={handleChange}
+                        labelText="Description * "
+                      />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={6}>
+                      <Input
+                        name="client"
+                        value={values.client}
+                        onChange={handleChange}
+                        labelText="Client *"
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <Input
+                        name="client_location"
+                        value={values.client_location}
+                        onChange={handleChange}
+                        labelText="Client Location * "
+                      />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={6}>
+                      <Input
+                        name="technology"
+                        value={values.technology}
+                        onChange={handleChange}
+                        labelText="Technology * "
+                      />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={6}>
+                      <Input
+                        name="type"
+                        value={values.type}
+                        onChange={handleChange}
+                        labelText="Project Type * "
+                      />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={6}>
+                      <DatePicker
+                        name="startdate"
+                        value={values.startdate}
+                        label="Start Date *"
+                        onChange={date => setFieldValue('startdate', date)}
+                      />
+                    </GridItem>
+
+                    <GridItem xs={12} sm={12} md={6}>
+                      <DatePicker
+                        name="enddate"
+                        value={values.enddate}
+                        label="End Date *"
+                        onChange={date => setFieldValue('enddate', date)}
+                      />
+                    </GridItem>
                   </GridContainer>
                 </CardBody>
 
