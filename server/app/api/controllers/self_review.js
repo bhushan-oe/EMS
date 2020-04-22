@@ -32,7 +32,7 @@ module.exports = {
         created_by,
         last_updated_by
       },
-      function (err, result) {
+      function (err) {
         if (err) next(err);
         else
           res.json({
@@ -62,9 +62,8 @@ module.exports = {
               updated_date: new Date(),
               last_updated_by: req.user.userName
             },
-            function (err, info) {
+            function (err) {
               if (err) {
-                console.log("in err", err);
                 next(err);
               } else {
                 res.json({
@@ -171,11 +170,12 @@ module.exports = {
     Self_Review_Model.findOneAndUpdate(
       { _id: req.params.id },
       {
-        status: "Inactive"
+        status: "Inactive",
+        updated_date : new Date(),
+        last_updated_by : req.user.userName
       },
-      function (err, userInfo) {
+      function (err) {
         if (err) {
-          console.log("in err");
           next(err);
         } else {
           res.json({

@@ -3,16 +3,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const LeavesApplicationSchema = new Schema({ 
-    employee_id  : {
-        type: Number,
+    employee  : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         trim: true,
-        required: true,        
+        required: true,
       },
-    manager_id  : {
-        type: Number,
-        trim: true,
-        required: true,        
-      },
+    functional_manager: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      trim: true,
+      required: true
+     },
     leave_date_from  : {
         type: Date,
         trim: true,
@@ -26,7 +28,7 @@ const LeavesApplicationSchema = new Schema({
     summary  : {
         type: String,
         trim: true,
-        required: true,        
+        required: false,        
       },
     type  : {
         type: String,
@@ -39,9 +41,10 @@ const LeavesApplicationSchema = new Schema({
         required: true,        
       },
     approved_by  : {
-        type: String,
-        trim: true,
-        required: true,        
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      trim: true,
+      required: true        
       },
     created_date  : {
         type: Date,

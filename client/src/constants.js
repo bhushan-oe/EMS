@@ -6,11 +6,7 @@ export const work_location = [
   { id: 'BR', location: 'Brazil' }
 ]
 
-export const userRole = [
-  { id: 'admin', role: 'Admin' },
-  { id: 'manager', role: 'Manager' },
-  { id: 'employee', role: 'Employee' }
-]
+export const userRole = ['admin', 'manager', 'employee']
 
 export const shift_timing = ['9 to 6', '8 to 5', '11 to 8']
 export const status = ['Active', 'InActive']

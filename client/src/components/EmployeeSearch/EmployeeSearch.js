@@ -1,31 +1,22 @@
-import EmployeeListTable from './EmployeeListTable'
 import { useSelector, useDispatch } from 'react-redux'
-import Card from '../../components/Card/Card'
-import CardHeader from '../../components/Card/CardHeader'
-import CardBody from '../../components/Card/CardBody'
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Search from '@material-ui/icons/Search'
-import CustomInput from '../../components/CustomInput/CustomInput'
-import Button from '../../components/CustomButtons/Button'
-import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
-import GridItem from '../../components/Grid/GridItem'
 import { AlertModal } from '../Modal/modal'
 import {
   deleteEmployee,
   clearDeleteEmployeeMsg
 } from '../../actions/employeeAction'
 import { useToasts } from 'react-toast-notifications'
-import Employee from './Employee'
 import {
   deleteEmployeeSuccessMsg,
   deleteEmployeeErrors
 } from '../../selectors/employeeSelectors'
-const useStyles = makeStyles(styles)
-const EmployeeListing = props => {
+import UpdateEmployeeForm from './subcomponents/UpdateEmployeeForm'
+import EmployeeSearchFeild from './subcomponents/EmployeeSearchFeild'
+import EmployeeSearchResults from './subcomponents/EmployeeSearchResults'
+
+const EmployeeSearch = props => {
   const { employeeData, setPageView } = props
   const { addToast } = useToasts()
-  const classes = useStyles()
   const [searchText, setsearchText] = useState('')
   const [employeeDetails, setEmployeeDetails] = useState([])
   const dispatch = useDispatch()
@@ -34,15 +25,6 @@ const EmployeeListing = props => {
   const [showDelDialog, setShowDelDialog] = useState(false)
   const deleteEmployeeSuccess = useSelector(deleteEmployeeSuccessMsg)
   const deleteEmployeeError = useSelector(deleteEmployeeErrors)
-
-  const employeeListingHeader = [
-    'Employee Id',
-    'Name',
-    'Designation',
-    'Contact No.',
-    'Email Address',
-    'Reporting Manager'
-  ]
 
   const changeHandler = e => {
     setsearchText(e.target.value)
@@ -78,15 +60,13 @@ const EmployeeListing = props => {
 
   let filteredEmployee
   const searchHandler = () => {
-    const employeeDetails = []
+    let employeeDetails = []
     if (employeeData && searchText) {
       // To do - update api to get only active users
-      filteredEmployee = employeeData.filter(employee =>
-        employee.userName
-          .toLowerCase()
-          .includes(searchText.toLowerCase().trim())
+      filteredEmployee = employeeData.filter(cls =>
+        cls.userName.toLowerCase().includes(searchText.toLowerCase().trim())
       )
-      filteredEmployee.map(employee => {
+      employeeDetails = filteredEmployee.map(employee => {
         const {
           employee_id,
           firstname,
@@ -97,6 +77,7 @@ const EmployeeListing = props => {
           designation,
           status
         } = employee
+
         const manager = filteredEmployee.filter(item => {
           if (
             item.userRole === 'manager' &&
@@ -110,7 +91,7 @@ const EmployeeListing = props => {
           : 'NA'
 
         const name = `${firstname} ${lastname}`
-        const data = {
+        return {
           employee_id,
           name,
           designation,
@@ -119,13 +100,10 @@ const EmployeeListing = props => {
           managerName,
           status
         }
-        employeeDetails.push(data)
       })
     }
     setEmployeeDetails(employeeDetails)
   }
-
-  const links = ['Edit', 'Delete']
 
   const getUserToUpdate = (employeeData, employee_id) => {
     return employeeData.filter(item => {
@@ -137,11 +115,13 @@ const EmployeeListing = props => {
 
   const updateUser = val => {
     setUpdateAction('update')
+    // To do - update api to get only active users
     const user = getUserToUpdate(employeeData, val)
     setUserToUpdate(user)
   }
 
   const deleteUser = val => {
+    // To do - update api to get only active users
     const user = getUserToUpdate(employeeData, val)
     setUpdateAction('delete')
     setUserToUpdate(user)
@@ -160,60 +140,24 @@ const EmployeeListing = props => {
   return (
     <>
       {updateAction === 'update' ? (
-        <Employee
+        <UpdateEmployeeForm
           setUpdateAction={setUpdateAction}
           userToUpdate={userToUpdate}
           setPageView={setPageView}
         />
       ) : (
         <>
-          <GridItem xs={12} sm={12} md={12}>
-            <CustomInput
-              formControlProps={{}}
-              inputProps={{
-                onChange: changeHandler,
-                placeholder: 'Search Employee',
-                inputProps: {
-                  'aria-label': 'Search'
-                }
-              }}
-            />
-            <Button
-              color="white"
-              aria-label="edit"
-              justIcon
-              round
-              onClick={searchHandler}
-            >
-              <Search />
-            </Button>
-          </GridItem>
-
-          <GridItem xs={12} sm={12} md={12}>
-            <Card plain>
-              <CardHeader plain color="primary">
-                <h4 className={classes.cardTitleWhite}>Employee List</h4>
-              </CardHeader>
-              <CardBody>
-                {employeeData && employeeDetails.length > 0 && searchText ? (
-                  <EmployeeListTable
-                    tableHeaderColor="gray"
-                    tableHead={
-                      employeeData && employeeDetails.length > 0 && searchText
-                        ? employeeListingHeader
-                        : null
-                    }
-                    tableData={employeeDetails || null}
-                    addLinks={links}
-                    updateUser={updateUser}
-                    deleteUser={deleteUser}
-                  />
-                ) : (
-                  <p>**Please search for employee result</p>
-                )}
-              </CardBody>
-            </Card>
-          </GridItem>
+          <EmployeeSearchFeild
+            changeHandler={changeHandler}
+            searchHandler={searchHandler}
+          />
+          <EmployeeSearchResults
+            employeeData={employeeData}
+            employeeDetails={employeeDetails}
+            updateUser={updateUser}
+            deleteUser={deleteUser}
+            searchText={searchText}
+          />
           <AlertModal
             title="Delete Employee"
             showDelDialog={showDelDialog}
@@ -227,4 +171,4 @@ const EmployeeListing = props => {
   )
 }
 
-export default EmployeeListing
+export default EmployeeSearch

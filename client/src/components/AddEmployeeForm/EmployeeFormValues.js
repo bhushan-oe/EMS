@@ -4,6 +4,16 @@ import {
   yupRequiredNumber,
   yupRequiredDate
 } from '../../helpers/yupValidations'
+import {
+  gender,
+  work_location,
+  shift_timing,
+  designation,
+  employment_status,
+  userRole,
+  countryData
+} from '../../constants'
+
 export const formikInitialValues = userToUpdate => {
   const {
     firstname,
@@ -82,6 +92,7 @@ export const formikAddNewUserValidations = Yup.object().shape({
     'Password must be at least 8 characters long!'
   )
 })
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/ // for Mobile Numbers
 
 export const formikUpdateValidations = Yup.object().shape({
   firstname: yupRequired('Firstname')
@@ -90,11 +101,10 @@ export const formikUpdateValidations = Yup.object().shape({
   lastname: yupRequired('Lastname')
     .min(2, 'Too Short!')
     .max(50, 'Too Long!'),
-  contact_no: yupRequiredNumber('Contact Number')
-    .typeError("Doesn't seems valid Contact Number")
-    .positive()
-    .integer("A phone number can't include a decimal point")
-    .min(10, 'Enter valid valid Contact number of min 10 digits!'),
+  contact_no: Yup.string()
+    .required('Contact number is required.')
+    .length(10, 'Please enter a valid contact number.')
+    .matches(phoneRegExp, 'Please enter a valid contact number.'),
   address1: yupRequired('Address1').min(2, 'Too Short!'),
   city: yupRequired('City'),
   zip: yupRequired('Zip').min(6, 'Enter minimum 6 length Zip Code'),
@@ -139,3 +149,67 @@ export const formikUpdateValidations = Yup.object().shape({
   }),
   skills: yupRequired('Skill')
 })
+
+export const onlyAddEmployeeInputList = [
+  { md: 6, name: 'employee_id', labelText: 'Employee Id * ' },
+  { md: 6, name: 'email', labelText: 'Email Address *' },
+  { md: 6, name: 'userName', labelText: 'UserName *' },
+  { md: 6, name: 'password', labelText: 'Password * ' }
+]
+export const commonInputList1 = [
+  { md: 4, name: 'firstname', labelText: 'Firstname * ' },
+  { md: 4, name: 'middlename', labelText: 'Middlename' },
+  { md: 4, name: 'lastname', labelText: 'Lastname *' },
+  { md: 6, name: 'address1', labelText: 'Address 1 *' },
+  { md: 6, name: 'address2', labelText: 'Address 2' }
+]
+export const commonInputList2 = [
+  { md: 4, name: 'city', labelText: 'City *' },
+  { md: 4, name: 'zip', labelText: 'Zip *' },
+  { md: 4, name: 'contact_no', labelText: 'Conatct Number *' },
+  {
+    md: 4,
+    name: 'experience_at_joining',
+    labelText: 'Experience At Joining *'
+  }
+]
+export const commonInputList3 = [
+  { md: 6, name: 'skills', labelText: 'Skills *' },
+  { md: 6, name: 'certifications', labelText: 'Certifications' },
+  { md: 12, name: 'achievements', labelText: 'Achievements' }
+]
+
+export const selectMenuList = [
+  { md: 6, name: 'gender', labelText: 'Gender *', menuItems: gender },
+  {
+    md: 6,
+    name: 'work_location',
+    labelText: 'Work Location *',
+    menuItems: work_location
+  },
+  {
+    md: 6,
+    name: 'timezone',
+    labelText: 'Timezone *',
+    menuItems: work_location
+  },
+  {
+    md: 6,
+    name: 'shift_timing',
+    labelText: 'Shift Timing *',
+    menuItems: shift_timing
+  },
+  {
+    md: 6,
+    name: 'designation',
+    labelText: 'Designation *',
+    menuItems: designation
+  },
+  {
+    md: 6,
+    name: 'employment_status',
+    labelText: 'Employment Status *',
+    menuItems: employment_status
+  },
+  { md: 6, name: 'userRole', labelText: 'User Role *', menuItems: userRole }
+]

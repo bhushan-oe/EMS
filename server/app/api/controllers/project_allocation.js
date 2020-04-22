@@ -27,7 +27,7 @@ module.exports = {
                 last_updated_by,
                 status           
             },
-            function(err, result) {
+            function(err) {
               if (err) next(err);
               else
                 res.json({
@@ -66,9 +66,11 @@ module.exports = {
    update: function (req, res, next) {
     Project_Allocation_Model.findOneAndUpdate({ _id: req.params.id },
       {
-        $set: req.body
+        $set: req.body,
+        updated_date : new Date(),
+        last_updated_by : req.user.userName,
       },
-      function (err, info) {
+      function (err) {
         if (err) {
           next(err);
         }
@@ -84,14 +86,15 @@ module.exports = {
   delete: function (req, res, next) {
     Project_Allocation_Model.findOneAndUpdate({ _id: req.params.id },
       {
-        status: "Inactive"
+        status: "Inactive",
+        updated_date : new Date(),
+        last_updated_by : req.user.userName
       },
-      function (err, userInfo) {
+      function (err) {
         if (err) {
           next(err);
         }
         else {
-           console.log("in del : ",  req.params.id);
           res.json({
             status: "success",
             message: "Project Allocation Info deleted successfully!!!",

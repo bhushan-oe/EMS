@@ -33,7 +33,7 @@ module.exports = {
           updated_date,
           last_updated_by,
       },
-      function(err, result) {
+      function(err) {
         if (err) next(err);
         else
           res.json({
@@ -57,10 +57,9 @@ module.exports = {
       }
     });
   },
-  getAll: function(req, res, next) {    
-    //todo - remove or optimize it
-     const query = req.query? req.query: {}
-    projectModel.find(query, function(err, projects) {
+  getAll: function(req, res, next) { 
+    const {status} = req.query;  
+    projectModel.find(status ? {status} : {}, function(err, projects) {
       if (err) {
         next(err);
       } else {
@@ -79,7 +78,7 @@ module.exports = {
           updated_date : new Date(),
           last_updated_by : req.user.userName,
       },      
-      function(err, userInfo) {      
+      function(err) {      
       if (err) {
         next(err);
       }      
@@ -95,9 +94,11 @@ module.exports = {
   delete: function(req, res, next) {
     projectModel.findOneAndUpdate({ _id: req.params.id }, 
       {
-         status : "Inactive"
+         status : "Inactive",
+        updated_date : new Date(),
+        last_updated_by : req.user.userName
       },      
-      function(err, userInfo) {      
+      function(err) {      
       if (err) {
         next(err);
       }      

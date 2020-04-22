@@ -9,7 +9,7 @@ module.exports = {
         'secret': '',
         'ses': {
             'from': {
-                'default': '"objectedge.com" surekha.gadkari@objectedge.com', 
+                'default': 'surekha.gadkari@objectedge.com', 
             },
             'region': 'ap-south-1' 
         }

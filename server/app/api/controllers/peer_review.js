@@ -22,12 +22,13 @@ module.exports = {
           created_by: req.user.userName,
           last_updated_by: req.user.userName
         },
-        function (err, result) {
+        function (err) {
           if (err) next(err);
           else{
              const peerName ="surekha.test.email";
              const to = "surekha.gadkari@objectedge.com";
-             const from = "surekha.gadkari@objectedge.com";
+            //IN PROGRESS -   const from = "surekha.gadkari@objectedge.com";
+            const from= null;
              const subject = 'Peer Review';
              emailProvider.sendEmail(to,from, subject, emails.peerReviewEmailTemplate(peerName))
              res.json({
@@ -50,9 +51,8 @@ module.exports = {
         updated_date: new Date(),
         last_updated_by: req.user.userName
       },
-      function (err, peerInfo) {
+      function (err) {
         if (err) {
-          console.log("in err");
           next(err);
         } else {
              
@@ -155,11 +155,12 @@ module.exports = {
     Peer_Review_Model.findOneAndUpdate(
       { _id: req.params.id },
       {
-        status: "Inactive"
+        status: "Inactive",
+        updated_date : new Date(),
+        last_updated_by : req.user.userName,
       },
-      function (err, userInfo) {
+      function (err) {
         if (err) {
-          console.log("in err");
           next(err);
         } else {
           res.json({

@@ -67,7 +67,7 @@ module.exports = {
         certifications,
         achievements
       },
-      function (err, result) {
+      function (err) {
         if (err) next(err);
         else
           res.json({
@@ -116,8 +116,8 @@ module.exports = {
     });
   },
   getAll: function (req, res, next) {
-    const query = req.query || {}
-    userModel.find(query, null,{sort: 'status'}, function (err, users) {
+    const {status} = req.query;    
+   userModel.find(status ? {status} : {}, null,{sort: 'status'}, function (err, users) {
       if (err) {
         next(err);
       } else {
@@ -147,7 +147,7 @@ module.exports = {
       {
         $set: req.body
       },
-      function (err, userInfo) {
+      function (err) {
         if (err) {
           next(err);
         }
@@ -165,7 +165,7 @@ module.exports = {
       {
         status: "Inactive"
       },
-      function (err, userInfo) {
+      function (err) {
         if (err) {
           next(err);
         }
