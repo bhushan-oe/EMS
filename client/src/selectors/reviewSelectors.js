@@ -49,3 +49,6 @@ export function deleteSelfReviewErrorSelector(state) {
 export function managerPeerReviewsSelector(state) {
   return state.peerReviewReducer.managerPeerReviews
 }
+export function managerSelfReviewsSelector(state) {
+  return state.selfReviewReducer.managerSelfReviews
+}

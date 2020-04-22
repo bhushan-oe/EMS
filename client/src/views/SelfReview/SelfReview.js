@@ -76,7 +76,7 @@ const SelfReview = props => {
   const selfReviewDeleteError = useSelector(deleteSelfReviewErrorSelector)
   useEffect(() => {
     dispatch(loadAllEmployeeData())
-    dispatch(loadAllSelfReviews({ status: ["Active", "Done"] }))
+    dispatch(loadAllSelfReviews({ status: ['Active', 'Done'] }))
   }, [dispatch])
 
   useEffect(() => {
@@ -107,11 +107,10 @@ const SelfReview = props => {
   const selfReviewArray = []
   let filteredEmployee
   if (selfReviewData) {
-    filteredEmployee = selfReviewData.filter(
-      cls =>
-        `${cls.employee.firstname} ${cls.employee.lastname}`
-          .toLowerCase()
-          .includes(selectedEmployee.toLowerCase().trim())
+    filteredEmployee = selfReviewData.filter(cls =>
+      `${cls.employee.firstname} ${cls.employee.lastname}`
+        .toLowerCase()
+        .includes(selectedEmployee.toLowerCase().trim())
     )
     filteredEmployee.map((review, key) => {
       const projectsArr = review.projects.map(item => item.title)
@@ -163,66 +162,66 @@ const SelfReview = props => {
           detailsSwitchHandler={detailsSwitchHandler}
         ></SelfReviewForm>
       ) : (
-          <GridContainer>
-            <Grid xs={1} sm={1} md={1} className={classes.grid} item>
-              <InputLabel>Search By:</InputLabel>
-            </Grid>
-            <GridItem xs={5} sm={5} md={5}>
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="SelectEmployee"> Select Employee</InputLabel>
-                <Select
-                  value={selectedEmployee}
-                  onChange={changeHandler}
-                  inputProps={{
-                    name: 'SelectEmployee',
-                    id: 'SelectEmployee'
-                  }}
-                >
-                  <MenuItem className={classes.hoverEffect} value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {employeeData
-                    ? employeeData.map((prop, key) => {
-                      const { firstname, lastname } = prop
-                      return prop.status !== 'Inactive' ? (
-                        <MenuItem
-                          className={classes.hoverEffect}
-                          value={firstname + ' ' + lastname}
-                          key={key}
-                        >
-                          {firstname} {lastname}
-                        </MenuItem>
-                      ) : null
-                    })
-                    : null}
-                </Select>
-              </FormControl>
-            </GridItem>
-            <GridItem style={{ textAlign: 'end' }} xs={6} sm={6} md={6}>
-              <Button color="primary" onClick={createPeerHandler}>
-                Create Self Review
+        <GridContainer>
+          <Grid xs={1} sm={1} md={1} className={classes.grid} item>
+            <InputLabel>Search By:</InputLabel>
+          </Grid>
+          <GridItem xs={5} sm={5} md={5}>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="SelectEmployee"> Select Employee</InputLabel>
+              <Select
+                value={selectedEmployee}
+                onChange={changeHandler}
+                inputProps={{
+                  name: 'SelectEmployee',
+                  id: 'SelectEmployee'
+                }}
+              >
+                <MenuItem className={classes.hoverEffect} value="">
+                  <em>None</em>
+                </MenuItem>
+                {employeeData
+                  ? employeeData.map((prop, key) => {
+                    const { firstname, lastname } = prop
+                    return prop.status !== 'Inactive' ? (
+                      <MenuItem
+                        className={classes.hoverEffect}
+                        value={firstname + ' ' + lastname}
+                        key={key}
+                      >
+                        {firstname} {lastname}
+                      </MenuItem>
+                    ) : null
+                  })
+                  : null}
+              </Select>
+            </FormControl>
+          </GridItem>
+          <GridItem style={{ textAlign: 'end' }} xs={6} sm={6} md={6}>
+            <Button color="primary" onClick={createPeerHandler}>
+              Create Self Review
             </Button>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
-                </CardHeader>
-                <CardBody>
-                  <Table
-                    tableHeaderColor="gray"
-                    tableHead={peerReviewListingHeader}
-                    tableData={selfReviewArray || null}
-                    addLinks={links}
-                    updateUser={updateUser}
-                    deleteUser={deleteUser}
-                    showLink={false}
-                  />
-                </CardBody>
-              </Card>
-            </GridItem>
-          </GridContainer>
-        )}
+          </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="gray"
+                  tableHead={peerReviewListingHeader}
+                  tableData={selfReviewArray || null}
+                  addLinks={links}
+                  updateUser={updateUser}
+                  deleteUser={deleteUser}
+                  showLink={false}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+        </GridContainer>
+      )}
       <AlertModal
         title="Delete Peer"
         showDelDialog={showDelDialog}
@@ -242,14 +241,17 @@ const SelfReview = props => {
               selfReviewDeatails={reviewDetails}
               projectDetails={projectDetails}
               showButtons={false}
+              closeSelfReiewDetails={() => setShowDetailsDialog(false)}
             />
-            <Button
-              color="primary"
-              size="sm"
-              onClick={() => setShowDetailsDialog(false)}
-            >
-              Close
-            </Button>
+            {/* {currentUser.userRole === "manager" && */
+            reviewDetails.status === 'pending-with-manager' ? (
+              <Button
+                color="primary"
+                size="sm"
+                onClick={() => setShowDetailsDialog(false)}
+              >
+                Close
+              </Button> : null}
           </GridItem>
         </DialogActions>
       </Dialog>

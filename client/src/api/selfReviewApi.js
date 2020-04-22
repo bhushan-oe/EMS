@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {
   SELF_REVIEWS_URL,
+  FETCH_SELF_REVIEW_FOR_MANAGER,
   CREATE_SELF_REVIEW
 } from '../configurations/endPoints'
 
@@ -9,6 +10,9 @@ export function loadAllSelfReviews(status) {
 }
 export function loadAllUserSelfReviews(id, status) {
   return axios.get(`${SELF_REVIEWS_URL}${id}`, { params: status })
+}
+export function loadAllSelfReviewsForManager(body) {
+  return axios.get(FETCH_SELF_REVIEW_FOR_MANAGER, { params: body })
 }
 export function createSelfReview(body) {
   return axios.post(CREATE_SELF_REVIEW, body)

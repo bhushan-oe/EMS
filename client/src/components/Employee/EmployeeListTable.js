@@ -67,7 +67,7 @@ export const EmployeeListTable = props => {
                       size="sm"
                       className={classes.links}
                       onClick={e => updateUser(emplpoyee.employee_id)}
-                      disabled={emplpoyee.status === 'Inactive' ? true : false}
+                      disabled={emplpoyee.status === 'Inactive'}
                     >
                       Edit
                     </Button>
@@ -76,7 +76,7 @@ export const EmployeeListTable = props => {
                       size="sm"
                       className={classes.links}
                       onClick={e => deleteUser(emplpoyee.employee_id)}
-                      disabled={emplpoyee.status === 'Inactive' ? true : false}
+                      disabled={emplpoyee.status === 'Inactive'}
                     >
                       Delete
                     </Button>

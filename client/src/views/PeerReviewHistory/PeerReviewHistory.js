@@ -59,7 +59,7 @@ const PeerReviewHistory = props => {
     'Status'
   ]
   useEffect(() => {
-    dispatch(loadAllPeerForUser(currentUser._id, { status: "Done" }))
+    dispatch(loadAllPeerForUser(currentUser._id, { status: 'Done' }))
   }, [currentUser._id, dispatch])
 
   useEffect(() => {
@@ -91,10 +91,8 @@ const PeerReviewHistory = props => {
     }
   }, [managerPeerReviews])
   const peerReviewsArray = []
-  let filteredReview
   if (peerReviews) {
-    filteredReview = peerReviews.filter(cls => cls.status === 'Done')
-    filteredReview.map(review => {
+    peerReviews.map(review => {
       peerReviewsArray.push([
         `${review.employee_under_review.firstname} ${review.employee_under_review.lastname}`,
         review.project.title,
@@ -106,7 +104,7 @@ const PeerReviewHistory = props => {
   }
 
   const onClickHandler = key => {
-    setPeerDetails(filteredReview[key])
+    setPeerDetails(peerReviews[key])
     setShowDetail(true)
   }
   const onClickEmployeeDetailsHandler = key => {
@@ -202,9 +200,9 @@ const PeerReviewHistory = props => {
                   </FormControl>
 
                   {managerPeerReviewArray &&
-                    managerPeerReviews &&
-                    selectedQuarter &&
-                    selectedYear ? (
+                  managerPeerReviews &&
+                  selectedQuarter &&
+                  selectedYear ? (
                       <Table
                         tableHeaderColor="gray"
                         tableHead={employeeReviewListingHeader}
@@ -216,8 +214,8 @@ const PeerReviewHistory = props => {
                     ) : selectedQuarter && selectedYear ? (
                       <p>** No Reviews Available</p>
                     ) : (
-                        <p>** Please Select Quarter and Year</p>
-                      )}
+                      <p>** Please Select Quarter and Year</p>
+                    )}
                 </div>
               )
             }

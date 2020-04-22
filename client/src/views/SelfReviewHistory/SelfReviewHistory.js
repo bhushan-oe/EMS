@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { loadAllSelfReviewsForUser } from '../../actions/selfReviewActions'
+import {
+  loadAllSelfReviewsForUser,
+  loadSelfReviewsForManager
+} from '../../actions/selfReviewActions'
 
 // react plugin for creating charts
 // @material-ui/core
@@ -15,15 +18,23 @@ import GridContainer from '../../components/Grid/GridContainer'
 import Button from '../../components/CustomButtons/Button'
 import { Dialog, DialogActions } from '@material-ui/core'
 import Table from '../../components/Table/Table'
-import Card from '../../components/Card/Card'
-import CardHeader from '../../components/Card/CardHeader'
-import CardBody from '../../components/Card/CardBody'
+import CustomTabs from '../../components/CustomTabs/CustomTabs'
 import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDetails'
-import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
+import styles from './styles'
+import GroupIcon from '@material-ui/icons/Group'
+import Person from '@material-ui/icons/Person'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import InputLabel from '@material-ui/core/InputLabel'
+import { quarterInfo, years } from '../../constants'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
 import { formatDate } from '../../helpers/formatDates'
-import { userSelfReviewDeatils } from '../../selectors/reviewSelectors'
+import {
+  userSelfReviewDeatils,
+  managerSelfReviewsSelector
+} from '../../selectors/reviewSelectors'
 
 const useStyles = makeStyles(styles)
 
@@ -31,10 +42,15 @@ const SelfReviewHistory = props => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const userSelfReviews = useSelector(userSelfReviewDeatils)
+  const managerSelfReviews = useSelector(managerSelfReviewsSelector)
   const [selfReviewDetails, setSelfReviewDetails] = useState(null)
+  const [selectedQuarter, setSelectedQuarter] = useState('')
+  const [selectedYear, setSelectedYear] = useState('')
   const [projectDetails, setProjectDetails] = useState('')
   const { currentUser } = useContext(UserContext)
   const [showDetail, setShowDetail] = useState(false)
+  const userReviewDetailsArr = []
+  const [managerSelfReviewArray, setManagerSelfReview] = useState('')
 
   const SelfReviewListingHeader = [
     'Projects',
@@ -43,57 +59,189 @@ const SelfReviewHistory = props => {
     'Due Fom Date',
     'Status'
   ]
+  const employeeeSelfReviewListingHeader = [
+    'Employee',
+    'Projects',
+    'From date',
+    'To date',
+    'Due Fom Date',
+    'Status'
+  ]
   useEffect(() => {
-    dispatch(loadAllSelfReviewsForUser(currentUser._id))
+    dispatch(loadAllSelfReviewsForUser(currentUser._id, { status: 'Done' }))
   }, [currentUser._id, dispatch])
 
-  const userReviewDetailsArr = []
-  let filteredSelfReview
-  if (
-    userSelfReviews &&
-    userSelfReviews.length > 0 &&
-    userReviewDetailsArr.length === 0
-  ) {
-    filteredSelfReview = userSelfReviews.filter(cls => cls.status === 'Done')
-    filteredSelfReview.map(review => {
-      const projectsArr = review.projects.map(item => item.title)
-      userReviewDetailsArr.push([
-        projectsArr.join(',\n'),
-        formatDate(review.from_date),
-        formatDate(review.to_date),
-        formatDate(review.due_from),
-        review.status
-      ])
-    })
-  }
+  useEffect(() => {
+    if (selectedQuarter && selectedYear) {
+      const body = {
+        ...selectedQuarter,
+        functional_manager: currentUser._id,
+        selectedYear: selectedYear,
+        status: ['pending-with-manager', 'Done']
+      }
+      dispatch(loadSelfReviewsForManager(body))
+    }
+  }, [selectedQuarter, selectedYear])
+
+  useEffect(() => {
+    if (currentUser.userRole === 'manager' && managerSelfReviews) {
+      const employeeSelfReviewArr = []
+      managerSelfReviews.map((review, key) => {
+        const projectsArr = review.projects.map(item => item.title)
+        employeeSelfReviewArr.push([
+          `${review.employee.firstname} ${review.employee.lastname}`,
+          projectsArr.join(',\n'),
+          formatDate(review.from_date),
+          formatDate(review.to_date),
+          formatDate(review.due_from),
+          review.status
+        ])
+      })
+      setManagerSelfReview(
+        employeeSelfReviewArr.length > 0 ? employeeSelfReviewArr : ''
+      )
+    }
+  }, [managerSelfReviews])
+
+  useEffect(() => {
+    if (
+      userSelfReviews &&
+      userSelfReviews.length > 0 &&
+      userReviewDetailsArr.length === 0
+    ) {
+      userSelfReviews.map(review => {
+        const projectsArr = review.projects.map(item => item.title)
+        userReviewDetailsArr.push([
+          projectsArr.join(',\n'),
+          formatDate(review.from_date),
+          formatDate(review.to_date),
+          formatDate(review.due_from),
+          review.status
+        ])
+      })
+    }
+  }, [userSelfReviews])
 
   const detailHandler = key => {
-    setSelfReviewDetails(filteredSelfReview[key])
+    setSelfReviewDetails(userSelfReviews[key])
     setProjectDetails(userReviewDetailsArr[key])
+    setShowDetail(true)
+  }
+  const showDetailHandler = key => {
+    setSelfReviewDetails(managerSelfReviews[key])
+    setProjectDetails(managerSelfReviewArray[key])
     setShowDetail(true)
   }
   return (
     <GridContainer>
-      {userSelfReviews && userSelfReviews.length > 0 ? (
-        <GridItem xs={12} sm={12} md={12}>
-          <Card plain>
-            <CardHeader plain color="primary">
-              <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="gray"
-                tableHead={SelfReviewListingHeader}
-                tableData={userReviewDetailsArr || null}
-                showLink={true}
-                buttonText="Details"
-                detailHandler={detailHandler}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-      ) : null}
+      <GridItem>
+        <CustomTabs
+          title=""
+          headerColor="primary"
+          tabs={[
+            {
+              tabName: 'My Reviews',
+              tabIcon: Person,
+              tabContent: (
+                <Table
+                  tableHeaderColor="gray"
+                  tableHead={SelfReviewListingHeader}
+                  tableData={userReviewDetailsArr || null}
+                  showLink={true}
+                  buttonText="Details"
+                  detailHandler={detailHandler}
+                />
+              )
+            },
+            currentUser.userRole === 'manager' && {
+              tabName: 'Employee Reviews',
+              tabIcon: GroupIcon,
+              tabContent: (
+                <div className={classes.widthSetting}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="SelectQuarter">
+                      {' '}
+                      Select Quarter
+                    </InputLabel>
+                    <Select
+                      value={selectedQuarter}
+                      onChange={e => {
+                        setSelectedQuarter(e.target.value)
+                      }}
+                      inputProps={{
+                        name: 'SelectQuarter',
+                        id: 'SelectQuarter'
+                      }}
+                    >
+                      <MenuItem className={classes.hoverEffect} value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {quarterInfo.map((prop, key) => {
+                        const { name } = prop
+                        return (
+                          <MenuItem
+                            className={classes.hoverEffect}
+                            value={prop}
+                            key={key}
+                          >
+                            {name}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </FormControl>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="SelectYear"> Select Year</InputLabel>
+                    <Select
+                      value={selectedYear}
+                      onChange={e => {
+                        setSelectedYear(e.target.value)
+                      }}
+                      inputProps={{
+                        name: 'SelectYear',
+                        id: 'SelectYear'
+                      }}
+                    >
+                      <MenuItem className={classes.hoverEffect} value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {years().map((prop, key) => {
+                        return (
+                          <MenuItem
+                            className={classes.hoverEffect}
+                            value={prop}
+                            key={key}
+                          >
+                            {prop}
+                          </MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </FormControl>
 
+                  {managerSelfReviewArray &&
+                  managerSelfReviews &&
+                  selectedQuarter &&
+                  selectedYear ? (
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={employeeeSelfReviewListingHeader}
+                      tableData={managerSelfReviewArray || null}
+                      showLink={true}
+                      buttonText="Details"
+                      detailHandler={showDetailHandler}
+                    />
+                  ) : selectedQuarter && selectedYear ? (
+                    <p>** No Reviews Available</p>
+                  ) : (
+                      <p>** Please Select Quarter and Year</p>
+                  )}
+                </div>
+              )
+            }
+          ]}
+        />
+      </GridItem>
       <Dialog
         title="Self Review Details"
         maxWidth="lg"
@@ -101,20 +249,25 @@ const SelfReviewHistory = props => {
         open={showDetail}
       >
         <DialogActions>
-          <GridItem xs={12} sm={12} md={12}>
-            <SelfReviewDetails
-              selfReviewDeatails={selfReviewDetails}
-              projectDetails={projectDetails}
-              showButtons={false}
-            />
-            <Button
-              color="primary"
-              size="sm"
-              onClick={() => setShowDetail(false)}
-            >
-              Close
-            </Button>
-          </GridItem>
+          {selfReviewDetails && (
+            <GridItem xs={12} sm={12} md={12}>
+              <SelfReviewDetails
+                selfReviewDeatails={selfReviewDetails}
+                projectDetails={projectDetails}
+                showButtons={false}
+                closeSelfReiewDetails={() => setShowDetail(false)}
+              />
+              {currentUser.userRole === 'manager' &&
+              selfReviewDetails.status === 'pending-with-manager' ? null : (
+                <Button
+                  color="primary"
+                  size="sm"
+                  onClick={() => setShowDetail(false)}
+                >
+                  Close
+              </Button>}
+            </GridItem>
+          )}
         </DialogActions>
       </Dialog>
     </GridContainer>

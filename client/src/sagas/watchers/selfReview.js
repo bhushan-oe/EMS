@@ -4,14 +4,16 @@ import {
   UPDATE_SELF_REVIEW,
   LOAD_ALL_SELF_REVIEWS,
   CREATE_SELF_REVIEW,
-  DELETE_SELF_REVIEW
+  DELETE_SELF_REVIEW,
+  LOAD_SELF_REVIEWS_FOR_MANAGER
 } from '../../actions/actionTypes'
 import {
   loadAllUserSelfReviews,
   updateSelfReview,
   loadAllSelfReviews,
   createSelfReview,
-  deleteSelfReview
+  deleteSelfReview,
+  loadAllSelfReviewsForManager
 } from '../../api/selfReviewApi'
 import {
   setAllSelfReviewsForUser,
@@ -23,7 +25,9 @@ import {
   setSelfReviewError,
   setSelfReviewSuccess,
   selfReviewDeleteSuccess,
-  selfReviewDeleteFailue
+  selfReviewDeleteFailue,
+  setSelfReviewsForManager,
+  setSelfReviewsForManagerError
 } from '../../actions/selfReviewActions'
 import { sessionExpiryHandler } from './sessionExpiryHandler'
 
@@ -75,7 +79,9 @@ function* workerUpdateUserSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(setUpdateReviewStatus(selfReviews.data.message))
     }
-    const reviews = yield call(loadAllSelfReviews, { status: ["Active", "Done"] })
+    const reviews = yield call(loadAllSelfReviews, {
+      status: ['Active', 'Done']
+    })
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -104,7 +110,9 @@ function* workerCreateSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(setSelfReviewSuccess(selfReviews.data.message))
     }
-    const reviews = yield call(loadAllSelfReviews, { status: ["Active", "Done"] })
+    const reviews = yield call(loadAllSelfReviews, {
+      status: ['Active', 'Done']
+    })
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -129,7 +137,9 @@ function* workerDeleteSelfReviewSaga({ payload }) {
     if (selfReviews.data.status === 'success') {
       yield put(selfReviewDeleteSuccess(selfReviews.data.message))
     }
-    const reviews = yield call(loadAllSelfReviews, { status: ["Active", "Done"] })
+    const reviews = yield call(loadAllSelfReviews, {
+      status: ['Active', 'Done']
+    })
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
@@ -143,4 +153,29 @@ function* workerDeleteSelfReviewSaga({ payload }) {
 
 export function* watchDeleteSelfReviewSaga() {
   yield takeLatest(DELETE_SELF_REVIEW, workerDeleteSelfReviewSaga)
+}
+
+// Load Self Review for Manager
+
+function* workerSelfReviewForManagerSaga(data) {
+  const { body } = data.payload
+  try {
+    const selfReviews = yield call(loadAllSelfReviewsForManager, body)
+    yield put(setSelfReviewsForManager(selfReviews.data.data))
+  } catch (e) {
+    if (e.response.data && e.response.data.message) {
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setSelfReviewsForManagerError(e.response.data.message))
+    } else {
+      yield put(setSelfReviewsForManagerError(e))
+    }
+  }
+}
+
+export function* watchSelfReviewForManagerSaga() {
+  yield takeLatest(
+    LOAD_SELF_REVIEWS_FOR_MANAGER,
+    workerSelfReviewForManagerSaga
+  )
 }

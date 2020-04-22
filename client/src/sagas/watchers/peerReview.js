@@ -62,7 +62,7 @@ function* workerCreatePeerReviewSaga({ payload }) {
       } else yield put(setPeerReviewSuccess(e.response.data.message))
     } else yield put(setPeerReviewSuccess(e))
   }
-  const reviews = yield call(loadAllPeerReviews, { status: ["Active", "Done"] })
+  const reviews = yield call(loadAllPeerReviews, { status: ['Active', 'Done'] })
   yield put(setAllPeerReviews(reviews))
 }
 
@@ -108,7 +108,7 @@ function* workerUpdatePeerReviewSaga(data) {
     } else yield put(setUpdateReviewError(e))
   }
 
-  const reviews = yield call(loadAllPeerReviews, { status: ["Active", "Done"] })
+  const reviews = yield call(loadAllPeerReviews, { status: ['Active', 'Done'] })
   yield put(setAllPeerReviews(reviews))
 }
 
@@ -128,7 +128,7 @@ function* workerDaletePeerReviewSaga(data) {
       } else yield put(peerReviewDeleteFailue(e.response.data.message))
     } else yield put(peerReviewDeleteFailue(e))
   }
-  const reviews = yield call(loadAllPeerReviews, { status: ["Active", "Done"] })
+  const reviews = yield call(loadAllPeerReviews, { status: ['Active', 'Done'] })
   yield put(setAllPeerReviews(reviews))
 }
 
