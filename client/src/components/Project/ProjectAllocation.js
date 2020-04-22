@@ -27,10 +27,6 @@ import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
 import { projectStyles } from './styles'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  allocateProject,
-  clearProjectAllocationMsg
-} from '../../actions/projectAction'
 import { projectDatePickerList } from './projectFormData'
 import {
   projectAllocationStatus,
