@@ -22,7 +22,6 @@ import {
 
 import MenuItem from '@material-ui/core/MenuItem'
 import SelectMenu from '../FromComponents/SelectMenu'
-import DatePicker from '../../components/FromComponents/DatePicker'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
 import { projectStyles } from './styles'
