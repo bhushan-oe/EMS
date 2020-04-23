@@ -103,24 +103,22 @@ const SelfReviewHistory = props => {
     }
   }, [managerSelfReviews])
 
-  useEffect(() => {
-    if (
-      userSelfReviews &&
-      userSelfReviews.length > 0 &&
-      userReviewDetailsArr.length === 0
-    ) {
-      userSelfReviews.map(review => {
-        const projectsArr = review.projects.map(item => item.title)
-        userReviewDetailsArr.push([
-          projectsArr.join(',\n'),
-          formatDate(review.from_date),
-          formatDate(review.to_date),
-          formatDate(review.due_from),
-          review.status
-        ])
-      })
-    }
-  }, [userSelfReviews])
+
+  if (
+    userSelfReviews
+  ) {
+    userSelfReviews.map(review => {
+      const projectsArr = review.projects.map(item => item.title)
+      userReviewDetailsArr.push([
+        projectsArr.join(',\n'),
+        formatDate(review.from_date),
+        formatDate(review.to_date),
+        formatDate(review.due_from),
+        review.status
+      ])
+    })
+  }
+
 
   const detailHandler = key => {
     setSelfReviewDetails(userSelfReviews[key])
