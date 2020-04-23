@@ -46,7 +46,7 @@ module.exports = {
            const query =employee ? 
            {employee,status} : project?
            {project, status} :{status}
-    Project_Allocation_Model.find(query)
+    Project_Allocation_Model.find(query, null, {sort: {'enddate': -1}})
       .populate('project', 'title')
       .populate('employee', 'firstname lastname')
       .populate('functional_manager', 'firstname lastname')
