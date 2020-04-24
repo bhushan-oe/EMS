@@ -30,8 +30,7 @@ export const leavesInitialValues = {
   leave_date_from: new Date(),
   leave_date_to: new Date(),
   summary: undefined,
-  type: undefined,
-  approved_by: undefined
+  type: undefined
 }
 
 export const leavesInputList = [
