@@ -12,7 +12,8 @@ import {
   watchCreatePeerReviewSaga,
   watchLoadUserPeerReviewSaga,
   watchUpdatePeerReviewSaga,
-  watchDeletePeerReviewSaga
+  watchDeletePeerReviewSaga,
+  watchPeerReviewForManagerSaga
 } from './watchers/peerReview'
 import {
   watchLoadAllProjects,
@@ -33,9 +34,10 @@ import {
   watchUpdateUserSelfReviewSaga,
   watchSelfReviewSaga,
   watchCreateSelfReviewSaga,
-  watchDeleteSelfReviewSaga
+  watchDeleteSelfReviewSaga,
+  watchSelfReviewForManagerSaga
 } from './watchers/selfReview'
-
+import { watchApplyLeaveSaga } from './watchers/leaves'
 export default function* root() {
   yield all([
     fork(watchLogoutSaga),
@@ -64,6 +66,9 @@ export default function* root() {
     fork(watchProjectAllocationDataSaga),
     fork(watchDeallocateProjectSaga),
     fork(watchDeleteProjectAllocationSaga),
+    fork(watchPeerReviewForManagerSaga),
+    fork(watchSelfReviewForManagerSaga),
+    fork(watchApplyLeaveSaga),
     fork(watchEmpProjectAllocationDataSaga)
   ])
 }

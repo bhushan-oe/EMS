@@ -57,7 +57,7 @@ export default function CustomTable(props) {
               return (
                 <TableRow key={k} className={classes.tableBodyRow}>
                   {prop.map((prop, key) => {
-                    //This is only for deallocation of project where need _id in data but need not to show in UI.
+                    // This is only for deallocation of project where need _id in data but need not to show in UI.
                     if (deallocateProject && key == 5) {
                       return
                     }

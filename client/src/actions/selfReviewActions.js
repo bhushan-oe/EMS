@@ -14,13 +14,16 @@ import {
   DELETE_SELF_REVIEW,
   DELETE_SELF_REVIEW_SUCCESS,
   DELETE_SELF_REVIEW_ERROR,
-  CLEAR_REVIEW_STATUS
+  CLEAR_REVIEW_STATUS,
+  LOAD_SELF_REVIEWS_FOR_MANAGER,
+  SET_SELF_REVIEWS_FOR_MANAGER,
+  SET_SELF_REVIEWS_FOR_MANAGER_ERROR
 } from './actionTypes'
 
-export function loadAllSelfReviews() {
+export function loadAllSelfReviews(status) {
   return {
     type: LOAD_ALL_SELF_REVIEWS,
-    payload: {}
+    payload: { status }
   }
 }
 export function setAllSelfReviews(data) {
@@ -57,10 +60,10 @@ export function setSelfReviewError(data) {
   }
 }
 
-export function loadAllSelfReviewsForUser(id) {
+export function loadAllSelfReviewsForUser(id, status) {
   return {
     type: LOAD_ALL_USER_SELF_REVIEWS,
-    payload: { id }
+    payload: { id, status }
   }
 }
 export function setAllSelfReviewsForUser(data) {
@@ -118,5 +121,23 @@ export function selfReviewDeleteFailue(data) {
 export function clearReviewStatus() {
   return {
     type: CLEAR_REVIEW_STATUS
+  }
+}
+export function loadSelfReviewsForManager(body) {
+  return {
+    type: LOAD_SELF_REVIEWS_FOR_MANAGER,
+    payload: { body }
+  }
+}
+export function setSelfReviewsForManager(data) {
+  return {
+    type: SET_SELF_REVIEWS_FOR_MANAGER,
+    payload: { data }
+  }
+}
+export function setSelfReviewsForManagerError(data) {
+  return {
+    type: SET_SELF_REVIEWS_FOR_MANAGER_ERROR,
+    payload: { data }
   }
 }

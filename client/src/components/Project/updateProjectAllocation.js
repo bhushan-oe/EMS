@@ -66,7 +66,7 @@ export const UpdateProjectAllocation = props => {
       if (projectId) {
         dispatch(getProjectAllocationData(projectId))
       }
-      //data in sorted order
+      // data in sorted order
     }
   }, [deallocateProjectStatus, addToast, dispatch])
 
@@ -115,7 +115,7 @@ export const UpdateProjectAllocation = props => {
 
   useEffect(() => {
     if (projectAllocationDetails) {
-      //to do sort data before display
+      // to do sort data before display
 
       const data = projectAllocationDetails.map(prop => {
         let {

@@ -44,7 +44,7 @@ const LeavesApplicationSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       trim: true,
-      required: true        
+      required: false        
       },
     created_date  : {
         type: Date,

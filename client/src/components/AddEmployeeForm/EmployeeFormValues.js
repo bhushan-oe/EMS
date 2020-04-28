@@ -213,3 +213,8 @@ export const selectMenuList = [
   },
   { md: 6, name: 'userRole', labelText: 'User Role *', menuItems: userRole }
 ]
+
+export const employeeDatePickerList = [
+  { md: 4, name: 'dateofbirth', label: 'Date Of Birth *' },
+  { md: 4, name: 'dateofjoining', label: 'Date Of Joining *' }
+]

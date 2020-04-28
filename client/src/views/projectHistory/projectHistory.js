@@ -3,7 +3,7 @@ import withAuth from '../../HOC/withAuth'
 import { getEmpProjectAllocationsData } from '../../actions/projectAction'
 import { useSelector, useDispatch } from 'react-redux'
 import { currentUser } from '../../selectors/loginSelectors'
-import {emplProjectAllocations} from '../../selectors/projectAllocationSelector'
+import { emplProjectAllocations } from '../../selectors/projectAllocationSelector'
 import GridItem from '../../components/Grid/GridItem'
 import GridContainer from '../../components/Grid/GridContainer'
 import Table from '../../components/Table/Table'
@@ -19,7 +19,7 @@ const ProjectHistory = props => {
     if (employee) dispatch(getEmpProjectAllocationsData(employee))
   }, [dispatch])
 
-const SelfReviewListingHeader = [
+  const SelfReviewListingHeader = [
     'Projects',
     'From date',
     'To date',
@@ -28,9 +28,8 @@ const SelfReviewListingHeader = [
   ]
 
   return (
-     <GridContainer>
-       {emplProjectAllocations && emplProjectAllocations.length > 0 ?
-       (
+    <GridContainer>
+      {emplProjectAllocations && emplProjectAllocations.length > 0 ? (
         <GridItem xs={12} sm={12} md={12}>
           <Card plain>
             <CardHeader plain color="primary">
@@ -48,9 +47,10 @@ const SelfReviewListingHeader = [
             </CardBody>
           </Card>
         </GridItem>
-      ) 
-       : "No Projects are assigned yet."}
-     </GridContainer>
+      ) : (
+        'No Projects are assigned yet.'
+      )}
+    </GridContainer>
   )
 }
 

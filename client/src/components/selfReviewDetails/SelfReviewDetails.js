@@ -12,6 +12,7 @@ import CardHeader from '../Card/CardHeader'
 import { selfReviewStyles } from './SelfReviewStyles'
 import Table from '../Table/Table'
 import CardBody from '../Card/CardBody'
+import CustomInput from '../CustomInput/CustomInput'
 import { formatDate } from '../../helpers/formatDates'
 import CardFooter from '../Card/CardFooter'
 import { UserContext } from '../../context-provider/user-context'
@@ -60,6 +61,7 @@ const SelfReviewDetails = props => {
   )
 
   const [selectedStatus, setSelectedStatus] = useState('Active')
+  const [feedback, setFeedback] = useState('')
   const userSelfReviewUpdateError = useSelector(userSelfReviewUpdateErrorMsg)
   const userSelfReviewUpdateStatus = useSelector(userSelfReviewUpdateStatusMsg)
   const { currentUser } = useContext(UserContext)
@@ -93,13 +95,25 @@ const SelfReviewDetails = props => {
   }, [userSelfReviewUpdateError, addToast, dispatch])
 
   const changeHandler = e => {
-    if (e.target.checked === true) setSelectedStatus('Done')
+    if (e.target.checked === true) setSelectedStatus('pending-with-manager')
   }
 
   const updateHandler = () => {
-    dispatch(
-      updateSelfReview(selfReviewDeatails._id, { status: selectedStatus })
-    )
+    if (
+      selectedStatus &&
+      selfReviewDeatails.status !== 'pending-with-manager'
+    ) {
+      dispatch(
+        updateSelfReview(selfReviewDeatails._id, { status: selectedStatus })
+      )
+    } else if (feedback && currentUser.userRole === 'manager') {
+      dispatch(
+        updateSelfReview(selfReviewDeatails._id, {
+          feedback: feedback,
+          status: 'Done'
+        })
+      )
+    }
   }
   return (
     <Grid>
@@ -129,6 +143,24 @@ const SelfReviewDetails = props => {
                 </iframe>
               </Grid>
             ) : null}
+            {!showButtons &&
+            selfReviewDeatails.status === 'pending-with-manager' ? (
+              <CustomInput
+                labelText="Feedback"
+                id="feedback"
+                formControlProps={{
+                  fullWidth: true,
+                  className: classes.marginTop
+                }}
+                inputProps={{
+                  value: feedback,
+                  name: 'feedback',
+                  onChange: e => {
+                    setFeedback(e.target.value)
+                  }
+                }}
+              ></CustomInput>
+            ) : null}
             {showButtons ? (
               <Grid xs={6} sm={6} md={6} item>
                 <div>
@@ -151,14 +183,11 @@ const SelfReviewDetails = props => {
             ) : null}
           </Grid>
         </CardBody>
-        {showButtons ? (
+        {showButtons ||
+        (currentUser.userRole === 'manager' &&
+          selfReviewDeatails.status === 'pending-with-manager') ? (
           <CardFooter className={classes.footer}>
-            <Button
-              type="submit"
-              color="primary"
-              onClick={updateHandler}
-              disabled={selectedStatus === 'Active' ? 'disabled' : null}
-            >
+            <Button type="submit" color="primary" onClick={updateHandler}>
               UPDATE REVIEW
             </Button>
             <Button type="submit" color="white" onClick={closeSelfReiewDetails}>
