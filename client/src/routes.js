@@ -11,6 +11,7 @@ import SelfReview from './views/SelfReview/SelfReview'
 import PeerReview from './views/PeerReview/PeerReview'
 import SelfReviewHistory from './views/SelfReviewHistory/SelfReviewHistory'
 import PeerReviewHistory from './views/PeerReviewHistory/PeerReviewHistory'
+import ProjectHistory from './views/projectHistory/projectHistory'
 
 export const dashboardRoutesAdmin = [
   {
@@ -75,7 +76,7 @@ export const dashboardRoutes = [
     name: 'Project History',
     rtlName: 'قائمة الجدول',
     icon: AssignmentIcon,
-    component: Projects,
+    component: ProjectHistory,
     layout: '/admin',
     showLink: true
   },

@@ -7,7 +7,9 @@ import {
   DEALLOCATE_PROJECT_SUCCESS,
   DEALLOCATE_PROJECT_ERROR,
   DELETE_PROJECT_ALLOCATION_SUCCESS,
-  DELETE_PROJECT_ALLOCATION_ERROR
+  DELETE_PROJECT_ALLOCATION_ERROR,
+  SET_EMP_PROJECT_ALLOCATION_DATA,
+  EMP_PROJECT_ALLOCATION_DATA_ERROR
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -18,12 +20,24 @@ const initialState = {
   deallocateProjectStatus: null,
   deallocateProjectError: null,
   deleteProjectAllocationError: null,
-  deleteProjectAllocationSuccess: null
+  deleteProjectAllocationSuccess: null,
+  empProjectAllocationData: null,
+  empProjectAllocationDataError: null
 }
-//to do remove unwanted code
 
 export default function projectAllocationReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_EMP_PROJECT_ALLOCATION_DATA:
+      console.log(action)
+      return {
+        ...state,
+        empProjectAllocationData: action.data
+      }
+    case EMP_PROJECT_ALLOCATION_DATA_ERROR:
+      return {
+        ...state,
+        empProjectAllocationDataError: action.data
+      }
     case SET_PROJECT_ALLOCATION_DATA:
       return {
         ...state,
@@ -62,7 +76,8 @@ export default function projectAllocationReducer(state = initialState, action) {
         deallocateProjectStatus: null,
         deallocateProjectError: null,
         deleteProjectAllocationSuccess: null,
-        deleteProjectAllocationError: null
+        deleteProjectAllocationError: null,
+        empProjectAllocationDataError: null
       }
 
     case DELETE_PROJECT_ALLOCATION_SUCCESS:

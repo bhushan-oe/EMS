@@ -3,7 +3,8 @@ import {
   ALLOCATE_PROJECT,
   GET_PROJECT_ALLOCATION_DATA,
   DEALLOCATE_PROJECT,
-  DELETE_PROJECT_ALLOCATION
+  DELETE_PROJECT_ALLOCATION,
+  GET_EMP_PROJECT_ALLOCATION_DATA
 } from '../../actions/actionTypes'
 import {
   setAllocateProjectSuccess,
@@ -13,13 +14,16 @@ import {
   setDeallocateProjectErr,
   setDeallocateProjectSuccess,
   deleteProjectAllocationError,
-  deleteProjectAllocationSuccess
+  deleteProjectAllocationSuccess,
+  setEmpProjectAllocationsData,
+  setEmpProjectAllocationDataErr
 } from '../../actions/projectAction'
 import {
   allocateProjectApi,
   projectAllocationDataApi,
   deallocateProjectApi,
-  deleteProjectAllocationApi
+  deleteProjectAllocationApi,
+  empProjectAllocationDataApi
 } from '../../api/projectsApi'
 
 function* workerAllocateProjectSaga(projectInfo) {
@@ -56,6 +60,27 @@ function* workerProjectAllocationDataSaga({ payload }) {
 }
 export function* watchProjectAllocationDataSaga() {
   yield takeLatest(GET_PROJECT_ALLOCATION_DATA, workerProjectAllocationDataSaga)
+}
+
+function* workerEmpProjectAllocationDataSaga({ payload }) {
+  const { id } = payload
+  try {
+    const projectAllocationData = yield call(empProjectAllocationDataApi, id)
+    yield put(setEmpProjectAllocationsData(projectAllocationData.data.data))
+  } catch (e) {
+    if (e.response.data && e.response.data.message) {
+      // To do add code for all api calls .. invalid token case falls here
+      yield put(setEmpProjectAllocationDataErr(e.response.data.message))
+    } else {
+      yield put(setEmpProjectAllocationDataErr(e))
+    }
+  }
+}
+export function* watchEmpProjectAllocationDataSaga() {
+  yield takeLatest(
+    GET_EMP_PROJECT_ALLOCATION_DATA,
+    workerEmpProjectAllocationDataSaga
+  )
 }
 
 function* workerDeallocateProjectSaga({ payload }) {
