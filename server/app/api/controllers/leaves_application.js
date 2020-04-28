@@ -9,7 +9,7 @@ module.exports = {
                 summary,
                 type,
                 status='Active',
-                approved_by,
+                approved_by = null,
                 created_date = new Date(),
                 updated_date = new Date(),
                 created_by = req.user.userName,

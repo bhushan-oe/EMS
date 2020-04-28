@@ -1,4 +1,11 @@
 export const gender = ['Male', 'Female']
+export const leaveTypes = [
+  'Sick Leave',
+  'Casual Leave',
+  'Company Holiday',
+  'Vacation',
+  'Other'
+]
 
 export const work_location = [
   { id: 'IN', location: 'India' },

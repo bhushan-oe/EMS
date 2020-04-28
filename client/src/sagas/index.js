@@ -36,7 +36,7 @@ import {
   watchDeleteSelfReviewSaga,
   watchSelfReviewForManagerSaga
 } from './watchers/selfReview'
-
+import { watchApplyLeaveSaga } from './watchers/leaves'
 export default function* root() {
   yield all([
     fork(watchLogoutSaga),
@@ -66,6 +66,7 @@ export default function* root() {
     fork(watchDeallocateProjectSaga),
     fork(watchDeleteProjectAllocationSaga),
     fork(watchPeerReviewForManagerSaga),
-    fork(watchSelfReviewForManagerSaga)
+    fork(watchSelfReviewForManagerSaga),
+    fork(watchApplyLeaveSaga)
   ])
 }
