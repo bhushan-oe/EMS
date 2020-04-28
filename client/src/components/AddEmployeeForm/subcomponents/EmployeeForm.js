@@ -12,7 +12,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { Form } from 'formik'
 import SelectMenu from '../../FromComponents/SelectMenu'
 import SelectFields from './SelectFields'
-import DatePicker from '../../FromComponents/DatePicker'
 import { countryData } from '../../../constants'
 import InputFields from '../../FromComponents/InputFields'
 import {
@@ -20,9 +19,10 @@ import {
   commonInputList1,
   commonInputList2,
   commonInputList3,
-  selectMenuList
+  selectMenuList,
+  employeeDatePickerList
 } from '../EmployeeFormValues'
-
+import DatePickerFields from '../../FromComponents/DatePickerField'
 const styles = employeeStyles
 const useStyles = makeStyles(styles)
 
@@ -123,22 +123,11 @@ const EmployeeForm = ({
                   values={values}
                   handleChange={handleChange}
                 />
-                <GridItem xs={12} sm={12} md={4}>
-                  <DatePicker
-                    name="dateofbirth"
-                    value={dateofbirth}
-                    label="Date Of Birth *"
-                    onChange={date => setFieldValue('dateofbirth', date)}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <DatePicker
-                    name="dateOfJoining"
-                    value={dateofjoining}
-                    label="Date Of Joining *"
-                    onChange={date => setFieldValue('dateofjoining', date)}
-                  />
-                </GridItem>
+                <DatePickerFields
+                  inputList={employeeDatePickerList}
+                  values={values}
+                  handleChange={setFieldValue}
+                />
                 <SelectFields
                   selectList={selectMenuList}
                   handleChange={handleChange}
