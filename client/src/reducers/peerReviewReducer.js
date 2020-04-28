@@ -7,7 +7,9 @@ import {
   SET_PEER_REVIEW_UPDATE_STATUS,
   SET_PEER_REVIEW_UPDATE_ERROR,
   DELETE_PEER_REVIEW_SUCCESS,
-  DELETE_PEER_REVIEW_ERROR
+  DELETE_PEER_REVIEW_ERROR,
+  SET_PEER_REVIEWS_FOR_MANAGER,
+  SET_PEER_REVIEWS_FOR_MANAGER_ERROR
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -19,7 +21,9 @@ const initialState = {
   userPeerReview: null,
   userPeerReviewError: null,
   peerReviewDeleteSuccess: null,
-  peerReviewDeleteError: null
+  peerReviewDeleteError: null,
+  managerPeerReviews: null,
+  managerPeerReviewsError: null
 }
 export default function peerReviewReducer(state = initialState, action) {
   switch (action.type) {
@@ -67,6 +71,16 @@ export default function peerReviewReducer(state = initialState, action) {
       return {
         ...state,
         peerReviewDeleteError: action.payload.data
+      }
+    case SET_PEER_REVIEWS_FOR_MANAGER:
+      return {
+        ...state,
+        managerPeerReviews: action.payload.data
+      }
+    case SET_PEER_REVIEWS_FOR_MANAGER_ERROR:
+      return {
+        ...state,
+        managerPeerReviewsError: action.payload.data
       }
     default:
       return state

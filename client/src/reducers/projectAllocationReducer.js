@@ -20,7 +20,7 @@ const initialState = {
   deleteProjectAllocationError: null,
   deleteProjectAllocationSuccess: null
 }
-//to do remove unwanted code
+// to do remove unwanted code
 
 export default function projectAllocationReducer(state = initialState, action) {
   switch (action.type) {

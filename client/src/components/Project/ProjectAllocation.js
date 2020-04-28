@@ -7,22 +7,25 @@ import CardHeader from '../Card/CardHeader'
 import CardBody from '../Card/CardBody'
 import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
-import { loadAllEmployeeData } from '../../actions/employeeAction'
-import { loadAllProjects } from '../../actions/projectAction'
+import { loadAllEmployeeData, loadManagers } from '../../actions/employeeAction'
+import {
+  loadAllProjects,
+  allocateProject,
+  clearProjectAllocationMsg
+} from '../../actions/projectAction'
 import { projectSelector } from '../../selectors/projectSelectors'
 import 'date-fns'
-import { managerDataSelector } from '../../selectors/employeeSelectors'
-import { loadManagers } from '../../actions/employeeAction'
+import {
+  managerDataSelector,
+  employeeDataSelector
+} from '../../selectors/employeeSelectors'
+
 import MenuItem from '@material-ui/core/MenuItem'
 import SelectMenu from '../FromComponents/SelectMenu'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
 import { projectStyles } from './styles'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  allocateProject,
-  clearProjectAllocationMsg
-} from '../../actions/projectAction'
 import { projectDatePickerList } from './projectFormData'
 import {
   projectAllocationStatus,
@@ -33,7 +36,7 @@ import {
   projectAllocationValidations,
   projectAllocationInitialValues
 } from './projectFormData'
-import { employeeDataSelector } from '../../selectors/employeeSelectors'
+
 const styles = projectStyles
 const useStyles = makeStyles(styles)
 const Project = props => {
@@ -132,12 +135,12 @@ const Project = props => {
                       >
                         {activeEmployees
                           ? activeEmployees.map(item => {
-                              return (
-                                <MenuItem value={item._id}>
-                                  {`${item.firstname} ${item.lastname}`}
-                                </MenuItem>
-                              )
-                            })
+                            return (
+                              <MenuItem value={item._id}>
+                                {`${item.firstname} ${item.lastname}`}
+                              </MenuItem>
+                            )
+                          })
                           : null}
                       </SelectMenu>
                     </GridItem>

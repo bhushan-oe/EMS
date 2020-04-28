@@ -75,7 +75,7 @@ export const dashboardRoutes = [
     showLink: true
   },
   {
-    path: '/peerReviewDetails',
+    path: '/reviewPeerHistory',
     name: 'Peer Review History',
     icon: GroupIcon,
     component: PeerReviewHistory,
@@ -83,7 +83,7 @@ export const dashboardRoutes = [
     showLink: true
   },
   {
-    path: '/selfReviewDetails',
+    path: '/reviewSelfHistory',
     name: 'Self Review History',
     icon: Person,
     component: SelfReviewHistory,
