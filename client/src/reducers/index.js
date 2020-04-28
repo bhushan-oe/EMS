@@ -6,6 +6,7 @@ import projectReducer from './projectReducer'
 import userReducer from './userReducer'
 import selfReviewReducer from './selfReviewReducer'
 import projectAllocationReducer from './projectAllocationReducer'
+import leavesReducer from './leavesReducer'
 export default combineReducers({
   EmployeeInfo,
   loginReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   projectReducer,
   userReducer,
   selfReviewReducer,
-  projectAllocationReducer
+  projectAllocationReducer,
+  leavesReducer
 })

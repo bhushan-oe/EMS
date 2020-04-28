@@ -177,7 +177,7 @@ const EmployeeForm = ({
                       UPDATE EMPLOYEE
                     </Button>
                     <Button
-                      color="primary"
+                      color="white"
                       disabled={isSubmitting}
                       onClick={handleSeachView}
                     >

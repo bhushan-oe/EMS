@@ -171,7 +171,7 @@ const Project = props => {
                           UPDATE PROJECT
                         </Button>
                         <Button
-                          color="primary"
+                          color="white"
                           disabled={isSubmitting}
                           onClick={handleProjectListView}
                         >
