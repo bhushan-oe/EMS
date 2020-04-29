@@ -28,7 +28,6 @@ const initialState = {
 export default function projectAllocationReducer(state = initialState, action) {
   switch (action.type) {
     case SET_EMP_PROJECT_ALLOCATION_DATA:
-      console.log(action)
       return {
         ...state,
         empProjectAllocationData: action.data
