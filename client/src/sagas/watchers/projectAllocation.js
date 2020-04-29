@@ -26,6 +26,8 @@ import {
   empProjectAllocationDataApi
 } from '../../api/projectsApi'
 
+import { sessionExpiryHandler } from './sessionExpiryHandler'
+
 function* workerAllocateProjectSaga(projectInfo) {
   try {
     const allocateProjectResponse = yield call(allocateProjectApi, projectInfo)
@@ -33,8 +35,9 @@ function* workerAllocateProjectSaga(projectInfo) {
     yield put(setAllocateProjectSuccess(allocateProjectResponse.data.message))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setAllocateProjectError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setAllocateProjectError(e.response.data.message))
     } else {
       yield put(setAllocateProjectError(e))
     }
@@ -51,8 +54,9 @@ function* workerProjectAllocationDataSaga({ payload }) {
     yield put(setProjectAllocationData(projectAllocationData.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setProjectAllocationDataErr(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setProjectAllocationDataErr(e.response.data.message))
     } else {
       yield put(setProjectAllocationDataErr(e))
     }
@@ -69,8 +73,9 @@ function* workerEmpProjectAllocationDataSaga({ payload }) {
     yield put(setEmpProjectAllocationsData(projectAllocationData.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setEmpProjectAllocationDataErr(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setEmpProjectAllocationDataErr(e.response.data.message))
     } else {
       yield put(setEmpProjectAllocationDataErr(e))
     }
@@ -89,8 +94,9 @@ function* workerDeallocateProjectSaga({ payload }) {
     yield put(setDeallocateProjectSuccess(projectAllocationData.data.message))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(setDeallocateProjectErr(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setDeallocateProjectErr(e.response.data.message))
     } else {
       yield put(setDeallocateProjectErr(e))
     }
@@ -109,8 +115,9 @@ function* workerDeleteProjectAllocationSaga({ payload }) {
     )
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(deleteProjectAllocationError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(deleteProjectAllocationError(e.response.data.message))
     } else {
       yield put(deleteProjectAllocationError(e))
     }

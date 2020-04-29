@@ -23,7 +23,11 @@ function* workerEmployeeInfoSaga() {
   try {
     const employees = yield call(loadAllEmployeeData)
     yield put(setAllEmployeeData(employees))
-  } catch (e) {}
+  } catch (e) {
+    if (e.response.data.message === 'Invalid Token') {
+      yield sessionExpiryHandler()
+    }
+  }
 }
 
 export function* watchEmployeeInfoSaga() {
