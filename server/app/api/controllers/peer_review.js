@@ -1,6 +1,6 @@
 const Peer_Review_Model = require("../models/peer_review");
 const emailProvider = require("../../service/ses_client");
-const emails = require('../../emailTemplates/peerReviewTemplate')
+const emails = require('../../emailTemplates/emailTemplates')
 
 module.exports = {
   create: function (req, res, next) {
@@ -25,7 +25,7 @@ module.exports = {
         function (err) {
           if (err) next(err);
           else{
-             const peerName ="surekha.test.email";
+             const peerName = req.user.userName
              const to = "surekha.gadkari@objectedge.com";
             //IN PROGRESS -   const from = "surekha.gadkari@objectedge.com";
             const from= null;
