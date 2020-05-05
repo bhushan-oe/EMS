@@ -25,7 +25,8 @@ module.exports = {
         function (err) {
           if (err) next(err);
           else{
-             const peerName = req.user.userName
+            // Send mail to all employees reviewing for peer
+             const peerName = "Employee Reviewing"
              const to = "surekha.gadkari@objectedge.com";
             //IN PROGRESS -   const from = "surekha.gadkari@objectedge.com";
             const from= null;
