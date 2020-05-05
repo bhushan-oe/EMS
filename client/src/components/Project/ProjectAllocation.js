@@ -135,12 +135,12 @@ const Project = props => {
                       >
                         {activeEmployees
                           ? activeEmployees.map(item => {
-                            return (
-                              <MenuItem value={item._id}>
-                                {`${item.firstname} ${item.lastname}`}
-                              </MenuItem>
-                            )
-                          })
+                              return (
+                                <MenuItem value={item._id}>
+                                  {`${item.firstname} ${item.lastname}`}
+                                </MenuItem>
+                              )
+                            })
                           : null}
                       </SelectMenu>
                     </GridItem>

@@ -41,7 +41,7 @@ const ApplyLeave = props => {
   const applyLeaveErrorMsg = useSelector(applyLeaveError)
   const managerdata = useSelector(managerDataSelector)
   const classes = useStyles()
-  const leaveForm = useRef(null)  
+  const leaveForm = useRef(null)
   const dispatch = useDispatch()
   const [managers, setManagers] = useState(null)
 
