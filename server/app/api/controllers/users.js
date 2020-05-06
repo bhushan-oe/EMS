@@ -2,6 +2,7 @@ const userModel = require("../models/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../../../config");
+const saltRounds = 10;
 module.exports = {
   create: function (req, res, next) {
     const {
@@ -155,6 +156,26 @@ module.exports = {
           res.json({
             status: "success",
             message: "User Info  updated successfully!!!",
+          });
+        }
+      });
+  },
+
+  changePassword: function (req, res, next) {
+    const {id} = req.params
+    const {password} = req.body;
+    userModel.findOneAndUpdate({ _id: id },
+      {
+        $set: {password: bcrypt.hashSync(password, saltRounds)}
+      },
+      function (err) {
+        if (err) {
+          next(err);
+        }
+        else {
+          res.json({
+            status: "success",
+            message: "Password updated successfully!!!",
           });
         }
       });

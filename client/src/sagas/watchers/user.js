@@ -1,5 +1,9 @@
 import { put, takeLatest, call } from 'redux-saga/effects'
-import { ADD_NEW_USER, UPDATE_USER } from '../../actions/actionTypes'
+import {
+  ADD_NEW_USER,
+  UPDATE_USER,
+  CHANGE_PASSWORD
+} from '../../actions/actionTypes'
 import {
   setNewUserSuccess,
   setNewUserError,
@@ -7,7 +11,11 @@ import {
   setUpdateUserError
 } from '../../actions/userActions'
 import { loadAllEmployeeData } from '../../actions/employeeAction'
-import { addNewUserApi, updateUserApi } from '../../api/userApi'
+import {
+  addNewUserApi,
+  updateUserApi,
+  changePasswordApi
+} from '../../api/userApi'
 import { sessionExpiryHandler } from './sessionExpiryHandler'
 
 function* workerUserSaga(userinfo) {
@@ -51,4 +59,21 @@ function* workerUpadateUserSaga({ payload }) {
 
 export function* watchUpadateUserSaga() {
   yield takeLatest(UPDATE_USER, workerUpadateUserSaga)
+}
+
+function* workerChangePasswordSaga({ payload }) {
+  try {
+    const updatePasswordResponse = yield call(changePasswordApi, payload)
+    yield put(setUpdateUserSuccess(updatePasswordResponse.data.message))
+  } catch (e) {
+    if (e.response.data && e.response.data.message) {
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setUpdateUserError(e.response.data.message))
+    } else yield put(setUpdateUserError(e))
+  }
+}
+
+export function* watchChangePasswordSaga() {
+  yield takeLatest(CHANGE_PASSWORD, workerChangePasswordSaga)
 }
