@@ -24,7 +24,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import SelectMenu from '../FromComponents/SelectMenu'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
-import { projectStyles } from './styles'
 import { useSelector, useDispatch } from 'react-redux'
 import { projectDatePickerList } from './projectFormData'
 import {
@@ -36,8 +35,7 @@ import {
   projectAllocationValidations,
   projectAllocationInitialValues
 } from './projectFormData'
-
-const styles = projectStyles
+import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 const useStyles = makeStyles(styles)
 const Project = props => {
   const { setPageView } = props
@@ -46,6 +44,7 @@ const Project = props => {
   const [managers, setManagers] = useState(null)
   const [activeEmployees, setEmployeeData] = useState(null)
   const classes = useStyles()
+  const { cardTitleWhite } = classes
   const { addToast } = useToasts()
   const dispatch = useDispatch()
   const projectAllocationSuccess = useSelector(projectAllocationStatus)
@@ -118,7 +117,7 @@ const Project = props => {
             <Card>
               <Form ref={projectForm}>
                 <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>
+                  <h4 className={cardTitleWhite}>
                     {'ALLOCATE PROJECT'}
                   </h4>
                 </CardHeader>
