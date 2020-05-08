@@ -117,9 +117,7 @@ const Project = props => {
             <Card>
               <Form ref={projectForm}>
                 <CardHeader color="primary">
-                  <h4 className={cardTitleWhite}>
-                    {'ALLOCATE PROJECT'}
-                  </h4>
+                  <h4 className={cardTitleWhite}>{'ALLOCATE PROJECT'}</h4>
                 </CardHeader>
 
                 <CardBody>
@@ -134,12 +132,12 @@ const Project = props => {
                       >
                         {activeEmployees
                           ? activeEmployees.map(item => {
-                            return (
-                              <MenuItem value={item._id}>
-                                {`${item.firstname} ${item.lastname}`}
-                              </MenuItem>
-                            )
-                          })
+                              return (
+                                <MenuItem value={item._id}>
+                                  {`${item.firstname} ${item.lastname}`}
+                                </MenuItem>
+                              )
+                            })
                           : null}
                       </SelectMenu>
                     </GridItem>

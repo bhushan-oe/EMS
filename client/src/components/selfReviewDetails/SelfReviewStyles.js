@@ -8,7 +8,7 @@ export const selfReviewStyles = {
     marginBottom: '3px',
     textDecoration: 'none'
   },
-   footer: {
+  footer: {
     display: 'flex',
     justifyContent: 'space-evenly'
   }

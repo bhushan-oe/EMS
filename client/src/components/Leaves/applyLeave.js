@@ -40,9 +40,9 @@ const ApplyLeave = props => {
   const applyLeaveStatusMsg = useSelector(applyLeaveStatus)
   const applyLeaveErrorMsg = useSelector(applyLeaveError)
   const managerdata = useSelector(managerDataSelector)
-  const classes = useStyles()  
+  const classes = useStyles()
   const { cardTitleWhite } = classes
-  const leaveForm = useRef(null)  
+  const leaveForm = useRef(null)
   const dispatch = useDispatch()
   const [managers, setManagers] = useState(null)
 
@@ -95,9 +95,7 @@ const ApplyLeave = props => {
             <Card>
               <Form ref={leaveForm}>
                 <CardHeader color="primary">
-                  <h4 className={cardTitleWhite}>
-                    {'LEAVE APPLICATION'}
-                  </h4>
+                  <h4 className={cardTitleWhite}>{'LEAVE APPLICATION'}</h4>
                 </CardHeader>
                 <CardBody>
                   <GridContainer>

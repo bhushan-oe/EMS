@@ -203,19 +203,19 @@ const PeerReviewHistory = props => {
                   managerPeerReviews &&
                   selectedQuarter &&
                   selectedYear ? (
-                      <Table
-                        tableHeaderColor="gray"
-                        tableHead={employeeReviewListingHeader}
-                        tableData={managerPeerReviewArray}
-                        showLink={true}
-                        buttonText="Details"
-                        detailHandler={onClickEmployeeDetailsHandler}
-                      />
-                    ) : selectedQuarter && selectedYear ? (
-                      <p>** No Reviews Available</p>
-                    ) : (
-                      <p>** Please Select Quarter and Year</p>
-                    )}
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={employeeReviewListingHeader}
+                      tableData={managerPeerReviewArray}
+                      showLink={true}
+                      buttonText="Details"
+                      detailHandler={onClickEmployeeDetailsHandler}
+                    />
+                  ) : selectedQuarter && selectedYear ? (
+                    <p>** No Reviews Available</p>
+                  ) : (
+                    <p>** Please Select Quarter and Year</p>
+                  )}
                 </div>
               )
             }

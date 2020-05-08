@@ -35,7 +35,7 @@ const useStyles = makeStyles(styles)
 const Project = props => {
   const { setPageView, projectToUpdate } = props
   const classes = useStyles()
-  const {cardTitleWhite} = classes
+  const { cardTitleWhite } = classes
   const { addToast } = useToasts()
   const dispatch = useDispatch()
 
