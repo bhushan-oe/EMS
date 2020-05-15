@@ -4,17 +4,17 @@ const saltRounds = 10;
 //Define a schema
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
-  employee_id : {
+  employee_id: {
     type: Number,
     trim: true,
     required: true,
-    unique: true 
-  }, 
+    unique: true
+  },
   email: {
     type: String,
     trim: true,
     required: true,
-    unique: true 
+    unique: true
   },
   userName: {
     type: String,
@@ -27,7 +27,7 @@ const UserSchema = new Schema({
     trim: true,
     required: true
   },
-  firstname : {
+  firstname: {
     type: String,
     trim: true,
     required: true
@@ -47,111 +47,111 @@ const UserSchema = new Schema({
     trim: true,
     required: true
   },
-  address2 : {
+  address2: {
     type: String,
     trim: true,
     required: false
   },
-  city : {
+  city: {
     type: String,
     trim: true,
     required: true
   },
-  zip : {
+  zip: {
     type: String,
     trim: true,
     required: true
   },
-  state : {
+  state: {
     type: String,
     trim: true,
     required: true
   },
-  country : {
+  country: {
     type: String,
     trim: true,
     required: true
   },
-  gender : {
+  gender: {
     type: String,
     trim: true,
     required: true
   },
-  dateofbirth : {
+  dateofbirth: {
     type: Date,
     trim: true,
     required: true
   },
-  dateofjoining : {
+  dateofjoining: {
     type: Date,
     trim: true,
     required: true
   },
-  status : {
+  status: {
     type: String,
     trim: true,
     required: true
   },
-  experience_at_joining : {
+  experience_at_joining: {
     type: Number,
     trim: true,
     required: true
   },
-  work_location : {
+  work_location: {
     type: String,
     trim: true,
     required: true
   },
-  timezone : {
+  timezone: {
     type: String,
     trim: true,
     required: true
   },
-  shift_timing : {
+  shift_timing: {
     type: String,
     trim: true,
     required: false
   },
-  designation : {
+  designation: {
     type: String,
     trim: true,
     required: true
   },
-  employment_status : {
+  employment_status: {
     type: String,
     trim: true,
     required: true
   },
-    userRole: {
+  userRole: {
     type: String,
     trim: true,
     required: true
   },
-  reporting_manager : {
+  reporting_manager: {
     type: String,
     trim: true,
     required: false
   },
-  contact_no : {
+  contact_no: {
     type: Number,
     trim: true,
     required: true
   },
-  skills : {
+  skills: {
     type: String,
     trim: true,
     required: true
   },
-  certifications : {
+  certifications: {
     type: String,
     trim: true,
     required: false
   },
-  achievements : {
+  achievements: {
     type: String,
     trim: true,
     required: false
-  },
+  }
 });
 // hash user password before saving into database
 UserSchema.pre("save", function(next) {

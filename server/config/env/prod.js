@@ -1,18 +1,17 @@
 module.exports = {
-    host: "127.0.0.1",
-    port: 3001, // change with development port
-    mongoUrl: "mongodb://localhost:27017/EMS",
-    secret: "superSuperSecret",
-    tokenExpiry: "1h",
-    aws: {
-            'key': '',
-            'secret': '',
-            'ses': {
-                'from': {
-                    'default': 'surekha.gadkari@objectedge.com', 
-                },
-                'region': 'ap-south-1' 
-            }
-        }
-        
-    };
+  host: "127.0.0.1",
+  port: 3001, // change with development port
+  mongoUrl: "mongodb://localhost:27017/EMS",
+  secret: "superSuperSecret",
+  tokenExpiry: "1h",
+  aws: {
+    key: "",
+    secret: "",
+    ses: {
+      from: {
+        default: "surekha.gadkari@objectedge.com"
+      },
+      region: "ap-south-1"
+    }
+  }
+};

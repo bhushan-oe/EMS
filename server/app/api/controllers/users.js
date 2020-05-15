@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../../../config");
 module.exports = {
-  create: function (req, res, next) {
+  create: function(req, res, next) {
     const {
       employee_id,
       email,
@@ -67,7 +67,7 @@ module.exports = {
         certifications,
         achievements
       },
-      function (err) {
+      function(err) {
         if (err) next(err);
         else
           res.json({
@@ -78,46 +78,59 @@ module.exports = {
       }
     );
   },
-  authenticate: function (req, res, next) {
-    userModel.findOne({
-      $and: [
-        { $or: [{ userName: req.body.userName }, { email: req.body.userName }] },
-        { status: "Active" }]
-    }, function (err, userInfo) {
-      if (err) {
-        next(err);
-      } else {
-        if (
-          userInfo &&
-          bcrypt.compareSync(req.body.password, userInfo.password)
-        ) {
-          const { password, ...userWithoutPassword } = userInfo._doc;
-          const token = jwt.sign(
-            { id: userInfo._id, userName: userInfo.userName, role: userInfo.userRole },
-            config.secret,
-            {
-              expiresIn: config.tokenExpiry
-            }
-          );
-
-          res.json({
-            status: "success",
-            message: "user found!!!",
-            data: { user: userWithoutPassword, token: token }
-          });
+  authenticate: function(req, res, next) {
+    userModel.findOne(
+      {
+        $and: [
+          {
+            $or: [{ userName: req.body.userName }, { email: req.body.userName }]
+          },
+          { status: "Active" }
+        ]
+      },
+      function(err, userInfo) {
+        if (err) {
+          next(err);
         } else {
-          res.json({
-            status: "error",
-            message: "Invalid Username/Email or Password!!!",
-            data: null
-          });
+          if (
+            userInfo &&
+            bcrypt.compareSync(req.body.password, userInfo.password)
+          ) {
+            const { password, ...userWithoutPassword } = userInfo._doc;
+            const token = jwt.sign(
+              {
+                id: userInfo._id,
+                userName: userInfo.userName,
+                role: userInfo.userRole
+              },
+              config.secret,
+              {
+                expiresIn: config.tokenExpiry
+              }
+            );
+
+            res.json({
+              status: "success",
+              message: "user found!!!",
+              data: { user: userWithoutPassword, token: token }
+            });
+          } else {
+            res.json({
+              status: "error",
+              message: "Invalid Username/Email or Password!!!",
+              data: null
+            });
+          }
         }
       }
-    });
+    );
   },
-  getAll: function (req, res, next) {
-    const {status} = req.query;    
-   userModel.find(status ? {status} : {}, null,{sort: 'status'}, function (err, users) {
+  getAll: function(req, res, next) {
+    const { status } = req.query;
+    userModel.find(status ? { status } : {}, null, { sort: "status" }, function(
+      err,
+      users
+    ) {
       if (err) {
         next(err);
       } else {
@@ -129,8 +142,11 @@ module.exports = {
       }
     });
   },
-  getManagers: function (req, res, next) {
-    userModel.find({ userRole: "manager", status : 'Active' }, function (err, users) {
+  getManagers: function(req, res, next) {
+    userModel.find({ userRole: "manager", status: "Active" }, function(
+      err,
+      users
+    ) {
       if (err) {
         next(err);
       } else {
@@ -142,39 +158,41 @@ module.exports = {
       }
     });
   },
-  update: function (req, res, next) {
-    userModel.findOneAndUpdate({ _id: req.params.id },
+  update: function(req, res, next) {
+    userModel.findOneAndUpdate(
+      { _id: req.params.id },
       {
         $set: req.body
       },
-      function (err) {
+      function(err) {
         if (err) {
           next(err);
-        }
-        else {
+        } else {
           res.json({
             status: "success",
-            message: "User Info  updated successfully!!!",
+            message: "User Info  updated successfully!!!"
           });
         }
-      });
+      }
+    );
   },
 
-  delete: function (req, res, next) {
-    userModel.findOneAndUpdate({ _id: req.params.id },
+  delete: function(req, res, next) {
+    userModel.findOneAndUpdate(
+      { _id: req.params.id },
       {
         status: "Inactive"
       },
-      function (err) {
+      function(err) {
         if (err) {
           next(err);
-        }
-        else {
+        } else {
           res.json({
             status: "success",
-            message: "User Info deleted successfully!!!",
+            message: "User Info deleted successfully!!!"
           });
         }
-      });
+      }
+    );
   }
 };

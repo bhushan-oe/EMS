@@ -1,95 +1,86 @@
 const Self_Review_Model = require("../models/self_review");
-const userModel = require("../models/users")
-const Project_Allocation_Model = require("../models/project_allocation")
+const userModel = require("../models/users");
+const Project_Allocation_Model = require("../models/project_allocation");
 module.exports = {
-   createSelfReviewForAll :  function(req, res, next){
-    
-  userModel.find({status:'Active'},   function (err, users) {
+  createSelfReviewForAll: function(req, res, next) {
+    userModel.find({ status: "Active" }, function(err, users) {
       if (err) {
         next(err);
       } else {
-        const finalData =     users.map( async (user, index)=>{
-           const {_id}= user 
-           let projectIds;
-           await Project_Allocation_Model.find({employee: _id})
-         .then(item =>{
-            let projectIdsArray=[] ;
-         if(item.length > 0 ){         
-           for(let x in item){
-             const obj = {
-               project: item[x].project,
-               functional_manager: item[x].functional_manager
-             }                  
-             projectIdsArray.push(obj)
-           }
-          projectIds=  projectIdsArray
-          
-            // console.log(projectIdsArray, item )
-            // console.log("--------------------")
+          const finalData = users.map(async (user, index) => {
+          const { _id } = user;
+          let projectIds;
+          await Project_Allocation_Model.find({ employee: _id })
+            .then(item => {
+              let projectIdsArray = [];
+              if (item.length > 0) {
+                for (let x in item) {
+                  const obj = {
+                    project: item[x].project,
+                    functional_manager: item[x].functional_manager
+                  };
+                  projectIdsArray.push(obj);
+                }
+                projectIds = projectIdsArray;
+              } else {
+                let project = null,
+                  functional_manager = null;
+                projectIdsArray.push({
+                  project,
+                  functional_manager
+                });
+                projectIds = projectIdsArray;
+              }
 
-         }
-         else  {
-            let project= null, functional_manager=null;          
-          projectIdsArray.push({
-             project, functional_manager
-           })
-           projectIds = projectIdsArray  
-            // console.log(projectIdsArray)
-         }
-       
-        
-const { 
-      employee =user,
-      projects =projectIds,
-      from_date =new Date(),
-      to_date= new Date(),
-      due_from = new Date(),
-      due_to= new Date(),
-      feedback= "feedback",
-      functional_manager= "5e7051dce27e0a2a64ddffb0",
-      review_form_link= "test",
-      status = 'Active',
-      created_date = new Date(),
-      updated_date = new Date(),
-      created_by = req.user.userName,
-      last_updated_by = req.user.userName       
-      } = req.body;
-    Self_Review_Model.create(
-      {
-        employee,
-        projects,
-        from_date,
-        to_date,
-        due_from,
-        due_to,
-        feedback,
-        functional_manager,
-        review_form_link,
-        status,
-        created_date,
-        updated_date,
-        created_by,
-        last_updated_by        
-      },
-      function (err) {
-        if (err) next(err);
-        else
-        console.log("review added")
-      } )        
-         }
-         ) 
-         .catch(err =>console.log("inside err ", err))
-
-      })
+              const {
+                employee = user,
+                projects = projectIds,
+                from_date,
+                to_date,
+                due_from,
+                due_to,
+                feedback,
+                review_form_link,
+                status = "Active",
+                created_date = new Date(),
+                updated_date = new Date(),
+                created_by = req.user.userName,
+                last_updated_by = req.user.userName
+              } = req.body;
+              Self_Review_Model.create(
+                {
+                  employee,
+                  projects,
+                  from_date,
+                  to_date,
+                  due_from,
+                  due_to,
+                  feedback,
+                  review_form_link,
+                  status,
+                  created_date,
+                  updated_date,
+                  created_by,
+                  last_updated_by
+                },
+                function(err) {
+                  if (err) next(err);
+                  else {}
+                }
+              );
+            })
+            .catch(err => console.log(err));         
+        });
+      }
        res.json({
-          status: "success",
-          message: "Self reviews has been created for Active employees !!!"         
-        });      
-        }
-    })
+              status: "success",
+              message: "Self reviews has been created for Active employees !!!"
+            });
+    });
   },
-  create: function (req, res, next) {
-    const { employee,
+  create: function(req, res, next) {
+    const {
+      employee,
       projects,
       from_date,
       to_date,
@@ -98,11 +89,12 @@ const {
       feedback,
       functional_manager,
       review_form_link,
-      status = 'Active',
+      status = "Active",
       created_date = new Date(),
       updated_date = new Date(),
       created_by = req.user.userName,
-      last_updated_by = req.user.userName } = req.body;
+      last_updated_by = req.user.userName
+    } = req.body;
     Self_Review_Model.create(
       {
         employee,
@@ -120,7 +112,7 @@ const {
         created_by,
         last_updated_by
       },
-      function (err) {
+      function(err) {
         if (err) next(err);
         else
           res.json({
@@ -131,14 +123,13 @@ const {
     );
   },
 
-
-  update: function (req, res, next) {
+  update: function(req, res, next) {
     delete req.body.created_date;
     delete req.body.created_by;
 
     const today = new Date();
 
-    Self_Review_Model.findOne({ _id: req.params.id }, function (err, userInfo) {
+    Self_Review_Model.findOne({ _id: req.params.id }, function(err, userInfo) {
       if (err) {
         next(err);
       } else {
@@ -150,7 +141,7 @@ const {
               updated_date: new Date(),
               last_updated_by: req.user.userName
             },
-            function (err) {
+            function(err) {
               if (err) {
                 next(err);
               } else {
@@ -161,24 +152,24 @@ const {
               }
             }
           );
-        }
-        else {
+        } else {
           res.json({
             status: "error",
-            message: "Review can be updated withing due dates only, for Active users!"
+            message:
+              "Review can be updated withing due dates only, for Active users!"
           });
         }
       }
     });
   },
 
-  getAll: function (req, res, next) {
-    const { status } = req.query
+  getAll: function(req, res, next) {
+    const { status } = req.query;
     Self_Review_Model.find(status ? { status: status } : {})
-      .populate('projects', 'title')
-      .populate('employee', 'firstname lastname')
-      .populate('functional_manager', 'firstname lastname')
-      .exec(function (err, reviews) {
+      .populate("projects", "title")
+      .populate("employee", "firstname lastname")
+      .populate("functional_manager", "firstname lastname")
+      .exec(function(err, reviews) {
         if (err) {
           next(err);
         } else {
@@ -190,12 +181,17 @@ const {
         }
       });
   },
-  getForUser: function (req, res, next) {
-    const { status } = req.query
-    Self_Review_Model.find(status ? { employee: req.params.employee_id, status: status } : { employee: req.params.employee_id }).populate('projects', 'title')
-      .populate('employee', 'firstname lastname')
-      .populate('functional_manager', 'firstname lastname')
-      .exec(function (err, reviews) {
+  getForUser: function(req, res, next) {
+    const { status } = req.query;
+    Self_Review_Model.find(
+      status
+        ? { employee: req.params.employee_id, status: status }
+        : { employee: req.params.employee_id }
+    )
+      .populate("projects", "title")
+      .populate("employee", "firstname lastname")
+      .populate("functional_manager", "firstname lastname")
+      .exec(function(err, reviews) {
         if (err) {
           next(err);
         } else {
@@ -207,29 +203,29 @@ const {
         }
       });
   },
-  getForManager: function (req, res, next) {
-    const { functional_manager, selectedYear, value, status } = req.query
-    let startDate, endDate
+  getForManager: function(req, res, next) {
+    const { functional_manager, selectedYear, value, status } = req.query;
+    let startDate, endDate;
     switch (value) {
-      case 'Quarter 1':
+      case "Quarter 1":
         startDate = new Date(`${selectedYear}-01-01T05:30`);
-        endDate = new Date(`${selectedYear}-03-31T23:59`)
+        endDate = new Date(`${selectedYear}-03-31T23:59`);
         break;
-      case 'Quarter 2':
+      case "Quarter 2":
         startDate = new Date(`${selectedYear}-04-01T05:30`);
-        endDate = new Date(`${selectedYear}-06-30T23:59`)
+        endDate = new Date(`${selectedYear}-06-30T23:59`);
         break;
-      case 'Quarter 3':
+      case "Quarter 3":
         startDate = new Date(`${selectedYear}-07-01T05:30`);
-        endDate = new Date(`${selectedYear}-09-30T23:59`)
+        endDate = new Date(`${selectedYear}-09-30T23:59`);
         break;
-      case 'Quarter 4':
+      case "Quarter 4":
         startDate = new Date(`${selectedYear}-10-01T05:30`);
-        endDate = new Date(`${selectedYear}-12-31T23:59`)
+        endDate = new Date(`${selectedYear}-12-31T23:59`);
         break;
       default:
-        startDate = '';
-        endDate = ''
+        startDate = "";
+        endDate = "";
         break;
     }
     Self_Review_Model.find({
@@ -238,10 +234,10 @@ const {
       to_date: { $lte: endDate },
       status: status
     })
-      .populate('projects', 'title')
-      .populate('employee', 'firstname lastname')
-      .populate('functional_manager', 'firstname lastname')
-      .exec(function (err, reviews) {
+      .populate("projects", "title")
+      .populate("employee", "firstname lastname")
+      .populate("functional_manager", "firstname lastname")
+      .exec(function(err, reviews) {
         if (err) {
           next(err);
         } else {
@@ -254,15 +250,15 @@ const {
       });
   },
 
-  delete: function (req, res, next) {
+  delete: function(req, res, next) {
     Self_Review_Model.findOneAndUpdate(
       { _id: req.params.id },
       {
         status: "Inactive",
-        updated_date : new Date(),
-        last_updated_by : req.user.userName
+        updated_date: new Date(),
+        last_updated_by: req.user.userName
       },
-      function (err) {
+      function(err) {
         if (err) {
           next(err);
         } else {
