@@ -1,5 +1,93 @@
 const Self_Review_Model = require("../models/self_review");
+const userModel = require("../models/users")
+const Project_Allocation_Model = require("../models/project_allocation")
 module.exports = {
+   createSelfReviewForAll :  function(req, res, next){
+    
+  userModel.find({status:'Active'},   function (err, users) {
+      if (err) {
+        next(err);
+      } else {
+        const finalData =     users.map( async (user, index)=>{
+           const {_id}= user 
+           let projectIds;
+           await Project_Allocation_Model.find({employee: _id})
+         .then(item =>{
+            let projectIdsArray=[] ;
+         if(item.length > 0 ){         
+           for(let x in item){
+             const obj = {
+               project: item[x].project,
+               functional_manager: item[x].functional_manager
+             }                  
+             projectIdsArray.push(obj)
+           }
+          projectIds=  projectIdsArray
+          
+            // console.log(projectIdsArray, item )
+            // console.log("--------------------")
+
+         }
+         else  {
+            let project= null, functional_manager=null;          
+          projectIdsArray.push({
+             project, functional_manager
+           })
+           projectIds = projectIdsArray  
+            // console.log(projectIdsArray)
+         }
+       
+        
+const { 
+      employee =user,
+      projects =projectIds,
+      from_date =new Date(),
+      to_date= new Date(),
+      due_from = new Date(),
+      due_to= new Date(),
+      feedback= "feedback",
+      functional_manager= "5e7051dce27e0a2a64ddffb0",
+      review_form_link= "test",
+      status = 'Active',
+      created_date = new Date(),
+      updated_date = new Date(),
+      created_by = req.user.userName,
+      last_updated_by = req.user.userName       
+      } = req.body;
+    Self_Review_Model.create(
+      {
+        employee,
+        projects,
+        from_date,
+        to_date,
+        due_from,
+        due_to,
+        feedback,
+        functional_manager,
+        review_form_link,
+        status,
+        created_date,
+        updated_date,
+        created_by,
+        last_updated_by        
+      },
+      function (err) {
+        if (err) next(err);
+        else
+        console.log("review added")
+      } )        
+         }
+         ) 
+         .catch(err =>console.log("inside err ", err))
+
+      })
+       res.json({
+          status: "success",
+          message: "Self reviews has been created for Active employees !!!"         
+        });      
+        }
+    })
+  },
   create: function (req, res, next) {
     const { employee,
       projects,

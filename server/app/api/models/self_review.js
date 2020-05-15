@@ -10,20 +10,18 @@ const SelfReviewSchema = new Schema({
     required: true,
   },
   projects: {
-    type: [
-      {
+    type: [{
+     projects : {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Project"
-      }
-    ],
-    trim: true,
-    required: true,
-  },
-  functional_manager: {
+      },
+ functional_manager: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+  },
+    }],
     trim: true,
-    required: true
+    required: true,
   },
   from_date: {
     type: Date,
