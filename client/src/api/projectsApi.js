@@ -33,6 +33,10 @@ export function projectAllocationDataApi(id) {
   return axios.get(`${ALLOCATE_PROJECT_URL}?project=${id}`)
 }
 
+export function empProjectAllocationDataApi(id) {
+  return axios.get(`${ALLOCATE_PROJECT_URL}?employee=${id}`)
+}
+
 export function deallocateProjectApi(payload) {
   const { enddate, id } = payload
   const reqBody = { enddate }

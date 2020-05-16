@@ -17,7 +17,7 @@ import DatePickerFields from '../FromComponents/DatePickerField'
 import InputFields from '../FromComponents/InputFields'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
-import { projectStyles } from './styles'
+import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   addNewProject,
@@ -31,8 +31,8 @@ import {
   updateProjectErrorMsg
 } from '../../selectors/projectSelectors'
 
-const styles = projectStyles
-const useStyles = makeStyles(styles)
+const projectStyles = styles
+const useStyles = makeStyles(projectStyles)
 const Project = props => {
   const { setPageView, projectToUpdate } = props
   const classes = useStyles()
@@ -191,7 +191,7 @@ const Project = props => {
                           ADD PROJECT
                         </Button>
                         <Button
-                          color="primary"
+                          color="white"
                           disabled={isSubmitting}
                           onClick={() => setPageView('projectListing')}
                         >

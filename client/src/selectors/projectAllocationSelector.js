@@ -28,3 +28,7 @@ export function delProjectAllocationSuccess(state) {
 export function delProjectAllocationError(state) {
   return state.projectAllocationReducer.deleteProjectAllocationError
 }
+
+export function emplProjectAllocations(state) {
+  return state.projectAllocationReducer.empProjectAllocationData
+}
