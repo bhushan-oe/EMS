@@ -25,7 +25,8 @@ import {
   watchAllocateProjectSaga,
   watchProjectAllocationDataSaga,
   watchDeallocateProjectSaga,
-  watchDeleteProjectAllocationSaga
+  watchDeleteProjectAllocationSaga,
+  watchEmpProjectAllocationDataSaga
 } from './watchers/projectAllocation'
 import {
   watchUserSaga,
@@ -73,5 +74,6 @@ export default function* root() {
     fork(watchSelfReviewForManagerSaga),
     fork(watchApplyLeaveSaga),
     fork(watchChangePasswordSaga)
+    fork(watchEmpProjectAllocationDataSaga)
   ])
 }

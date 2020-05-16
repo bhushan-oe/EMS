@@ -103,10 +103,7 @@ const SelfReviewHistory = props => {
     }
   }, [managerSelfReviews])
 
-
-  if (
-    userSelfReviews
-  ) {
+  if (userSelfReviews) {
     userSelfReviews.map(review => {
       const projectsArr = review.projects.map(item => item.title)
       userReviewDetailsArr.push([
@@ -118,7 +115,6 @@ const SelfReviewHistory = props => {
       ])
     })
   }
-
 
   const detailHandler = key => {
     setSelfReviewDetails(userSelfReviews[key])
@@ -141,14 +137,22 @@ const SelfReviewHistory = props => {
               tabName: 'My Reviews',
               tabIcon: Person,
               tabContent: (
-                <Table
-                  tableHeaderColor="gray"
-                  tableHead={SelfReviewListingHeader}
-                  tableData={userReviewDetailsArr || null}
-                  showLink={true}
-                  buttonText="Details"
-                  detailHandler={detailHandler}
-                />
+                <div className={classes.widthSetting}>
+                  {userReviewDetailsArr && userReviewDetailsArr.length > 0 ? (
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={SelfReviewListingHeader}
+                      tableData={userReviewDetailsArr || null}
+                      showLink={true}
+                      buttonText="Details"
+                      detailHandler={detailHandler}
+                    />
+                  ) : (
+                    <p className={classes.noteToUser}>
+                      Review data not avaialable.
+                    </p>
+                  )}
+                </div>
               )
             },
             currentUser.userRole === 'manager' && {
@@ -218,22 +222,27 @@ const SelfReviewHistory = props => {
                   </FormControl>
 
                   {managerSelfReviewArray &&
-                    managerSelfReviews &&
-                    selectedQuarter &&
-                    selectedYear ? (
-                      <Table
-                        tableHeaderColor="gray"
-                        tableHead={employeeeSelfReviewListingHeader}
-                        tableData={managerSelfReviewArray || null}
-                        showLink={true}
-                        buttonText="Details"
-                        detailHandler={showDetailHandler}
-                      />
-                    ) : selectedQuarter && selectedYear ? (
-                      <p>** No Reviews Available</p>
-                    ) : (
-                        <p>** Please Select Quarter and Year</p>
-                      )}
+                  managerSelfReviews &&
+                  selectedQuarter &&
+                  selectedYear ? (
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={employeeeSelfReviewListingHeader}
+                      tableData={managerSelfReviewArray || null}
+                      showLink={true}
+                      buttonText="Details"
+                      detailHandler={showDetailHandler}
+                    />
+                  ) : selectedQuarter && selectedYear ? (
+                    <p className={classes.noteToUser}>
+                      ** No Reviews Available
+                    </p>
+                  ) : (
+                    <p className={classes.noteToUser}>
+                      ** Please Select Quarter and Year
+                    </p>
+
+                  )}
                 </div>
               )
             }
@@ -256,14 +265,15 @@ const SelfReviewHistory = props => {
                 closeSelfReiewDetails={() => setShowDetail(false)}
               />
               {currentUser.userRole === 'manager' &&
-                selfReviewDetails.status === 'pending-with-manager' ? null : (
-                  <Button
-                    color="primary"
-                    size="sm"
-                    onClick={() => setShowDetail(false)}
-                  >
-                    Close
-                  </Button>)}
+              selfReviewDetails.status === 'pending-with-manager' ? null : (
+                <Button
+                  color="primary"
+                  size="sm"
+                  onClick={() => setShowDetail(false)}
+                >
+                  Close
+                </Button>
+              )}
             </GridItem>
           )}
         </DialogActions>

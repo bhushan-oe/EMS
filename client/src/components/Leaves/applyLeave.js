@@ -8,7 +8,7 @@ import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
 import InputFields from '../FromComponents/InputFields'
 import { makeStyles } from '@material-ui/core/styles'
-import { leavesStyles } from '../../assets/styles/styles'
+import dashboardStyle from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import { Formik, Form } from 'formik'
 import { UserContext } from '../../context-provider/user-context'
 import { useSelector, useDispatch } from 'react-redux'
@@ -31,7 +31,7 @@ import {
 import { loadManagers } from '../../actions/employeeAction'
 import DatePickerFields from '../FromComponents/DatePickerField'
 
-const useStyles = makeStyles(leavesStyles)
+const useStyles = makeStyles(dashboardStyle)
 
 const ApplyLeave = props => {
   const { setLeavesPageView } = props
@@ -41,7 +41,7 @@ const ApplyLeave = props => {
   const applyLeaveErrorMsg = useSelector(applyLeaveError)
   const managerdata = useSelector(managerDataSelector)
   const classes = useStyles()
-  const leaveForm = useRef(null)  
+  const leaveForm = useRef(null)
   const dispatch = useDispatch()
   const [managers, setManagers] = useState(null)
 

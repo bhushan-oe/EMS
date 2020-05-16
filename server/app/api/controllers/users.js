@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../../../config");
 const saltRounds = 10;
+const emailProvider  = require("../../service/ses_client")
+const emails = require("../../emailTemplates/emailTemplates")
 module.exports = {
   create: function (req, res, next) {
     const {
@@ -71,11 +73,18 @@ module.exports = {
       function (err) {
         if (err) next(err);
         else
+       { 
+           const to = "surekha.gadkari@objectedge.com";
+           // const to = email;
+            const from= null;
+            const subject = 'Welcome to Object Edge';
+             emailProvider.sendEmail(to,from, subject, emails.newUserTemplate(userName, password, email))
           res.json({
             status: "success",
             message: "User added successfully!!!",
             data: null
           });
+      }
       }
     );
   },
@@ -122,10 +131,15 @@ module.exports = {
       if (err) {
         next(err);
       } else {
+         const userData = users.map((user)=>{
+         const { _doc : {password, ...userWithoutPassword},  ...rest } = user 
+          return userWithoutPassword 
+         });
+
         res.json({
           status: "success",
           message: "Users list found!!!",
-          data: users
+          data: userData
         });
       }
     });
@@ -153,6 +167,14 @@ module.exports = {
           next(err);
         }
         else {
+          const {password} = req.body;
+          if(password){
+            const to = "surekha.gadkari@objectedge.com";
+            // const to = user email;
+            const from= null; 
+            const subject = 'Password has been updated';    
+            emailProvider.sendEmail(to,from, subject, emails.updatePasswordTemplate(req.user.userName))         
+          }
           res.json({
             status: "success",
             message: "User Info  updated successfully!!!",
