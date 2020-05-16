@@ -121,10 +121,15 @@ module.exports = {
       if (err) {
         next(err);
       } else {
+         const userData = users.map((user)=>{
+         const { _doc : {password, ...userWithoutPassword},  ...rest } = user 
+          return userWithoutPassword 
+         });
+
         res.json({
           status: "success",
           message: "Users list found!!!",
-          data: users
+          data: userData
         });
       }
     });
