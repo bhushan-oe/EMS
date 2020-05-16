@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { useDispatch } from 'react-redux'
 // @material-ui/core components
@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Hidden from '@material-ui/core/Hidden'
 import Poppers from '@material-ui/core/Popper'
-
+import ChangePasswordModal from '../Modal/ChangePasswordModal'
 // @material-ui/icons
 import Person from '@material-ui/icons/Person'
 // core components
@@ -23,7 +23,7 @@ const useStyles = makeStyles(styles)
 export default function AdminNavbarLinks() {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [openProfile, setOpenProfile] = React.useState(null)
+  const [openProfile, setOpenProfile] = useState(null)
   const handleClickProfile = event => {
     if (openProfile && openProfile.contains(event.target)) {
       setOpenProfile(null)
@@ -38,6 +38,18 @@ export default function AdminNavbarLinks() {
     dispatch(logOut())
     window.location.href = '/login'
   }
+  const [isOpenChangePasswordModal, setOpenChangePasswordModal] = useState(
+    false
+  )
+
+  const handleClickOpenChangePasswordModal = () => {
+    setOpenChangePasswordModal(true)
+  }
+
+  const handleCloseChangePasswordModal = () => {
+    setOpenChangePasswordModal(false)
+  }
+
   return (
     <div>
       <div className={classes.manager}>
@@ -84,12 +96,22 @@ export default function AdminNavbarLinks() {
                     >
                       Logout
                     </MenuItem>
+                    <MenuItem
+                      onClick={handleClickOpenChangePasswordModal}
+                      className={classes.dropdownItem}
+                    >
+                      Change Password
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
             </Grow>
           )}
         </Poppers>
+        <ChangePasswordModal
+          handleCloseChangePasswordModal={handleCloseChangePasswordModal}
+          isOpenChangePasswordModal={isOpenChangePasswordModal}
+        />
       </div>
     </div>
   )
