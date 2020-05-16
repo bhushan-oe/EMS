@@ -24,7 +24,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import SelectMenu from '../FromComponents/SelectMenu'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
-import { projectStyles } from './styles'
+
+import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import { useSelector, useDispatch } from 'react-redux'
 import { projectDatePickerList } from './projectFormData'
 import {
@@ -37,8 +38,8 @@ import {
   projectAllocationInitialValues
 } from './projectFormData'
 
-const styles = projectStyles
-const useStyles = makeStyles(styles)
+const projectStyles = styles
+const useStyles = makeStyles(projectStyles)
 const Project = props => {
   const { setPageView } = props
   const projects = useSelector(projectSelector)
@@ -135,12 +136,12 @@ const Project = props => {
                       >
                         {activeEmployees
                           ? activeEmployees.map(item => {
-                            return (
-                              <MenuItem value={item._id}>
-                                {`${item.firstname} ${item.lastname}`}
-                              </MenuItem>
-                            )
-                          })
+                              return (
+                                <MenuItem value={item._id}>
+                                  {`${item.firstname} ${item.lastname}`}
+                                </MenuItem>
+                              )
+                            })
                           : null}
                       </SelectMenu>
                     </GridItem>

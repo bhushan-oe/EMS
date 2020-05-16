@@ -24,7 +24,10 @@ import {
   DEALLOCATE_PROJECT_SUCCESS,
   DELETE_PROJECT_ALLOCATION,
   DELETE_PROJECT_ALLOCATION_SUCCESS,
-  DELETE_PROJECT_ALLOCATION_ERROR
+  DELETE_PROJECT_ALLOCATION_ERROR,
+  GET_EMP_PROJECT_ALLOCATION_DATA,
+  SET_EMP_PROJECT_ALLOCATION_DATA,
+  EMP_PROJECT_ALLOCATION_DATA_ERROR
 } from './actionTypes'
 
 export function loadAllProjects() {
@@ -197,5 +200,24 @@ export function deleteProjectAllocationError(data) {
   return {
     type: DELETE_PROJECT_ALLOCATION_ERROR,
     payload: { data }
+  }
+}
+
+export function getEmpProjectAllocationsData(id) {
+  return {
+    type: GET_EMP_PROJECT_ALLOCATION_DATA,
+    payload: { id }
+  }
+}
+export function setEmpProjectAllocationsData(data) {
+  return {
+    type: SET_EMP_PROJECT_ALLOCATION_DATA,
+    data
+  }
+}
+export function setEmpProjectAllocationDataErr(data) {
+  return {
+    type: EMP_PROJECT_ALLOCATION_DATA_ERROR,
+    data
   }
 }
