@@ -126,12 +126,13 @@ const Dashboard = props => {
               Welcome {currentUser ? currentUser.userName : null}
             </InputLabel>
           </GridItem>
-          {peerReviews && peerReviewsArray.length > 0 ? (
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
-                </CardHeader>
+
+          <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>PEER REVIEWS</h4>
+              </CardHeader>
+              {peerReviews && peerReviewsArray.length > 0 ? (
                 <CardBody>
                   <Table
                     tableHeaderColor="gray"
@@ -142,16 +143,20 @@ const Dashboard = props => {
                     detailHandler={detailHandler}
                   />
                 </CardBody>
-              </Card>
-            </GridItem>
-          ) : null}
+              ) : (
+                <p className={classes.noteToUser}>
+                  There are no any peer reviews assign to you yet.
+                </p>
+              )}
+            </Card>
+          </GridItem>
 
-          {userSelfReviews && userReviewDetailsArr.length > 0 ? (
-            <GridItem xs={12} sm={12} md={12}>
-              <Card plain>
-                <CardHeader plain color="primary">
-                  <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
-                </CardHeader>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary">
+                <h4 className={classes.cardTitleWhite}>SELF REVIEW</h4>
+              </CardHeader>
+              {userSelfReviews && userReviewDetailsArr.length > 0 ? (
                 <CardBody>
                   <Table
                     tableHeaderColor="gray"
@@ -162,9 +167,13 @@ const Dashboard = props => {
                     detailHandler={handleSelfReviewDetails}
                   />
                 </CardBody>
-              </Card>
-            </GridItem>
-          ) : null}
+              ) : (
+                <p className={classes.noteToUser}>
+                  There are no any self reviews assign to you yet.
+                </p>
+              )}
+            </Card>
+          </GridItem>
         </GridContainer>
       )}
     </div>

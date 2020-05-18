@@ -125,14 +125,22 @@ const PeerReviewHistory = props => {
               tabName: 'My Reviews',
               tabIcon: Person,
               tabContent: (
-                <Table
-                  tableHeaderColor="gray"
-                  tableHead={peerReviewListingHeader}
-                  tableData={peerReviewsArray || null}
-                  showLink={true}
-                  buttonText="Details"
-                  detailHandler={onClickHandler}
-                />
+                <div className={classes.widthSetting}>
+                  {peerReviewsArray && peerReviewsArray.length > 0 ? (
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={peerReviewListingHeader}
+                      tableData={peerReviewsArray || null}
+                      showLink={true}
+                      buttonText="Details"
+                      detailHandler={onClickHandler}
+                    />
+                  ) : (
+                    <p className={classes.noteToUser}>
+                      Review data not avaialable.
+                    </p>
+                  )}
+                </div>
               )
             },
             currentUser.userRole === 'manager' && {
@@ -212,9 +220,14 @@ const PeerReviewHistory = props => {
                       detailHandler={onClickEmployeeDetailsHandler}
                     />
                   ) : selectedQuarter && selectedYear ? (
-                    <p>** No Reviews Available</p>
+                    <p className={classes.noteToUser}>
+                      ** No Reviews Available
+                    </p>
                   ) : (
-                    <p>** Please Select Quarter and Year</p>
+                    <p className={classes.noteToUser}>
+                      ** Please Select Quarter and Year
+                    </p>
+
                   )}
                 </div>
               )

@@ -284,10 +284,22 @@ const sidebarStyle = theme => ({
   sidebarWrapper: {
     position: 'relative',
     height: 'calc(100vh - 75px)',
-    overflow: 'auto',
+    overflow: 'hidden',
     width: '260px',
     zIndex: '4',
-    overflowScrolling: 'touch'
+    '&:hover': {
+      overflow: 'auto'
+    },
+    '&::-webkit-scrollbar': {
+      width: '0.4em'
+    },
+    '&::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 0 0 6px #150C08'
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#16ACC1',
+      outline: '1px solid slategrey'
+    }
   },
   activePro: {
     [theme.breakpoints.up('md')]: {

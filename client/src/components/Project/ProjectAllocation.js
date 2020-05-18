@@ -25,7 +25,6 @@ import SelectMenu from '../FromComponents/SelectMenu'
 import { useToasts } from 'react-toast-notifications'
 import { Formik, Form } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
-import { projectDatePickerList } from './projectFormData'
 import {
   projectAllocationStatus,
   projectAllocationError
@@ -33,7 +32,8 @@ import {
 import DatePickerFields from '../FromComponents/DatePickerField'
 import {
   projectAllocationValidations,
-  projectAllocationInitialValues
+  projectAllocationInitialValues,
+  projectDatePickerList
 } from './projectFormData'
 import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 const useStyles = makeStyles(styles)

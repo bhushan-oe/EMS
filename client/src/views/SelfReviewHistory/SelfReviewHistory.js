@@ -137,14 +137,22 @@ const SelfReviewHistory = props => {
               tabName: 'My Reviews',
               tabIcon: Person,
               tabContent: (
-                <Table
-                  tableHeaderColor="gray"
-                  tableHead={SelfReviewListingHeader}
-                  tableData={userReviewDetailsArr || null}
-                  showLink={true}
-                  buttonText="Details"
-                  detailHandler={detailHandler}
-                />
+                <div className={classes.widthSetting}>
+                  {userReviewDetailsArr && userReviewDetailsArr.length > 0 ? (
+                    <Table
+                      tableHeaderColor="gray"
+                      tableHead={SelfReviewListingHeader}
+                      tableData={userReviewDetailsArr || null}
+                      showLink={true}
+                      buttonText="Details"
+                      detailHandler={detailHandler}
+                    />
+                  ) : (
+                    <p className={classes.noteToUser}>
+                      Review data not avaialable.
+                    </p>
+                  )}
+                </div>
               )
             },
             currentUser.userRole === 'manager' && {
@@ -226,9 +234,14 @@ const SelfReviewHistory = props => {
                       detailHandler={showDetailHandler}
                     />
                   ) : selectedQuarter && selectedYear ? (
-                    <p>** No Reviews Available</p>
+                    <p className={classes.noteToUser}>
+                      ** No Reviews Available
+                    </p>
                   ) : (
-                    <p>** Please Select Quarter and Year</p>
+                    <p className={classes.noteToUser}>
+                      ** Please Select Quarter and Year
+                    </p>
+
                   )}
                 </div>
               )

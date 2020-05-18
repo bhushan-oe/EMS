@@ -128,7 +128,7 @@ export default function CustomTable(props) {
                     </TableCell>
                   ) : null}
 
-                  {showLink ? (
+                  {showLink && detailHandler ? (
                     <TableCell className={classes.tableCell} key={k + 'cell'}>
                       <Button
                         color="primary"
@@ -140,7 +140,12 @@ export default function CustomTable(props) {
                         {buttonText}
                       </Button>
                     </TableCell>
-                  ) : null}
+                  ) : (
+                    <TableCell
+                      className={classes.tableCell}
+                      key={k + 'cell'}
+                    ></TableCell>
+                  )}
                 </TableRow>
               )
             })}

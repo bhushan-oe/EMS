@@ -191,7 +191,7 @@ const Project = props => {
                           ADD PROJECT
                         </Button>
                         <Button
-                          color="primary"
+                          color="white"
                           disabled={isSubmitting}
                           onClick={() => setPageView('projectListing')}
                         >
