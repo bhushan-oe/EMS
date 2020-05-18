@@ -73,7 +73,7 @@ export default function* root() {
     fork(watchPeerReviewForManagerSaga),
     fork(watchSelfReviewForManagerSaga),
     fork(watchApplyLeaveSaga),
-    fork(watchChangePasswordSaga)
+    fork(watchChangePasswordSaga),
     fork(watchEmpProjectAllocationDataSaga)
   ])
 }
