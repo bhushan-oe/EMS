@@ -1,32 +1,48 @@
 const Peer_Review_Model = require("../models/peer_review");
 const emailProvider = require("../../service/ses_client");
-const emails = require("../../emailTemplates/peerReviewTemplate");
+const emails = require('../../emailTemplates/emailTemplates')
 
 module.exports = {
-  create: function(req, res, next) {
-    req.body.employee_reviewing.map(employee_reviewing => {
+  create: function (req, res, next) {
+    const {
+      employee_under_review,
+      project,
+      functional_manager,
+      from_date,
+      to_date,
+      due_from,
+      due_to,
+      review_form_link,
+      status= "Active",
+      created_date= new Date(),
+      updated_date= new Date(),
+      created_by=req.user.userName,
+      last_updated_by=req.user.userName} = req.body
+
+    req.body.employee_reviewing.map((employee_reviewing) => {
       Peer_Review_Model.create(
-        {
-          employee_under_review: req.body.employee_under_review,
+       {
+          employee_under_review,
           employee_reviewing: employee_reviewing,
-          project: req.body.project,
-          functional_manager: req.body.functional_manager,
-          from_date: req.body.from_date,
-          to_date: req.body.to_date,
-          due_from: req.body.due_from,
-          due_to: req.body.due_to,
-          review_form_link: req.body.review_form_link,
-          status: "Active",
-          created_date: new Date(),
-          updated_date: new Date(),
-          created_by: req.user.userName,
-          last_updated_by: req.user.userName
-        },
-        function(err) {
+          project,
+          functional_manager,
+          from_date,
+          to_date,
+          due_from,
+          due_to,
+          review_form_link,
+          status,
+          created_date,
+          updated_date,
+          created_by,
+          last_updated_by
+        },        
+        function (err) {
           if (err) next(err);
-          else {
-            const peerName = "surekha.test.email";
-            const to = "surekha.gadkari@objectedge.com";
+          else{
+            // Send mail to all employees reviewing for peer
+             const peerName = "Employee Reviewing"
+             const to = "surekha.gadkari@objectedge.com";
             //IN PROGRESS -   const from = "surekha.gadkari@objectedge.com";
             const from = null;
             const subject = "Peer Review";

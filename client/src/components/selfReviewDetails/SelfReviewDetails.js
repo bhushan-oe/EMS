@@ -145,22 +145,22 @@ const SelfReviewDetails = props => {
             ) : null}
             {!showButtons &&
             selfReviewDeatails.status === 'pending-with-manager' ? (
-                <CustomInput
-                  labelText="Feedback"
-                  id="feedback"
-                  formControlProps={{
-                    fullWidth: true,
-                    className: classes.marginTop
-                  }}
-                  inputProps={{
-                    value: feedback,
-                    name: 'feedback',
-                    onChange: e => {
-                      setFeedback(e.target.value)
-                    }
-                  }}
-                ></CustomInput>
-              ) : null}
+              <CustomInput
+                labelText="Feedback"
+                id="feedback"
+                formControlProps={{
+                  fullWidth: true,
+                  className: classes.marginTop
+                }}
+                inputProps={{
+                  value: feedback,
+                  name: 'feedback',
+                  onChange: e => {
+                    setFeedback(e.target.value)
+                  }
+                }}
+              ></CustomInput>
+            ) : null}
             {showButtons ? (
               <Grid xs={6} sm={6} md={6} item>
                 <div>
@@ -186,15 +186,15 @@ const SelfReviewDetails = props => {
         {showButtons ||
         (currentUser.userRole === 'manager' &&
           selfReviewDeatails.status === 'pending-with-manager') ? (
-            <CardFooter className={classes.footer}>
-              <Button type="submit" color="primary" onClick={updateHandler}>
+          <CardFooter className={classes.footer}>
+            <Button type="submit" color="primary" onClick={updateHandler}>
               UPDATE REVIEW
-              </Button>
-              <Button type="submit" color="white" onClick={closeSelfReiewDetails}>
+            </Button>
+            <Button type="submit" color="white" onClick={closeSelfReiewDetails}>
               Close
-              </Button>
-            </CardFooter>
-          ) : null}
+            </Button>
+          </CardFooter>
+        ) : null}
       </Card>
     </Grid>
   )

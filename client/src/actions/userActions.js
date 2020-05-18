@@ -5,7 +5,8 @@ import {
   CLEAR_USER_STATUS_MESSAGE,
   UPDATE_USER,
   SET_UPDATE_USER_SUCCESS,
-  SET_UPDATE_USER_ERROR
+  SET_UPDATE_USER_ERROR,
+  CHANGE_PASSWORD
 } from './actionTypes'
 
 export function addNewUser(userInfo) {
@@ -18,6 +19,13 @@ export function updateUser(userInfo, id) {
   return {
     type: UPDATE_USER,
     payload: { userInfo, id }
+  }
+}
+
+export function changePassword(newPassword, id) {
+  return {
+    type: CHANGE_PASSWORD,
+    payload: { newPassword, id }
   }
 }
 

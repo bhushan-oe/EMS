@@ -58,7 +58,9 @@ function* workerLoadAllSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviews(selfReviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(setAllSelfReviewsError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setAllSelfReviewsError(e.response.data.message))
     } else {
       yield put(setAllSelfReviewsError(e))
     }
@@ -116,7 +118,9 @@ function* workerCreateSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      yield put(setSelfReviewError(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(setSelfReviewError(e.response.data.message))
     } else {
       yield put(setSelfReviewError(e))
     }
@@ -143,8 +147,9 @@ function* workerDeleteSelfReviewSaga({ payload }) {
     yield put(setAllSelfReviews(reviews.data.data))
   } catch (e) {
     if (e.response.data && e.response.data.message) {
-      // To do add code for all api calls .. invalid token case falls here
-      yield put(selfReviewDeleteFailue(e.response.data.message))
+      if (e.response.data.message === 'Invalid Token') {
+        yield sessionExpiryHandler()
+      } else yield put(selfReviewDeleteFailue(e.response.data.message))
     } else {
       yield put(selfReviewDeleteFailue(e))
     }

@@ -16,6 +16,12 @@ const styles = {
   },
   widthSetting: {
     width: '71vw'
+  },
+  noteToUser: {
+    fontWeight: '700',
+    paddingTop: '20px',
+    paddingLeft: '15px',
+    fontSize: '14px'
   }
 }
 export default styles

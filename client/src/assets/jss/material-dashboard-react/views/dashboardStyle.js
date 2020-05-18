@@ -82,7 +82,9 @@ const dashboardStyle = {
   },
   noteToUser: {
     fontWeight: '700',
-    paddingTop: '20px'
+    paddingTop: '20px',
+    paddingLeft: '15px',
+    fontSize: '14px'
   }
 }
 
