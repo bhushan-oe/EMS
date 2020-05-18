@@ -241,7 +241,6 @@ const SelfReviewHistory = props => {
                     <p className={classes.noteToUser}>
                       ** Please Select Quarter and Year
                     </p>
-
                   )}
                 </div>
               )
