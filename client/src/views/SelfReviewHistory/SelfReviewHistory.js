@@ -20,7 +20,7 @@ import { Dialog, DialogActions } from '@material-ui/core'
 import Table from '../../components/Table/Table'
 import CustomTabs from '../../components/CustomTabs/CustomTabs'
 import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDetails'
-import styles from './styles'
+import styles from '../../assets/jss/material-dashboard-react/views/reviewHistoryStyle'
 import GroupIcon from '@material-ui/icons/Group'
 import Person from '@material-ui/icons/Person'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -241,7 +241,6 @@ const SelfReviewHistory = props => {
                     <p className={classes.noteToUser}>
                       ** Please Select Quarter and Year
                     </p>
-
                   )}
                 </div>
               )

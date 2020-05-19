@@ -38,7 +38,7 @@ import {
   selfReviewDeleteFailue
 } from '../../actions/selfReviewActions'
 import dashboardStyle from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
-import styles from './styles'
+import styles from '../../assets/jss/material-dashboard-react/views/peerSelfReviewStyles'
 
 const style = {
   ...dashboardStyle,
