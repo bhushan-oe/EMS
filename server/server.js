@@ -3,8 +3,8 @@ const jwt = require("./middleware/jwt");
 const errorHandler = require("./middleware/error-handler");
 const cors = require("cors");
 const app = express();
-const httpLogger  = require("./logs/util/httpLogger")
-app.use(httpLogger)
+const httpLogger = require("./logs/util/httpLogger");
+app.use(httpLogger);
 const config = require("./config");
 app.use(cors());
 app.use(express.json());

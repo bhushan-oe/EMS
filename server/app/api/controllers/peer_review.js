@@ -44,20 +44,25 @@ module.exports = {
              const peerName = "Employee Reviewing"
              const to = "surekha.gadkari@objectedge.com";
             //IN PROGRESS -   const from = "surekha.gadkari@objectedge.com";
-            const from= null;
-             const subject = 'Peer Review';
-             emailProvider.sendEmail(to,from, subject, emails.peerReviewEmailTemplate(peerName))
-             res.json({
+            const from = null;
+            const subject = "Peer Review";
+            emailProvider.sendEmail(
+              to,
+              from,
+              subject,
+              emails.peerReviewEmailTemplate(peerName)
+            );
+            res.json({
               status: "success",
               message: " Peer Review added successfully!!!"
-            });         
-            }
+            });
+          }
         }
       );
-    })
+    });
   },
 
-  update: function (req, res, next) {
+  update: function(req, res, next) {
     delete req.body.created_date;
     delete req.body.created_by;
     Peer_Review_Model.findOneAndUpdate(
@@ -67,11 +72,10 @@ module.exports = {
         updated_date: new Date(),
         last_updated_by: req.user.userName
       },
-      function (err) {
+      function(err) {
         if (err) {
           next(err);
         } else {
-             
           res.json({
             status: "success",
             message: "Review updated successfully!!!"
@@ -80,14 +84,14 @@ module.exports = {
       }
     );
   },
-  getAll: function (req, res, next) {
-    const { status } = req.query
+  getAll: function(req, res, next) {
+    const { status } = req.query;
     Peer_Review_Model.find(status ? { status: status } : {})
-      .populate('employee_under_review', 'firstname lastname')
-      .populate('employee_reviewing', 'firstname lastname')
-      .populate('project', 'title')
-      .populate('functional_manager', 'firstname lastname')
-      .exec(function (err, reviews) {
+      .populate("employee_under_review", "firstname lastname")
+      .populate("employee_reviewing", "firstname lastname")
+      .populate("project", "title")
+      .populate("functional_manager", "firstname lastname")
+      .exec(function(err, reviews) {
         if (err) {
           next(err);
         } else {
@@ -99,15 +103,18 @@ module.exports = {
         }
       });
   },
-  getForUser: function (req, res, next) {
-    const { status } = req.query
-    Peer_Review_Model
-      .find(status ? { employee_reviewing: req.params.employee_id, status: status } : { employee_reviewing: req.params.employee_id })
-      .populate('employee_under_review', 'firstname lastname')
-      .populate('employee_reviewing', 'firstname lastname')
-      .populate('project', 'title')
-      .populate('functional_manager', 'firstname lastname')
-      .exec(function (err, reviews) {
+  getForUser: function(req, res, next) {
+    const { status } = req.query;
+    Peer_Review_Model.find(
+      status
+        ? { employee_reviewing: req.params.employee_id, status: status }
+        : { employee_reviewing: req.params.employee_id }
+    )
+      .populate("employee_under_review", "firstname lastname")
+      .populate("employee_reviewing", "firstname lastname")
+      .populate("project", "title")
+      .populate("functional_manager", "firstname lastname")
+      .exec(function(err, reviews) {
         if (err) {
           next(err);
         } else {
@@ -119,43 +126,42 @@ module.exports = {
         }
       });
   },
-  getForManager: function (req, res, next) {
-    const { functional_manager, selectedYear, value } = req.query
-    let startDate, endDate
+  getForManager: function(req, res, next) {
+    const { functional_manager, selectedYear, value } = req.query;
+    let startDate, endDate;
     switch (value) {
-      case 'Quarter 1':
+      case "Quarter 1":
         startDate = new Date(`${selectedYear}-01-01T23:59`);
-        endDate = new Date(`${selectedYear}-03-31T23:59`)
+        endDate = new Date(`${selectedYear}-03-31T23:59`);
         break;
-      case 'Quarter 2':
+      case "Quarter 2":
         startDate = new Date(`${selectedYear}-04-01T23:59`);
-        endDate = new Date(`${selectedYear}-06-30T23:59`)
+        endDate = new Date(`${selectedYear}-06-30T23:59`);
         break;
-      case 'Quarter 3':
+      case "Quarter 3":
         startDate = new Date(`${selectedYear}-07-01T23:59`);
-        endDate = new Date(`${selectedYear}-09-30T23:59`)
+        endDate = new Date(`${selectedYear}-09-30T23:59`);
         break;
-      case 'Quarter 4':
+      case "Quarter 4":
         startDate = new Date(`${selectedYear}-10-01T23:59`);
-        endDate = new Date(`${selectedYear}-12-31T23:59`)
+        endDate = new Date(`${selectedYear}-12-31T23:59`);
         break;
       default:
-        startDate = '';
-        endDate = ''
+        startDate = "";
+        endDate = "";
         break;
     }
-    Peer_Review_Model
-      .find({
-        functional_manager: functional_manager,
-        from_date: { $gte: startDate },
-        to_date: { $lte: endDate },
-        status: "Done"
-      })
-      .populate('employee_under_review', 'firstname lastname')
-      .populate('employee_reviewing', 'firstname lastname')
-      .populate('project', 'title')
-      .populate('functional_manager', 'firstname lastname')
-      .exec(function (err, reviews) {
+    Peer_Review_Model.find({
+      functional_manager: functional_manager,
+      from_date: { $gte: startDate },
+      to_date: { $lte: endDate },
+      status: "Done"
+    })
+      .populate("employee_under_review", "firstname lastname")
+      .populate("employee_reviewing", "firstname lastname")
+      .populate("project", "title")
+      .populate("functional_manager", "firstname lastname")
+      .exec(function(err, reviews) {
         if (err) {
           next(err);
         } else {
@@ -167,15 +173,15 @@ module.exports = {
         }
       });
   },
-  delete: function (req, res, next) {
+  delete: function(req, res, next) {
     Peer_Review_Model.findOneAndUpdate(
       { _id: req.params.id },
       {
         status: "Inactive",
-        updated_date : new Date(),
-        last_updated_by : req.user.userName,
+        updated_date: new Date(),
+        last_updated_by: req.user.userName
       },
-      function (err) {
+      function(err) {
         if (err) {
           next(err);
         } else {

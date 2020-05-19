@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 const PeerReviewSchema = new Schema({
   employee_under_review: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     trim: true,
     required: true
   },
   employee_reviewing: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     trim: true,
     required: true
   },
@@ -21,7 +21,7 @@ const PeerReviewSchema = new Schema({
   },
   functional_manager: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     trim: true,
     required: true
   },

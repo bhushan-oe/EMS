@@ -5,14 +5,13 @@ module.exports = {
   secret: "#$up3r$up3r$3cr3t#@@#",
   tokenExpiry: "1h",
   aws: {
-        'key': '',
-        'secret': '',
-        'ses': {
-            'from': {
-                'default': 'surekha.gadkari@objectedge.com', 
-            },
-            'region': 'ap-south-1' 
-        }
+    key: "",
+    secret: "",
+    ses: {
+      from: {
+        default: "surekha.gadkari@objectedge.com"
+      },
+      region: "ap-south-1"
     }
-    
+  }
 };
