@@ -49,7 +49,7 @@ const UserProfile = () => {
     achievements
   } = currentUser
   let employeeDataArray = []
-  const headerArray = ['', '']
+  const headerArray = []
   if (currentUser) {
     employeeDataArray = [
       [<span className={classes.boldText}>Employee Id</span>, employee_id],
@@ -109,13 +109,13 @@ const UserProfile = () => {
             </CardHeader>
             <CardBody>
               <GridContainer>
-                {employeeDataArray ? (
+                {employeeDataArray && (
                   <Table
                     tableHeaderColor="gray"
                     tableHead={headerArray}
                     tableData={employeeDataArray}
                   />
-                ) : null}
+                )}
               </GridContainer>
             </CardBody>
           </Card>

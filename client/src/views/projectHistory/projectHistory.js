@@ -63,7 +63,7 @@ const ProjectHistory = props => {
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
+        <Card>
           <CardHeader plain color="primary">
             <h4 className={classes.cardTitleWhite}>Project Details</h4>
           </CardHeader>
