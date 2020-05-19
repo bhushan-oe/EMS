@@ -8,7 +8,7 @@ import CardFooter from '../Card/CardFooter'
 import Button from '../CustomButtons/Button'
 import InputFields from '../FromComponents/InputFields'
 import { makeStyles } from '@material-ui/core/styles'
-import dashboardStyle from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
+import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 import { Formik, Form } from 'formik'
 import { UserContext } from '../../context-provider/user-context'
 import { useSelector, useDispatch } from 'react-redux'
@@ -31,7 +31,7 @@ import {
 import { loadManagers } from '../../actions/employeeAction'
 import DatePickerFields from '../FromComponents/DatePickerField'
 
-const useStyles = makeStyles(dashboardStyle)
+const useStyles = makeStyles(styles)
 
 const ApplyLeave = props => {
   const { setLeavesPageView } = props
@@ -41,6 +41,7 @@ const ApplyLeave = props => {
   const applyLeaveErrorMsg = useSelector(applyLeaveError)
   const managerdata = useSelector(managerDataSelector)
   const classes = useStyles()
+  const { cardTitleWhite } = classes
   const leaveForm = useRef(null)
   const dispatch = useDispatch()
   const [managers, setManagers] = useState(null)
@@ -94,9 +95,7 @@ const ApplyLeave = props => {
             <Card>
               <Form ref={leaveForm}>
                 <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>
-                    {'LEAVE APPLICATION'}
-                  </h4>
+                  <h4 className={cardTitleWhite}>{'LEAVE APPLICATION'}</h4>
                 </CardHeader>
                 <CardBody>
                   <GridContainer>

@@ -31,11 +31,11 @@ import {
   updateProjectErrorMsg
 } from '../../selectors/projectSelectors'
 
-const projectStyles = styles
-const useStyles = makeStyles(projectStyles)
+const useStyles = makeStyles(styles)
 const Project = props => {
   const { setPageView, projectToUpdate } = props
   const classes = useStyles()
+  const { cardTitleWhite } = classes
   const { addToast } = useToasts()
   const dispatch = useDispatch()
 
@@ -138,7 +138,7 @@ const Project = props => {
             <Card>
               <Form ref={projectForm}>
                 <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>
+                  <h4 className={cardTitleWhite}>
                     {projectToUpdate ? 'UPDATE PROJECT' : 'ADD PROJECT'}
                   </h4>
                 </CardHeader>

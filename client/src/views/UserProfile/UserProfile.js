@@ -13,7 +13,7 @@ import CardBody from '../../components/Card/CardBody'
 import Table from '../../components/Table/Table'
 import withAuth from '../../HOC/withAuth'
 import { UserContext } from '../../context-provider/user-context'
-import styles from './Styles'
+import styles from '../../assets/jss/material-dashboard-react/views/dashboardStyle'
 const useStyles = makeStyles(styles)
 
 const UserProfile = () => {

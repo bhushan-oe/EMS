@@ -31,7 +31,7 @@ import {
   userPeerReview,
   managerPeerReviewsSelector
 } from '../../selectors/reviewSelectors'
-import styles from './styles'
+import styles from '../../assets/jss/material-dashboard-react/views/reviewHistoryStyle'
 
 const useStyles = makeStyles(styles)
 const PeerReviewHistory = props => {

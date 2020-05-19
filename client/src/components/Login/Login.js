@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { withToastManager, useToasts } from 'react-toast-notifications'
 import { makeStyles } from '@material-ui/core/styles'
 import { loginToSite, clearErrors } from '../../actions/loginAction'
-import checkboxAdnRadioStyle from '../../assets/jss/material-dashboard-react/checkboxAdnRadioStyle'
 import GridItem from '../Grid/GridItem'
 import GridContainer from '../Grid/GridContainer'
 import Button from '../CustomButtons/Button'
@@ -20,14 +19,6 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { loginError, currentUser } from '../../selectors/loginSelectors'
 const styles = {
-  ...checkboxAdnRadioStyle,
-  cardCategoryWhite: {
-    color: 'rgba(255,255,255,.62)',
-    margin: '0',
-    fontSize: '14px',
-    marginTop: '0',
-    marginBottom: '0'
-  },
   cardTitleWhite: {
     color: '#FFFFFF',
     marginTop: '0px',
