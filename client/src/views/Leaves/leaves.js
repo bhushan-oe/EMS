@@ -9,13 +9,13 @@ const Leaves = () => {
     setLeavesPageView('applyLeaves')
   }
   return (
-     <GridContainer>
+    <GridContainer>
       {leavesPageView === 'applyLeaves' ? (
         <ApplyLeave setLeavesPageView={setLeavesPageView} />
-      ) : (     
-          <Button type="submit" color="primary" onClick={setPageView}>
-            Apply Leaves
-          </Button>
+      ) : (
+        <Button type="submit" color="primary" onClick={setPageView}>
+          Apply Leaves
+        </Button>
       )}
     </GridContainer>
   )

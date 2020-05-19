@@ -12,6 +12,7 @@ import SelfReview from './views/SelfReview/SelfReview'
 import PeerReview from './views/PeerReview/PeerReview'
 import SelfReviewHistory from './views/SelfReviewHistory/SelfReviewHistory'
 import PeerReviewHistory from './views/PeerReviewHistory/PeerReviewHistory'
+import ProjectHistory from './views/projectHistory/projectHistory'
 import Leaves from './views/Leaves/leaves'
 
 export const dashboardRoutesAdmin = [
@@ -70,7 +71,7 @@ export const dashboardRoutes = [
     path: '/projectDetails',
     name: 'Project History',
     icon: AssignmentIcon,
-    component: Projects,
+    component: ProjectHistory,
     layout: '/admin',
     showLink: true
   },
