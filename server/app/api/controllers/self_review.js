@@ -74,7 +74,7 @@ module.exports = {
       }
        res.json({
               status: "success",
-              message: "Self reviews has been created for Active employees !!!"
+              message: "Self reviews has been created for all employees !!!"
             });
     });
   },

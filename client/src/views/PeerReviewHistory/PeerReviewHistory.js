@@ -227,7 +227,6 @@ const PeerReviewHistory = props => {
                     <p className={classes.noteToUser}>
                       ** Please Select Quarter and Year
                     </p>
-
                   )}
                 </div>
               )

@@ -11,7 +11,9 @@ import {
   DELETE_SELF_REVIEW_SUCCESS,
   DELETE_SELF_REVIEW_ERROR,
   SET_SELF_REVIEWS_FOR_MANAGER,
-  SET_SELF_REVIEWS_FOR_MANAGER_ERROR
+  SET_SELF_REVIEWS_FOR_MANAGER_ERROR,
+  SET_SELF_REVIEW_ALL_SUCCESS_MESSAGE,
+  SET_SELF_REVIEW_ALL_ERROR
 } from '../actions/actionTypes'
 
 const initialState = {
@@ -26,7 +28,9 @@ const initialState = {
   deleteSelfReviewSuccess: null,
   deleteSelfReviewError: null,
   managerSelfReviews: null,
-  managerSelfReviewsError: null
+  managerSelfReviewsError: null,
+  selfReviewCreateAllSuccess : null,
+  selfReviewCreateAllError : null
 }
 export default function selfReviewReducer(state = initialState, action) {
   switch (action.type) {
@@ -75,6 +79,16 @@ export default function selfReviewReducer(state = initialState, action) {
       return {
         ...state,
         selfReviewCreateError: action.payload.data
+      }
+      case SET_SELF_REVIEW_ALL_SUCCESS_MESSAGE:
+      return {
+        ...state,
+        selfReviewCreateAllSuccess: action.payload.messageStatus
+      }
+    case SET_SELF_REVIEW_ALL_ERROR:
+      return {
+        ...state,
+        selfReviewCreateAllError: action.payload.data
       }
     case DELETE_SELF_REVIEW_SUCCESS:
       return {

@@ -1,7 +1,5 @@
 import { yupRequired, yupRequiredDate } from '../../helpers/yupValidations'
-
-const validationSchema = {
-  employee: yupRequired('Employee'),
+export const selfReviewAllValidation = {
   review_form_link: yupRequired('Form link'),
   from_date: yupRequiredDate('Review from date'),
   to_date: yupRequiredDate('Review to date').test(
@@ -20,9 +18,23 @@ const validationSchema = {
       const due_from = this.parent.due_from
       return value > due_from
     }
-  ),
+  )
+}
+const validationSchema = {
+  employee: yupRequired('Employee'),
   projects: yupRequired('Project'),
-  functional_manager: yupRequired('Functional manager')
+  functional_manager: yupRequired('Functional manager'),
+  ...selfReviewAllValidation
 }
 
 export default validationSchema
+
+export  const initValSelfReviewAll = {
+    from_date: new Date(),
+    to_date: new Date(),
+    due_from: new Date(),
+    due_to: new Date(),
+    review_form_link: '',
+    feedback: ''
+  }
+
