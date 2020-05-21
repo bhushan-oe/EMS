@@ -17,10 +17,7 @@ import {
   CLEAR_REVIEW_STATUS,
   LOAD_SELF_REVIEWS_FOR_MANAGER,
   SET_SELF_REVIEWS_FOR_MANAGER,
-  SET_SELF_REVIEWS_FOR_MANAGER_ERROR,
-  CREATE_SELF_REVIEW_ALL,
-  SET_SELF_REVIEW_ALL_SUCCESS_MESSAGE,
-  SET_SELF_REVIEW_ALL_ERROR
+  SET_SELF_REVIEWS_FOR_MANAGER_ERROR
 } from './actionTypes'
 
 export function loadAllSelfReviews(status) {
@@ -62,25 +59,6 @@ export function setSelfReviewError(data) {
     payload: { data }
   }
 }
-export function createSelfReviewForAll(body) {
-  return {
-    type: CREATE_SELF_REVIEW_ALL,
-    payload: { body }
-  }
-}
-export function setSelfReviewAllSuccess(messageStatus) {
-  return {
-    type: SET_SELF_REVIEW_ALL_SUCCESS_MESSAGE,
-    payload: { messageStatus }
-  }
-}
-export function setSelfReviewAllError(data) {
-  return {
-    type: SET_SELF_REVIEW_ALL_ERROR,
-    payload: { data }
-  }
-}
-
 export function loadAllSelfReviewsForUser(id, status) {
   return {
     type: LOAD_ALL_USER_SELF_REVIEWS,

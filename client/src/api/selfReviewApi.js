@@ -2,8 +2,7 @@ import axios from 'axios'
 import {
   SELF_REVIEWS_URL,
   FETCH_SELF_REVIEW_FOR_MANAGER,
-  CREATE_SELF_REVIEW,
-  CREATE_SELF_REVIEW_ALL
+  CREATE_SELF_REVIEW
 } from '../configurations/endPoints'
 
 export function loadAllSelfReviews(status) {
@@ -23,8 +22,4 @@ export function updateSelfReview(id, body) {
 }
 export function deleteSelfReview(id) {
   return axios.delete(`${SELF_REVIEWS_URL}${id}`)
-}
-
-export function createSelfReviewAll(body) {
-  return axios.post(CREATE_SELF_REVIEW_ALL, body)
 }
