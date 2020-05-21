@@ -17,7 +17,6 @@ import Button from '../../components/CustomButtons/Button'
 import CardHeader from '../../components/Card/CardHeader'
 import CardBody from '../../components/Card/CardBody'
 import SelfReviewForm from '../../components/SelfReviewForm/SelfReviewForm'
-import SelfReviewFoAll from '../../components/SelfReviewForm/SelfReviewForAll'
 import SelfReviewDetails from '../../components/selfReviewDetails/SelfReviewDetails'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
@@ -53,7 +52,6 @@ const SelfReview = props => {
   const { addToast } = useToasts()
   const [selectedEmployee, setselectedEmployee] = useState('')
   const [isRedirectForm, setIsRedirectForm] = useState(false)
-  const [showSelfReviewForAll, setSelfReviewForAll] = useState(false)
   const [selfReviewInfo, setSelfReviewInfo] = useState(false)
   const [deleteId, setDeleteId] = useState('')
   const peerReviewListingHeader = [
@@ -144,7 +142,6 @@ const SelfReview = props => {
   }
   const detailsSwitchHandler = () => {
     if (isRedirectForm) setIsRedirectForm(false)
-    if (showSelfReviewForAll) setSelfReviewForAll(false)
   }
   const updateUser = (val, k) => {
     setSelfReviewInfo(filteredEmployee[k])
@@ -166,10 +163,6 @@ const SelfReview = props => {
           selfReviewInfo={selfReviewInfo}
           detailsSwitchHandler={detailsSwitchHandler}
         ></SelfReviewForm>
-      ) : showSelfReviewForAll ? (
-        <SelfReviewFoAll
-          detailsSwitchHandler={detailsSwitchHandler}
-        ></SelfReviewFoAll>
       ) : (
         <GridContainer>
           <Grid xs={1} sm={1} md={1} className={classes.grid} item>
@@ -207,14 +200,6 @@ const SelfReview = props => {
             </FormControl>
           </GridItem>
           <GridItem style={{ textAlign: 'end' }} xs={6} sm={6} md={6}>
-            <Button
-              color="primary"
-              onClick={() => {
-                setSelfReviewForAll(true)
-              }}
-            >
-              Create Self Review For All
-            </Button>
             <Button color="primary" onClick={createPeerHandler}>
               Create Self Review
             </Button>
