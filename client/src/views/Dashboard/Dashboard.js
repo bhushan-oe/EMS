@@ -78,7 +78,9 @@ const Dashboard = props => {
     userReviewDetailsArr.length === 0
   ) {
     userSelfReviews.map(review => {
-      const projectsArr = review.projects.map(item => item.title)
+      const projectsArr = review.projects.map(item => {
+        if (item.projects) return item.projects.title
+      })
       userReviewDetailsArr.push([
         projectsArr.join(',\n'),
         formatDate(review.from_date),

@@ -222,13 +222,15 @@ const PeerReviewForm = ({ peerReviewInfo, detailsSwitchHandler }) => {
                       {projects
                         ? projects.map((prop, key) => {
                             return (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.title}
-                              </MenuItem>
+                              prop.status != 'Inactive' && (
+                                <MenuItem
+                                  className={classes.hoverEffect}
+                                  value={prop._id}
+                                  key={key}
+                                >
+                                  {prop.title}
+                                </MenuItem>
+                              )
                             )
                           })
                         : null}

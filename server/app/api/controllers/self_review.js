@@ -181,9 +181,9 @@ module.exports = {
         ? { employee: req.params.employee_id, status: status }
         : { employee: req.params.employee_id }
     )
-      .populate("projects", "title")
+      .populate("projects.projects", "title")
       .populate("employee", "firstname lastname")
-      .populate("functional_manager", "firstname lastname")
+      .populate("projects.functional_manager", "firstname lastname")
       .exec(function(err, reviews) {
         if (err) {
           next(err);
@@ -227,9 +227,9 @@ module.exports = {
       to_date: { $lte: endDate },
       status: status
     })
-      .populate("projects", "title")
+      .populate("projects.projects", "title")
       .populate("employee", "firstname lastname")
-      .populate("functional_manager", "firstname lastname")
+      .populate("projects.functional_manager", "firstname lastname")
       .exec(function(err, reviews) {
         if (err) {
           next(err);
