@@ -13,8 +13,7 @@ import {
   loadAllSelfReviews,
   createSelfReview,
   deleteSelfReview,
-  loadAllSelfReviewsForManager,
-  createSelfReviewAll
+  loadAllSelfReviewsForManager
 } from '../../api/selfReviewApi'
 import {
   setAllSelfReviewsForUser,
@@ -24,8 +23,6 @@ import {
   setAllSelfReviews,
   setAllSelfReviewsError,
   setSelfReviewError,
-  setSelfReviewAllSuccess,
-  setSelfReviewAllError,
   setSelfReviewSuccess,
   selfReviewDeleteSuccess,
   selfReviewDeleteFailue,
