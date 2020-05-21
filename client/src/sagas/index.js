@@ -39,8 +39,7 @@ import {
   watchSelfReviewSaga,
   watchCreateSelfReviewSaga,
   watchDeleteSelfReviewSaga,
-  watchSelfReviewForManagerSaga,
-  watchCreateSelfReviewAllSaga
+  watchSelfReviewForManagerSaga
 } from './watchers/selfReview'
 import { watchApplyLeaveSaga } from './watchers/leaves'
 export default function* root() {
@@ -75,7 +74,6 @@ export default function* root() {
     fork(watchSelfReviewForManagerSaga),
     fork(watchApplyLeaveSaga),
     fork(watchChangePasswordSaga),
-    fork(watchCreateSelfReviewAllSaga),
     fork(watchEmpProjectAllocationDataSaga)
   ])
 }

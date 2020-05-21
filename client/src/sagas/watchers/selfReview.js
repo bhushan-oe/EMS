@@ -4,7 +4,6 @@ import {
   UPDATE_SELF_REVIEW,
   LOAD_ALL_SELF_REVIEWS,
   CREATE_SELF_REVIEW,
-  CREATE_SELF_REVIEW_ALL,
   DELETE_SELF_REVIEW,
   LOAD_SELF_REVIEWS_FOR_MANAGER
 } from '../../actions/actionTypes'
@@ -187,33 +186,4 @@ export function* watchSelfReviewForManagerSaga() {
     LOAD_SELF_REVIEWS_FOR_MANAGER,
     workerSelfReviewForManagerSaga
   )
-}
-
-function* workerCreateSelfReviewAllSaga({ payload }) {
-  const { body } = payload
-  try {
-    const selfReviews = yield call(createSelfReviewAll, body)
-    if (selfReviews.data.status === 'error') {
-      yield put(setSelfReviewAllError(selfReviews.data.message))
-    }
-    if (selfReviews.data.status === 'success') {
-      yield put(setSelfReviewAllSuccess(selfReviews.data.message))
-    }
-    const reviews = yield call(loadAllSelfReviews, {
-      status: ['Active', 'Done']
-    })
-    yield put(setAllSelfReviews(reviews.data.data))
-  } catch (e) {
-    if (e.response.data && e.response.data.message) {
-      if (e.response.data.message === 'Invalid Token') {
-        yield sessionExpiryHandler()
-      } else yield put(setSelfReviewAllError(e.response.data.message))
-    } else {
-      yield put(setSelfReviewAllError(e))
-    }
-  }
-}
-
-export function* watchCreateSelfReviewAllSaga() {
-  yield takeLatest(CREATE_SELF_REVIEW_ALL, workerCreateSelfReviewAllSaga)
 }

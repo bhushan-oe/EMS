@@ -34,12 +34,6 @@ export function selfReviewCreateSuccessSelector(state) {
 export function selfReviewCreateErrorSelector(state) {
   return state.selfReviewReducer.selfReviewCreateError
 }
-export function selfReviewCreateAllSuccessSelector(state) {
-  return state.selfReviewReducer.selfReviewCreateAllSuccess
-}
-export function selfReviewCreateAllErrorSelector(state) {
-  return state.selfReviewReducer.selfReviewCreateAllError
-}
 export function selfReviewUpdateSelector(state) {
   return state.selfReviewReducer.userSelfReviewUpdateStatus
 }
