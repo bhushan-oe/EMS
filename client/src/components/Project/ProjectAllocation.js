@@ -152,7 +152,11 @@ const Project = props => {
                         {projects &&
                           projects.map((item, key) => {
                             return (
-                              <MenuItem value={item._id}>{item.title}</MenuItem>
+                              item.status != 'Inactive' && (
+                                <MenuItem value={item._id}>
+                                  {item.title}
+                                </MenuItem>
+                              )
                             )
                           })}
                       </SelectMenu>

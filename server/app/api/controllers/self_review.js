@@ -2,92 +2,14 @@ const Self_Review_Model = require("../models/self_review");
 const userModel = require("../models/users");
 const Project_Allocation_Model = require("../models/project_allocation");
 module.exports = {
-  createSelfReviewForAll: function(req, res, next) {
-    userModel.find({ status: "Active" }, function(err, users) {
-      if (err) {
-        next(err);
-      } else {
-          const finalData = users.map(async (user, index) => {
-          const { _id } = user;
-          let projectIds;
-          await Project_Allocation_Model.find({ employee: _id })
-            .then(item => {
-              let projectIdsArray = [];
-              if (item.length > 0) {
-                for (let x in item) {
-                  const obj = {
-                    project: item[x].project,
-                    functional_manager: item[x].functional_manager
-                  };
-                  projectIdsArray.push(obj);
-                }
-                projectIds = projectIdsArray;
-              } else {
-                let project = null,
-                  functional_manager = null;
-                projectIdsArray.push({
-                  project,
-                  functional_manager
-                });
-                projectIds = projectIdsArray;
-              }
-
-              const {
-                employee = user,
-                projects = projectIds,
-                from_date,
-                to_date,
-                due_from,
-                due_to,
-                feedback,
-                review_form_link,
-                status = "Active",
-                created_date = new Date(),
-                updated_date = new Date(),
-                created_by = req.user.userName,
-                last_updated_by = req.user.userName
-              } = req.body;
-              Self_Review_Model.create(
-                {
-                  employee,
-                  projects,
-                  from_date,
-                  to_date,
-                  due_from,
-                  due_to,
-                  feedback,
-                  review_form_link,
-                  status,
-                  created_date,
-                  updated_date,
-                  created_by,
-                  last_updated_by
-                },
-                function(err) {
-                  if (err) next(err);
-                  else {}
-                }
-              );
-            })
-            .catch(err => console.log(err));         
-        });
-      }
-       res.json({
-              status: "success",
-              message: "Self reviews has been created for all employees !!!"
-            });
-    });
-  },
   create: function(req, res, next) {
     const {
-      employee,
-      projects,
+      employee: allEmployee,
       from_date,
       to_date,
       due_from,
       due_to,
       feedback,
-      functional_manager,
       review_form_link,
       status = "Active",
       created_date = new Date(),
@@ -95,32 +17,103 @@ module.exports = {
       created_by = req.user.userName,
       last_updated_by = req.user.userName
     } = req.body;
-    Self_Review_Model.create(
-      {
-        employee,
-        projects,
-        from_date,
-        to_date,
-        due_from,
-        due_to,
-        feedback,
-        functional_manager,
-        review_form_link,
-        status,
-        created_date,
-        updated_date,
-        created_by,
-        last_updated_by
-      },
-      function(err) {
-        if (err) next(err);
-        else
-          res.json({
-            status: "success",
-            message: "Review added successfully!!!"
-          });
-      }
-    );
+
+    let count = 0;
+    const finalData = allEmployee.map(async (user, index) => {
+      let projectIds;
+      await Project_Allocation_Model.find({
+        $and: [
+          {
+            $or: [
+              {
+                $and: [
+                  { startdate: { $lte: from_date } },
+                  { enddate: { $lte: to_date } },
+                  { enddate: { $gt: from_date } }
+                ]
+              },
+              {
+                $and: [
+                  { startdate: { $lte: from_date } },
+                  { enddate: { $gte: to_date } }
+                ]
+              },
+              {
+                $and: [
+                  { startdate: { $gt: from_date } },
+                  { startdate: { $lt: to_date } },
+                  { enddate: { $gte: to_date } }
+                ]
+              },
+              {
+                $and: [
+                  { startdate: { $gte: from_date } },
+                  { startdate: { $lt: to_date } },
+                  { enddate: { $lte: to_date } },
+                  { enddate: { $gt: from_date } }
+                ]
+              }
+            ]
+          },
+          { employee: user }
+        ]
+      })
+        .then(item => {
+          let projectIdsArray = [];
+          if (item.length > 0) {
+            for (let x in item) {
+              const obj = {
+                projects: item[x].project,
+                functional_manager: item[x].functional_manager
+              };
+              projectIdsArray.push(obj);
+            }
+            projectIds = projectIdsArray;
+          } else {
+            let projects = null,
+              functional_manager = null;
+            projectIdsArray.push({
+              projects,
+              functional_manager
+            });
+            projectIds = projectIdsArray;
+          }
+
+          const employee = user,
+            projects = projectIds;
+          Self_Review_Model.create(
+            {
+              employee,
+              projects,
+              from_date,
+              to_date,
+              due_from,
+              due_to,
+              feedback,
+              review_form_link,
+              status,
+              created_date,
+              updated_date,
+              created_by,
+              last_updated_by
+            },
+            function(err) {
+              if (err) next(err);
+              else {
+                count++;
+                if (allEmployee.length == count) {
+                  res.json({
+                    status: "success",
+                    message:
+                      "Self reviews has been created for all employees !!!"
+                  });
+                }
+              }
+            }
+          );
+        })
+        .catch(err => console.log(err));
+    });
   },
 
   update: function(req, res, next) {
@@ -166,9 +159,9 @@ module.exports = {
   getAll: function(req, res, next) {
     const { status } = req.query;
     Self_Review_Model.find(status ? { status: status } : {})
-      .populate("projects", "title")
+      .populate("projects.projects", "title")
       .populate("employee", "firstname lastname")
-      .populate("functional_manager", "firstname lastname")
+      .populate("projects.functional_manager", "firstname lastname")
       .exec(function(err, reviews) {
         if (err) {
           next(err);

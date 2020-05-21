@@ -1,9 +1,9 @@
 const Peer_Review_Model = require("../models/peer_review");
 const emailProvider = require("../../service/ses_client");
-const emails = require('../../emailTemplates/emailTemplates')
+const emails = require("../../emailTemplates/emailTemplates");
 
 module.exports = {
-  create: function (req, res, next) {
+  create: function(req, res, next) {
     const {
       employee_under_review,
       project,
@@ -13,15 +13,16 @@ module.exports = {
       due_from,
       due_to,
       review_form_link,
-      status= "Active",
-      created_date= new Date(),
-      updated_date= new Date(),
-      created_by=req.user.userName,
-      last_updated_by=req.user.userName} = req.body
+      status = "Active",
+      created_date = new Date(),
+      updated_date = new Date(),
+      created_by = req.user.userName,
+      last_updated_by = req.user.userName
+    } = req.body;
 
-    req.body.employee_reviewing.map((employee_reviewing) => {
+    req.body.employee_reviewing.map(employee_reviewing => {
       Peer_Review_Model.create(
-       {
+        {
           employee_under_review,
           employee_reviewing: employee_reviewing,
           project,
@@ -36,13 +37,13 @@ module.exports = {
           updated_date,
           created_by,
           last_updated_by
-        },        
-        function (err) {
+        },
+        function(err) {
           if (err) next(err);
-          else{
+          else {
             // Send mail to all employees reviewing for peer
-             const peerName = "Employee Reviewing"
-             const to = "surekha.gadkari@objectedge.com";
+            const peerName = "Employee Reviewing";
+            const to = "surekha.gadkari@objectedge.com";
             //IN PROGRESS -   const from = "surekha.gadkari@objectedge.com";
             const from = null;
             const subject = "Peer Review";

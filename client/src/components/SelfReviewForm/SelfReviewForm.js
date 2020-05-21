@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import { compose } from 'redux'
 import { withToastManager, useToasts } from 'react-toast-notifications'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { loadAllProjects } from '../../actions/projectAction'
 import { Formik, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -30,6 +32,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import CardBody from '../Card/CardBody'
 import CardFooter from '../Card/CardFooter'
 import validationSchema from './validationSchema'
+import Check from '@material-ui/icons/Check'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   employeeDataSelector,
@@ -61,21 +64,11 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
     colorRed
   } = classes
   const { addToast } = useToasts()
-  const {
-    employee,
-    projects,
-    functional_manager,
-    from_date,
-    to_date,
-    due_from,
-    due_to,
-    review_form_link
-  } = selfReviewInfo || {}
+  const { employee, from_date, to_date, due_from, due_to, review_form_link } =
+    selfReviewInfo || {}
   const initialValues = selfReviewInfo => {
     return {
-      employee: selfReviewInfo ? employee._id : '',
-      projects: selfReviewInfo ? projects.map(({ _id }) => _id) : [],
-      functional_manager: selfReviewInfo ? functional_manager._id : '',
+      employee: [],
       from_date: selfReviewInfo ? from_date : new Date(),
       to_date: selfReviewInfo ? to_date : new Date(),
       due_from: selfReviewInfo ? due_from : new Date(),
@@ -83,22 +76,19 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
       review_form_link: selfReviewInfo ? review_form_link : ''
     }
   }
-  const employeeData = useSelector(employeeDataSelector)
-  const managers = useSelector(managerDataSelector)
-  const projectsData = useSelector(projectSelector)
+  const [selectedStatus, setSelectedStatus] = useState(false)
+  let employeeData = useSelector(employeeDataSelector)
   const selfReviewSuccessMessage = useSelector(selfReviewCreateSuccessSelector)
   const selfReviewErrorMessage = useSelector(selfReviewCreateErrorSelector)
   const selfReviewUpdateStatus = useSelector(selfReviewUpdateSelector)
   const selfReviewUpdateError = useSelector(selfReviewUpdateErrorSelector)
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(loadAllProjects())
     dispatch(loadAllEmployeeData())
-    dispatch(loadManagers())
   }, [dispatch])
   useEffect(() => {
     if (selfReviewSuccessMessage) {
-      addToast('Self Review successfully added', {
+      addToast(selfReviewSuccessMessage, {
         appearance: 'success',
         autoDismiss: true
       })
@@ -109,7 +99,7 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
 
   useEffect(() => {
     if (selfReviewErrorMessage) {
-      addToast('Error while saving form', {
+      addToast(selfReviewErrorMessage, {
         appearance: 'error',
         autoDismiss: true
       })
@@ -119,7 +109,7 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
 
   useEffect(() => {
     if (selfReviewUpdateStatus) {
-      addToast('Self Review successfully updated', {
+      addToast(selfReviewUpdateStatus, {
         appearance: 'success',
         autoDismiss: true
       })
@@ -130,18 +120,56 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
 
   useEffect(() => {
     if (selfReviewUpdateError) {
-      addToast('Error while saving form', {
+      addToast(selfReviewUpdateError, {
         appearance: 'error',
         autoDismiss: true
       })
       dispatch(setUpdateReviewError(''))
     }
   }, [selfReviewUpdateError, addToast, dispatch])
+  const changeHandler = e => {
+    setSelectedStatus(e.target.checked ? true : false)
+  }
+
   const submitReview = values => {
     if (selfReviewInfo) {
-      dispatch(updateSelfReview(selfReviewInfo._id, values))
+      let { due_from, due_to, from_date, review_form_link, to_date } = values
+
+      const data = {
+        due_from,
+        due_to,
+        from_date,
+        review_form_link,
+        to_date
+      }
+      dispatch(updateSelfReview(selfReviewInfo._id, data))
     } else {
-      dispatch(createSelfReview(values))
+      let {
+        due_from,
+        due_to,
+        employee,
+        from_date,
+        review_form_link,
+        to_date
+      } = values
+
+      if (selectedStatus) {
+        if (employeeData)
+          employeeData = employeeData.filter(emp => emp.status != 'Inactive')
+        employee = employeeData.map(emp => {
+          return emp._id
+        })
+      }
+
+      const data = {
+        due_from,
+        due_to,
+        employee,
+        from_date,
+        review_form_link,
+        to_date
+      }
+      dispatch(createSelfReview(data))
     }
   }
   return (
@@ -158,107 +186,12 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
           <Card>
             <Form>
               <CardHeader color="primary">
-                <h4 className={cardTitleWhite}>CREATE SELF REVIEW FORM</h4>
+                <h4 className={cardTitleWhite}>
+                  {selfReviewInfo ? 'UPDATE SELF REVIEW' : 'CREATE SELF REVIEW'}
+                </h4>
               </CardHeader>
               <CardBody>
-                <Grid className={container} container>
-                  <Grid xs={6} sm={6} md={3} className={grid} item>
-                    <p>Employee *</p>
-                  </Grid>
-                  <Grid xs={6} sm={6} md={3} item>
-                    <SelectMenu
-                      name="employee"
-                      onChange={handleChange}
-                      disabledName="Select Employee"
-                      value={values.employee}
-                    >
-                      {employeeData &&
-                        employeeData.map((prop, key) => {
-                          return (
-                            prop.status !== 'Inactive' && (
-                              <MenuItem
-                                className={hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.firstname} {prop.lastname}
-                              </MenuItem>
-                            )
-                          )
-                        })}
-                    </SelectMenu>
-                  </Grid>
-                  <Grid xs={6} sm={6} md={3} className={grid} item>
-                    <p>Projects *</p>
-                  </Grid>
-                  <Grid xs={6} sm={6} md={3} item>
-                    <SelectMenu
-                      name="projects"
-                      onChange={handleChange}
-                      disabledName="Select Project"
-                      value={values.projects}
-                      multiple
-                    >
-                      {projectsData &&
-                        projectsData.map((prop, key) => {
-                          return (
-                            <MenuItem
-                              className={hoverEffect}
-                              value={prop._id}
-                              key={key}
-                            >
-                              {prop.title}
-                            </MenuItem>
-                          )
-                        })}
-                    </SelectMenu>
-                  </Grid>
-                </Grid>
-                <Grid className={container} container>
-                  <Grid xs={6} sm={6} md={3} className={grid} item>
-                    <p>Functional Manager *</p>
-                  </Grid>
-                  <Grid xs={6} sm={6} md={3} item>
-                    <SelectMenu
-                      name="functional_manager"
-                      onChange={handleChange}
-                      disabledName="Select Manager"
-                      value={values.functional_manager}
-                    >
-                      {managers &&
-                        managers.map(item => {
-                          return (
-                            <MenuItem value={item._id} className={hoverEffect}>
-                              {item.firstname} {item.lastname}
-                            </MenuItem>
-                          )
-                        })}
-                    </SelectMenu>
-                  </Grid>
-                  <Grid xs={6} sm={6} md={3} className={grid} item>
-                    <p>Google Form Link *</p>
-                  </Grid>
-                  <Grid xs={6} sm={6} md={3} item>
-                    <CustomInput
-                      labelText="Link"
-                      id="review_form_link"
-                      formControlProps={{
-                        fullWidth: true,
-                        className: marginTop
-                      }}
-                      inputProps={{
-                        value: values.review_form_link,
-                        name: 'review_form_link',
-                        onChange: handleChange
-                      }}
-                    ></CustomInput>
-                    <ErrorMessage
-                      className={colorRed}
-                      name="review_form_link"
-                      component="div"
-                    />
-                  </Grid>
-                </Grid>
+                <Grid className={container} container></Grid>
                 <Grid className={container} container>
                   <Grid xs={6} sm={6} md={3} className={grid} item>
                     <p>Review From Date *</p>
@@ -303,6 +236,92 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
                     />
                   </Grid>
                 </Grid>
+                <Grid className={container} container>
+                  <Grid xs={6} sm={6} md={3} className={grid} item>
+                    <p>Google Form Link *</p>
+                  </Grid>
+                  <Grid xs={6} sm={6} md={3} item>
+                    <CustomInput
+                      labelText="Link"
+                      id="review_form_link"
+                      formControlProps={{
+                        fullWidth: true,
+                        className: marginTop
+                      }}
+                      inputProps={{
+                        value: values.review_form_link,
+                        name: 'review_form_link',
+                        onChange: handleChange
+                      }}
+                    ></CustomInput>
+                    <ErrorMessage
+                      className={colorRed}
+                      name="review_form_link"
+                      component="div"
+                    />
+                  </Grid>
+                  {selfReviewInfo ? null : (
+                    <>
+                      {selectedStatus ? null : (
+                        <>
+                          <Grid xs={6} sm={6} md={3} className={grid} item>
+                            <p>Employee </p>
+                          </Grid>
+                          <Grid xs={6} sm={6} md={3} item>
+                            <SelectMenu
+                              label="Select Employees"
+                              name="employee"
+                              onChange={handleChange}
+                              disabledName="Select Employee"
+                              value={values.employee}
+                              multiple
+                            >
+                              {employeeData &&
+                                employeeData.map((prop, key) => {
+                                  return (
+                                    prop.status !== 'Inactive' && (
+                                      <MenuItem
+                                        className={hoverEffect}
+                                        value={prop._id}
+                                        key={key}
+                                      >
+                                        {prop.firstname} {prop.lastname}
+                                      </MenuItem>
+                                    )
+                                  )
+                                })}
+                            </SelectMenu>
+                          </Grid>
+                        </>
+                      )}
+
+                      <Grid xs={12} sm={12} md={12} item>
+                        <Grid xs={6} sm={6} md={6} className={grid} item>
+                          <div>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  onChange={changeHandler}
+                                  checkedIcon={
+                                    <Check className={classes.checkedIcon} />
+                                  }
+                                  icon={
+                                    <Check className={classes.uncheckedIcon} />
+                                  }
+                                  classes={{
+                                    checked: classes.checked,
+                                    root: classes.root
+                                  }}
+                                />
+                              }
+                              label={' Create Review For All Employees'}
+                            />
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </>
+                  )}
+                </Grid>
               </CardBody>
               <CardFooter className={footerDisplay}>
                 {selfReviewInfo ? (
@@ -310,7 +329,16 @@ const SelfReviewForm = ({ selfReviewInfo, detailsSwitchHandler }) => {
                     UPDATE SELF REVIEW
                   </Button>
                 ) : (
-                  <Button type="submit" color="primary" disabled={isSubmitting}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    disabled={isSubmitting}
+                    disabled={
+                      selectedStatus || values.employee.length > 0
+                        ? null
+                        : 'disabled'
+                    }
+                  >
                     CREATE SELF REVIEW
                   </Button>
                 )}

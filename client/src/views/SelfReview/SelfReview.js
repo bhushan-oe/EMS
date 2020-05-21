@@ -115,7 +115,9 @@ const SelfReview = props => {
         .includes(selectedEmployee.toLowerCase().trim())
     )
     filteredEmployee.map((review, key) => {
-      const projectsArr = review.projects.map(item => item.title)
+      const projectsArr = review.projects.map(item =>
+        item.projects ? item.projects.title : null
+      )
       selfReviewArray.push([
         <span
           className={classes.showPointer}
