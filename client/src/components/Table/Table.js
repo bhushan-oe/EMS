@@ -33,7 +33,7 @@ export default function CustomTable(props) {
     <div className={classes.tableResponsive}>
       {tableData ? (
         <Table className={classes.table}>
-          {tableHead.lenght > 0 ? (
+          {tableHead.length > 0 ? (
             <TableHead className={classes[tableHeaderColor + 'TableHeader']}>
               <TableRow className={classes.tableHeadRow}>
                 {tableHead.map((prop, key) => {
