@@ -220,12 +220,10 @@ const PeerReviewHistory = props => {
                       detailHandler={onClickEmployeeDetailsHandler}
                     />
                   ) : selectedQuarter && selectedYear ? (
-                    <p className={classes.noteToUser}>
-                      ** No Reviews Available
-                    </p>
+                    <p className={classes.noteToUser}>No Reviews Available</p>
                   ) : (
                     <p className={classes.noteToUser}>
-                      ** Please Select Quarter and Year
+                      Please Select Quarter and Year
                     </p>
                   )}
                 </div>
