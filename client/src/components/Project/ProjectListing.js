@@ -116,7 +116,7 @@ const ProjectListing = props => {
     setProjectToUpdate(project)
   }
 
-  const deleteProject = val => {
+  const deleteProjectConfirm = val => {
     const project = getprojectToUpdate(filteredProject, val[0])
     setUpdateAction('delete')
     setProjectToUpdate(project)
@@ -158,20 +158,22 @@ const ProjectListing = props => {
                 <h4 className={classes.cardTitleWhite}>Project List</h4>
               </CardHeader>
               <CardBody>
+                 {projectDetails.length === 0 ? (
+              <p className={classes.noteToUser}>
+                Project Information is not available yet
+              </p>
+            ) : (
                 <Table
                   tableHeaderColor="gray"
-                  tableHead={
-                    projectData && projectDetails.length > 0
-                      ? projectListingHeader
-                      : null
-                  }
+                  tableHead={projectListingHeader}
                   tableData={projectDetails || null}
                   addLinks={links}
                   updateUser={updateProject}
-                  deleteUser={deleteProject}
+                  deleteUser={deleteProjectConfirm}
                   allocateProject={allocateProject}
                   showLink={false}
                 />
+                )}
               </CardBody>
             </Card>
           </GridItem>
