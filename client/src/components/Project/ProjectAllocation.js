@@ -174,7 +174,7 @@ const Project = props => {
                         name="functional_manager"
                         onChange={handleChange}
                         disabledName="None"
-                        label={'Reporting Manager *'}
+                        label={'Functional Manager *'}
                         value={values.functional_manager}
                       >
                         {managers &&

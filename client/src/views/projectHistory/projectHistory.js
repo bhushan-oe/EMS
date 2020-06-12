@@ -64,7 +64,7 @@ const ProjectHistory = props => {
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader plain color="primary">
+          <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>Project Details</h4>
           </CardHeader>
           {projectDetails && projectDetails.length > 0 ? (

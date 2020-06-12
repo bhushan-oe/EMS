@@ -17,7 +17,7 @@ const EmployeeSearchResults = ({
   updateUser
 }) => {
   const classes = useStyles()
-  const { cardTitleWhite } = classes
+  const { cardTitleWhite, noteToUser } = classes
   const employeeListingHeader = [
     'Employee Id',
     'Name',
@@ -46,7 +46,7 @@ const EmployeeSearchResults = ({
                 deleteUser={deleteUser}
               />
             ) : (
-              <p>**Please search for employee result</p>
+              <p className={noteToUser}>Please search for employee result</p>
             )}
           </CardBody>
         </Card>

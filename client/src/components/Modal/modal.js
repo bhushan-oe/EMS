@@ -20,22 +20,12 @@ export const AlertModal = props => {
           <p> {userInfo} </p>
           <div style={{ textAlign: 'center' }}>
             {handleYesDelete ? (
-              <Button
-                color="primary"
-                size="sm"
-                round="yes"
-                onClick={handleYesDelete}
-              >
+              <Button color="primary" size="sm" round onClick={handleYesDelete}>
                 Yes
               </Button>
             ) : null}
             {handleNoDelete ? (
-              <Button
-                color="white"
-                size="sm"
-                round="yes"
-                onClick={handleNoDelete}
-              >
+              <Button color="white" size="sm" round onClick={handleNoDelete}>
                 No
               </Button>
             ) : null}
