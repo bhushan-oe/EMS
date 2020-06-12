@@ -220,15 +220,17 @@ const PeerReviewForm = ({ peerReviewInfo, detailsSwitchHandler }) => {
                       value={values.project}
                     >
                       {projects
-                        ? projects.map((prop, key) => {
+                        ? projects.map((project, key) => {
                             return (
-                              <MenuItem
-                                className={classes.hoverEffect}
-                                value={prop._id}
-                                key={key}
-                              >
-                                {prop.title}
-                              </MenuItem>
+                              project.status != 'Inactive' && (
+                                <MenuItem
+                                  className={classes.hoverEffect}
+                                  value={project._id}
+                                  key={`project ${key}`}
+                                >
+                                  {project.title}
+                                </MenuItem>
+                              )
                             )
                           })
                         : null}

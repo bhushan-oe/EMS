@@ -1,7 +1,5 @@
 import { yupRequired, yupRequiredDate } from '../../helpers/yupValidations'
-
 const validationSchema = {
-  employee: yupRequired('Employee'),
   review_form_link: yupRequired('Form link'),
   from_date: yupRequiredDate('Review from date'),
   to_date: yupRequiredDate('Review to date').test(
@@ -20,9 +18,6 @@ const validationSchema = {
       const due_from = this.parent.due_from
       return value > due_from
     }
-  ),
-  projects: yupRequired('Project'),
-  functional_manager: yupRequired('Functional manager')
+  )
 }
-
 export default validationSchema
